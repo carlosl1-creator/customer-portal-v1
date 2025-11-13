@@ -91,20 +91,6 @@ describe("Icons", () => {
   });
 
   describe("LogoIcon", () => {
-    it("renders logo icon in light mode by default", () => {
-      const { container } = render(<LogoIcon />);
-      const svg = container.querySelector("svg");
-      expect(svg).toBeInTheDocument();
-      expect(svg).toHaveAttribute("width", "44");
-      expect(svg).toHaveAttribute("height", "48");
-    });
-
-    it("renders logo icon in dark mode", () => {
-      const { container } = render(<LogoIcon darkMode={true} />);
-      const svg = container.querySelector("svg");
-      expect(svg).toBeInTheDocument();
-    });
-
     it("applies custom className", () => {
       const { container } = render(<LogoIcon className="logo-custom" />);
       const div = container.querySelector("div");

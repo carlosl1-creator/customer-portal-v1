@@ -74,14 +74,14 @@ export function LeftNavBar({
       <div className="flex flex-col gap-8 items-start w-full">
         {/* Logo */}
         <div
-          className={`flex items-center ${
-            isExpanded ? "flex-col gap-3 w-full" : "justify-center w-full"
+          className={`flex ${
+            isExpanded ? "flex-col gap-3 w-full" : "w-full"
           }`}
         >
           {logoIcon && (
             <button
               onClick={onLogoClick}
-              className="cursor-pointer flex items-center justify-center"
+              className="cursor-pointer flex items-center"
               aria-label="Logo"
             >
               {logoIcon}

@@ -37,7 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="flex">
-        <LeftNavBarDarkExample />
+        <LeftNavBarExample />
         <GeometricBackground />
         <div className="flex-1">
           {children}
