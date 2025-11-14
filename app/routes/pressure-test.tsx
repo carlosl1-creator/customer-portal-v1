@@ -88,11 +88,9 @@ export default function PressureTest() {
 
       {/* Main content area - you can add report content here */}
       <div className="px-8 mt-8 pb-8">
-        <div className="bg-white border border-[#d5d7da] rounded-lg p-6">
           <p className="text-[#535862] text-base">
             Report content will be displayed here...
           </p>
-        </div>
       </div>
     </div>
   );

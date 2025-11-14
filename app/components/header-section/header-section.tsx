@@ -27,7 +27,7 @@ export function HeaderSection({
 }: HeaderSectionProps) {
   return (
     <div className="flex flex-col gap-6 items-start w-full">
-      <div className="flex flex-col gap-4 items-start px-8 w-full relative">
+      <div className="flex flex-col gap-4 items-start px-10 pt-8 w-full relative">
         {/* Title Section */}
         <div className="flex flex-col gap-6 items-start justify-center w-full">
           {/* Page Name */}
@@ -59,12 +59,27 @@ export function HeaderSection({
             <button
               key={index}
               onClick={button.onClick}
-              className="bg-white border border-[#d5d7da] rounded-lg flex gap-2 items-center justify-center px-[18px] py-[10px] hover:opacity-90 transition-colors"
+              className="border border-[#d5d7da] border-solid rounded-[8px] flex gap-2 items-center justify-center px-[18px] py-[10px] transition-colors duration-200 relative isolate"
+              style={{ 
+                backgroundColor: '#FFFFFF',
+                opacity: 1,
+              } as React.CSSProperties}
+              ref={(el) => {
+                if (el) {
+                  el.style.setProperty('background-color', '#FFFFFF', 'important');
+                }
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.setProperty('background-color', '#F5F5F5', 'important');
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.setProperty('background-color', '#FFFFFF', 'important');
+              }}
             >
-              <div className="shrink-0 w-5 h-5 flex items-center justify-center">
+              <div className="shrink-0 w-5 h-5 flex items-center justify-center relative z-10">
                 {button.icon}
               </div>
-              <span className="font-medium leading-6 text-[#414651] text-base">
+              <span className="font-medium leading-6 text-[#414651] text-base relative z-10">
                 {button.text}
               </span>
             </button>
@@ -75,7 +90,7 @@ export function HeaderSection({
         {viewAllReportsButton && (
           <button
             onClick={viewAllReportsButton.onClick}
-            className="absolute right-8 top-0 flex gap-2 items-center justify-center hover:opacity-70 transition-opacity"
+            className="absolute right-10 top-8 flex gap-2 items-center justify-center hover:opacity-70 transition-opacity"
           >
             <div className="shrink-0 w-5 h-5 flex items-center justify-center">
               {viewAllReportsButton.icon}
