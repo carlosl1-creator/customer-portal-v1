@@ -237,3 +237,75 @@ export function JiraIcon({ className = "w-5 h-5" }: { className?: string }) {
   );
 }
 
+export function ThumbsUpIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M6.633 10.25c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 0 1 2.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 0 0 .322-1.672V2.75a.75.75 0 0 1 .75-.75 2.25 2.25 0 0 1 2.25 2.25c0 1.152-.26 2.243-.723 3.218-.266.558.192 1.282.814 1.282h3.126a2.25 2.25 0 0 1 2.15 1.588l1.498 4.493a2.25 2.25 0 0 1-.526 2.39l-1.276 1.276a2.25 2.25 0 0 1-1.591.659H18.75a2.25 2.25 0 0 1-2.25-2.25V15.75a2.25 2.25 0 0 0-2.25-2.25h-1.5a2.25 2.25 0 0 0-1.591.659l-1.276 1.276a2.25 2.25 0 0 1-1.591.659H6.633Z"
+      />
+    </svg>
+  );
+}
+
+export function ThumbsDownIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M7.498 15.25H4.372c-1.026 0-1.945-.694-2.054-1.715a12.137 12.137 0 0 1-.068-1.807c0-2.848.992-5.464 2.649-7.521C5.287 4.247 5.886 4 6.504 4h4.016a4.5 4.5 0 0 1 1.423.23l3.114 1.04a4.5 4.5 0 0 0 1.423.23h1.294M7.498 15.25c.618 0 .991.724.725 1.282A7.471 7.471 0 0 0 7.5 19.75a2.25 2.25 0 0 0 2.25 2.25.75.75 0 1 1 0 1.5 3.75 3.75 0 0 1-3.75-3.75c0-1.708.7-3.25 1.827-4.333M15.75 4.75a3.75 3.75 0 0 0-3.75 3.75c0 .776.24 1.496.65 2.095l1.124 1.683a.75.75 0 0 0 1.272-.41l.002-.01a2.25 2.25 0 0 1 .421-1.285l1.276-1.276a2.25 2.25 0 0 1 1.591-.659h1.96c.596 0 1.104.355 1.327.87l.82 2.02a2.25 2.25 0 0 1-.526 2.39l-1.276 1.276a2.25 2.25 0 0 1-1.591.659H18.75a2.25 2.25 0 0 1-2.25-2.25V15.75a2.25 2.25 0 0 0-2.25-2.25h-1.5a2.25 2.25 0 0 0-1.591.659l-1.276 1.276a2.25 2.25 0 0 1-1.591.659H7.498Z"
+      />
+    </svg>
+  );
+}
+
+export function CropIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M6 13.5V3.75m0 9.75a1.5 1.5 0 0 1 1.5 1.5h13.5m-13.5 0a1.5 1.5 0 0 0-1.5 1.5v9.75m18-9.75V3.75m0 0a1.5 1.5 0 0 0-1.5-1.5h-15m15 0a1.5 1.5 0 0 1 1.5 1.5m-18 0V20.25a1.5 1.5 0 0 0 1.5 1.5h15m-18 0a1.5 1.5 0 0 1-1.5-1.5"
+      />
+    </svg>
+  );
+}
+
+export function FeatherIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+      />
+    </svg>
+  );
+}
+

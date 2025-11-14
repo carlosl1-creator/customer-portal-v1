@@ -6,7 +6,10 @@ import {
   DownloadIcon,
   ClipboardIcon,
   ChevronLeftIcon,
+  CropIcon,
+  FeatherIcon,
 } from "~/components/icons/icons";
+import { Section } from "~/components/section/section";
 import { useNavigate } from "react-router";
 
 export function meta({ }: Route.MetaArgs) {
@@ -86,11 +89,45 @@ export default function PressureTest() {
         }}
       />
 
-      {/* Main content area - you can add report content here */}
-      <div className="px-8 mt-8 pb-8">
-          <p className="text-[#535862] text-base">
-            Report content will be displayed here...
-          </p>
+      {/* Main content area */}
+      <div className="px-0 mt-8 pb-8">
+        <Section
+          title="Top Insights"
+          cards={[
+            {
+              icon: <CropIcon className="w-6 h-6" stroke="#181d27" />,
+              title: "Model Alignment & Guardrail Tuning",
+              focusText: "Refining internal refusal logic, bias correction, and escalation behavior.",
+              listTitle: "Critical Vulnerabilities:",
+              listItems: [
+                "Fine-tune small adapter layer on multi-turn refusal consistency set (focus on context carryover and stable tone).",
+                "Integrate refusal rationale templates tied to category metadata (e.g., \"safety reason → example phrasebook\").",
+                "Calibrate escalation intents using reinforcement signals from simulator traces (detecting \"should have redirected\" cases).",
+              ],
+              thumbsUpActive: true,
+              thumbsDownActive: false,
+              onThumbsUpClick: () => console.log("Thumbs up clicked"),
+              onThumbsDownClick: () => console.log("Thumbs down clicked"),
+              gradientVariant: "sunset",
+            },
+            {
+              icon: <FeatherIcon className="w-6 h-6" stroke="#181d27" />,
+              title: "Prompt Design & Input Framing",
+              focusText: "How system or user prompts shape model responses.",
+              listTitle: "Critical Vulnerabilities:",
+              listItems: [
+                "Prepend compact policy reminders in system prompt (\"Always prioritize user safety and policy compliance...\").",
+                "Add turn-level re-grounding every 3–4 exchanges in long chats.",
+                "Test counterfactual prompt phrasing (e.g., \"as an educational explanation only\") to surface latent failure modes.",
+              ],
+              thumbsUpActive: false,
+              thumbsDownActive: true,
+              onThumbsUpClick: () => console.log("Thumbs up clicked"),
+              onThumbsDownClick: () => console.log("Thumbs down clicked"),
+              gradientVariant: "nebulae",
+            },
+          ]}
+        />
       </div>
     </div>
   );
