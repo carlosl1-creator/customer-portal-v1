@@ -158,3 +158,82 @@ export function ListIcon({ className = "w-5 h-5", stroke = "currentColor" }: { c
   );
 }
 
+export function ChevronLeftIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15.75 19.5L8.25 12l7.5-7.5"
+      />
+    </svg>
+  );
+}
+
+export function DownloadIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+      />
+    </svg>
+  );
+}
+
+export function ClipboardIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"
+      />
+    </svg>
+  );
+}
+
+// Simple placeholder icons for Slack and Jira (you can replace these with actual brand icons later)
+export function SlackIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 5.042a2.528 2.528 0 0 1-2.52-2.52A2.528 2.528 0 0 1 18.956 0a2.528 2.528 0 0 1 2.523 2.522v2.52h-2.523zM18.956 6.313a2.528 2.528 0 0 1 2.523 2.521 2.528 2.528 0 0 1-2.523 2.521h-6.313A2.528 2.528 0 0 1 10.12 8.834a2.528 2.528 0 0 1 2.523-2.521h6.313zM13.165 18.956a2.528 2.528 0 0 1 2.522 2.523A2.528 2.528 0 0 1 13.165 24a2.528 2.528 0 0 1-2.52-2.521v-2.523h2.52zM13.165 17.688a2.528 2.528 0 0 1-2.52-2.522 2.528 2.528 0 0 1 2.52-2.521 2.528 2.528 0 0 1 2.522 2.521v6.313a2.528 2.528 0 0 1-2.522 2.522z"/>
+    </svg>
+  );
+}
+
+export function JiraIcon({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M11.571 11.513H0a5.218 5.218 0 0 0 5.218 5.215h2.174v2.174a5.218 5.218 0 0 0 5.215 5.214h11.572V16.728a5.218 5.218 0 0 0-5.215-5.215zM23.143 0A5.218 5.218 0 0 0 17.93 5.218v2.174H5.218A5.218 5.218 0 0 0 0 12.61h11.572V0z"/>
+    </svg>
+  );
+}
+

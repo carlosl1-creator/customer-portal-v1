@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Button } from "./button";
-import { ArrowUpRightIcon } from "./icons";
+import { ArrowUpRightIcon } from "../icons/icons";
 
 describe("Button", () => {
   it("renders button with text", () => {

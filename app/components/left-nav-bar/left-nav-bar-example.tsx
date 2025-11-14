@@ -8,7 +8,7 @@ import {
   SettingsIcon,
   LogOutIcon,
   LogoIcon,
-} from "./icons";
+} from "../icons/icons";
 
 // Example: How to use the LeftNavBar component
 export function LeftNavBarExample() {

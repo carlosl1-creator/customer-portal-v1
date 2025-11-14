@@ -9,7 +9,7 @@ import {
   SettingsIcon,
   LogOutIcon,
   LogoIcon,
-} from "./icons";
+} from "../icons/icons";
 
 // Helper to render with router
 const renderWithRouter = (ui: React.ReactElement, initialEntries = ["/"]) => {
