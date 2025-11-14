@@ -64,7 +64,7 @@ export function LeftNavBar({
 
   return (
     <div
-      className={`box-border flex flex-col h-screen items-center justify-between px-4 py-6 transition-all duration-300 ${
+      className={`box-border flex flex-col h-screen items-center justify-between px-4 py-6 transition-all duration-300 fixed left-0 top-0 z-50 ${
         isExpanded ? "w-[240px]" : "w-[76px]"
       } ${bgColor}`}
       onMouseEnter={handleMouseEnter}

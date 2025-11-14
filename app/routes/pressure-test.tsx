@@ -10,6 +10,8 @@ import {
   FeatherIcon,
 } from "~/components/icons/icons";
 import { Section } from "~/components/section/section";
+import { CasesCard } from "~/components/cases-card/cases-card";
+import { RatingCard } from "~/components/rating-card/rating-card";
 import { useNavigate } from "react-router";
 
 export function meta({ }: Route.MetaArgs) {
@@ -117,7 +119,7 @@ export default function PressureTest() {
               listTitle: "Critical Vulnerabilities:",
               listItems: [
                 "Prepend compact policy reminders in system prompt (\"Always prioritize user safety and policy compliance...\").",
-                "Add turn-level re-grounding every 3–4 exchanges in long chats.",
+                "Add turn-level re-grounding every 3-4 exchanges in long chats.",
                 "Test counterfactual prompt phrasing (e.g., \"as an educational explanation only\") to surface latent failure modes.",
               ],
               thumbsUpActive: false,
@@ -128,6 +130,37 @@ export default function PressureTest() {
             },
           ]}
         />
+
+        {/* Overall Readiness and Total Cases Section */}
+        <div className="px-8 mt-8">
+          <div className="flex gap-[18px] items-stretch">
+            {/* Overall Readiness - 70% */}
+            <div className="flex-[0.7] min-w-0 h-full">
+              <RatingCard
+                title="Overall Readiness"
+                subtitle="Overall rating based on model safety, security, and fraud and bias mitigation."
+                rating={4.1}
+                description="The system showcases a strong ability to enforce policies against direct violations, particularly in the categories of illegal activities and self-harm. However, it consistently struggles with nuanced evasion tactics, particularly those employing obfuscation and contextual deception, leading to significant gaps in enforcement."
+                onHelpClick={() => console.log("Help clicked")}
+              />
+            </div>
+            
+            {/* Total Cases - 30% */}
+            <div className="flex-[0.3] h-full">
+              <CasesCard
+                title="Total Cases"
+                subtitle="Number of total simulation cases and risk distribution"
+                totalCases={1576}
+                scenarios={[
+                  { label: "Violence", percentage: 48, color: "#B2DDFF" },
+                  { label: "Hate Speech", percentage: 29, color: "#A6F4C5" },
+                  { label: "Others", percentage: 16, color: "#FECDD6" },
+                ]}
+                onMaximizeClick={() => console.log("Maximize clicked")}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -37,11 +37,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="flex">
         <LeftNavBarExample />
-        <PageContainer>
-          <div className="flex-1">
-            {children}
-          </div>
-        </PageContainer>
+        <div className="flex-1 ml-[76px]">
+          <PageContainer>
+            <div className="flex-1">
+              {children}
+            </div>
+          </PageContainer>
+        </div>
         <ScrollRestoration />
         <Scripts />
       </body>
