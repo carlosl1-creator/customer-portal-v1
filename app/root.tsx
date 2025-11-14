@@ -36,10 +36,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        <LeftNavBarDarkExample />
+      <body className="flex">
+        <LeftNavBarExample />
         <GeometricBackground />
-        {children}
+        <div className="flex-1">
+          {children}
+        </div>
         <ScrollRestoration />
         <Scripts />
       </body>

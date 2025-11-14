@@ -116,22 +116,45 @@ export function LogOutIcon({ className = "w-6 h-6", stroke = "currentColor" }: {
 export function LogoIcon({ className = "w-11 h-11", darkMode = false }: { className?: string; darkMode?: boolean }) {
   const fill = darkMode ? "#FDFDFD" : "#181D27";
   return (
-    <div className={className}>
-      <svg
-        width="44"
-        height="48"
-        viewBox="0 0 44 48"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Simple logo placeholder - you can replace this with your actual logo SVG */}
-        <circle cx="22" cy="24" r="20" fill={fill} opacity="0.2" />
-        <path
-          d="M22 8 L30 20 L22 32 L14 20 Z"
-          fill={fill}
-        />
-      </svg>
+    <div className={className} >
+      <img src="/rl_logo.svg" alt="Reinforce Labs Logo" />
     </div>
+  );
+}
+
+export function ArrowUpRightIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+      />
+    </svg>
+  );
+}
+
+export function ListIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+      />
+    </svg>
   );
 }
 
