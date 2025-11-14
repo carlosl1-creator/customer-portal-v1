@@ -10,6 +10,9 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { GeometricBackground } from "./components/geometric-background";
+import { LeftNavBar } from "~/components/left-nav-bar";
+import { LeftNavBarExample } from "~/components/left-nav-bar-example";
+import { LeftNavBarDarkExample } from "~/components/left-nav-bar-example";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -34,6 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <LeftNavBarDarkExample />
         <GeometricBackground />
         {children}
         <ScrollRestoration />
