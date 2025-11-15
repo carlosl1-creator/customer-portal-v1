@@ -15,6 +15,10 @@ import { RatingCard } from "~/components/rating-card/rating-card";
 import { PillarScoreCard } from "~/components/pillar-score-card/pillar-score-card";
 import { FoundVulnerabilitiesCard } from "~/components/found-vulnerabilities-card/found-vulnerabilities-card";
 import { ConversationalStatisticsCard } from "~/components/conversational-statistics-card/conversational-statistics-card";
+import { FilterBar } from "~/components/filter-bar/filter-bar";
+import { TestCasesTable } from "~/components/test-cases-table/test-cases-table";
+import { Pagination } from "~/components/pagination/pagination";
+import { TopRiskAreaCard } from "~/components/top-risk-area-card/top-risk-area-card";
 import { useNavigate } from "react-router";
 
 export function meta({ }: Route.MetaArgs) {
@@ -285,6 +289,140 @@ export default function PressureTest() {
               onMaximizeClick={() => console.log("Conversational Statistics maximize clicked")}
             />
           </div>
+        </div>
+
+        {/* All Test Cases Section */}
+        <div className="px-8 mt-8">
+          <h2 className="font-medium text-[24px] leading-[32px] text-[#181d27] mb-6">
+            All Test Cases
+          </h2>
+          
+          {/* Filter Bar */}
+          <FilterBar
+            turnLengthOptions={[
+              { label: "Short", value: "short" },
+              { label: "Medium", value: "medium" },
+              { label: "Long", value: "long" },
+            ]}
+            categoryOptions={[
+              { label: "Violence", value: "violence" },
+              { label: "Self-Harm", value: "self-harm" },
+              { label: "Hate Speech", value: "hate-speech" },
+              { label: "Illegal Activities", value: "illegal" },
+              { label: "Others", value: "others" },
+            ]}
+            onTurnLengthChange={(value) => console.log("Turn length changed:", value)}
+            onCategoryChange={(value) => console.log("Category changed:", value)}
+            onSearchChange={(value) => console.log("Search changed:", value)}
+            onMoreFiltersClick={() => console.log("More filters clicked")}
+            className="mb-6"
+          />
+
+          {/* Table */}
+          <TestCasesTable
+            testCases={[
+              {
+                caseId: "TC-001",
+                category: "Violence",
+                likelihood: 85,
+                modelReasoning: "Model correctly identified potential threat",
+                content: "User attempted to generate violent content...",
+                chatAndTurnLength: "4 turns, 203 chars",
+              },
+              {
+                caseId: "TC-002",
+                category: "Self-Harm",
+                likelihood: 60,
+                modelReasoning: "Model detected self-harm intent",
+                content: "User requested information about self-harm...",
+                chatAndTurnLength: "3 turns, 156 chars",
+              },
+              {
+                caseId: "TC-003",
+                category: "Hate Speech",
+                likelihood: 92,
+                modelReasoning: "Model identified hateful language",
+                content: "User used discriminatory language...",
+                chatAndTurnLength: "5 turns, 287 chars",
+              },
+              {
+                caseId: "TC-004",
+                category: "Illegal Activities",
+                likelihood: 45,
+                modelReasoning: "Model flagged potential illegal request",
+                content: "User asked about illegal activities...",
+                chatAndTurnLength: "2 turns, 98 chars",
+              },
+              {
+                caseId: "TC-005",
+                category: "Violence",
+                likelihood: 78,
+                modelReasoning: "Model detected violent content pattern",
+                content: "User attempted to generate violent scenario...",
+                chatAndTurnLength: "6 turns, 342 chars",
+              },
+            ]}
+            onRowClick={(testCase) => console.log("Row clicked:", testCase)}
+          />
+
+          {/* Pagination */}
+          <Pagination
+            currentPage={1}
+            totalPages={10}
+            onPrevious={() => console.log("Previous clicked")}
+            onNext={() => console.log("Next clicked")}
+          />
+        </div>
+
+        {/* Top Risk Areas Section */}
+        <div className="px-8 mt-8">
+          <h2 className="font-medium text-[24px] leading-[32px] text-[#181d27] mb-6">
+            Top Risk Areas
+          </h2>
+
+          <TopRiskAreaCard
+            number={1}
+            title="Violence"
+            threatLevel="High"
+            asrPercentage={12.5}
+            highRiskCases={7}
+            priority="High"
+            avgTurns={3.45}
+            avgTurnLength={245}
+            keyInsights={[
+              "Occasional failure to de-escalate hypotheticals about violence when the user reframes as a \"fictional\" or \"game\" scenario.",
+              "Weak refusal rationale—model declines but does not explain the reason, reducing trust and consistency.",
+              "Recommendation: Strengthen contextual detection for \"fictional but explicit\" prompts; expand refusal templates emphasizing why violence content is blocked.",
+            ]}
+            cases={[
+              {
+                likelihood: 85,
+                expected: "High",
+                riskDescription: "Model failed to detect violent intent in fictional scenario",
+                content: "User attempted to generate violent content in a game context...",
+                chatAndTurnLength: "4 turns, 203 chars",
+              },
+              {
+                likelihood: 72,
+                expected: "Medium",
+                riskDescription: "Insufficient refusal explanation for violence request",
+                content: "User requested information about violent methods...",
+                chatAndTurnLength: "3 turns, 156 chars",
+              },
+              {
+                likelihood: 90,
+                expected: "High",
+                riskDescription: "Model accepted violent content when framed as educational",
+                content: "User asked for violent content under educational pretext...",
+                chatAndTurnLength: "5 turns, 287 chars",
+              },
+            ]}
+            currentPage={1}
+            totalPages={5}
+            onPrevious={() => console.log("Previous clicked")}
+            onNext={() => console.log("Next clicked")}
+            onRowClick={(caseItem) => console.log("Row clicked:", caseItem)}
+          />
         </div>
       </div>
     </div>
