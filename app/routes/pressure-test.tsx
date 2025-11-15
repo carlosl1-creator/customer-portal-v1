@@ -1,4 +1,5 @@
 import type { Route } from "./+types/pressure-test";
+import { useState } from "react";
 import { HeaderSection } from "~/components/header-section/header-section";
 import {
   SlackIcon,
@@ -19,6 +20,7 @@ import { FilterBar } from "~/components/filter-bar/filter-bar";
 import { TestCasesTable } from "~/components/test-cases-table/test-cases-table";
 import { Pagination } from "~/components/pagination/pagination";
 import { TopRiskAreaCard } from "~/components/top-risk-area-card/top-risk-area-card";
+import { Modal } from "~/components/modal/modal";
 import { useNavigate } from "react-router";
 
 export function meta({ }: Route.MetaArgs) {
@@ -30,6 +32,9 @@ export function meta({ }: Route.MetaArgs) {
 
 export default function PressureTest() {
   const navigate = useNavigate();
+  
+  // Modal state management
+  const [openModal, setOpenModal] = useState<string | null>(null);
 
   const handleSendToSlack = () => {
     console.log("Send to Slack clicked");
@@ -163,7 +168,7 @@ export default function PressureTest() {
                   { label: "Hate Speech", percentage: 29, color: "#A6F4C5" },
                   { label: "Others", percentage: 16, color: "#FECDD6" },
                 ]}
-                onMaximizeClick={() => console.log("Maximize clicked")}
+                onMaximizeClick={() => setOpenModal("totalCases")}
               />
             </div>
           </div>
@@ -185,7 +190,7 @@ export default function PressureTest() {
                 { label: "SomeAI Model-5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
                 { label: "Other Model 4.5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
               ]}
-              onMaximizeClick={() => console.log("Pillar I maximize clicked")}
+              onMaximizeClick={() => setOpenModal("pillarI")}
             />
             <PillarScoreCard
               title="Pillar II Score"
@@ -197,7 +202,7 @@ export default function PressureTest() {
                 { label: "SomeAI Model-5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
                 { label: "Other Model 4.5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
               ]}
-              onMaximizeClick={() => console.log("Pillar II maximize clicked")}
+              onMaximizeClick={() => setOpenModal("pillarII")}
             />
             <PillarScoreCard
               title="Pillar III Score"
@@ -207,7 +212,7 @@ export default function PressureTest() {
               isLocked={true}
               lockedMessage="Pillar III scores are coming Quarter 2026 and provide additional insights about model biases. Stay tuned!"
               onLearnMore={() => console.log("Learn more clicked")}
-              onMaximizeClick={() => console.log("Pillar III maximize clicked")}
+              onMaximizeClick={() => setOpenModal("pillarIII")}
             />
           </div>
         </div>
@@ -260,7 +265,7 @@ export default function PressureTest() {
                   ],
                 },
               ]}
-              onMaximizeClick={() => console.log("Found Vulnerabilities maximize clicked")}
+              onMaximizeClick={() => setOpenModal("foundVulnerabilities")}
               onHelpClick={() => console.log("Help clicked")}
             />
             <ConversationalStatisticsCard
@@ -286,7 +291,7 @@ export default function PressureTest() {
                 { x: 240, y: 0.2 },
                 { x: 300, y: 0.1 },
               ]}
-              onMaximizeClick={() => console.log("Conversational Statistics maximize clicked")}
+              onMaximizeClick={() => setOpenModal("conversationalStatistics")}
             />
           </div>
         </div>
@@ -425,6 +430,170 @@ export default function PressureTest() {
           />
         </div>
       </div>
+
+      {/* Modals */}
+      {/* Total Cases Modal */}
+      <Modal
+        isOpen={openModal === "totalCases"}
+        onClose={() => setOpenModal(null)}
+        title="Test Case Category Distribution"
+        description="A plethora of cases have been tested against your model to ensure even and complete coverage across categories."
+      >
+        <CasesCard
+          title="Total Cases"
+          subtitle="Number of total simulation cases and risk distribution"
+          totalCases={1576}
+          scenarios={[
+            { label: "Violence", percentage: 48, color: "#B2DDFF" },
+            { label: "Hate Speech", percentage: 29, color: "#A6F4C5" },
+            { label: "Others", percentage: 16, color: "#FECDD6" },
+          ]}
+        />
+      </Modal>
+
+      {/* Pillar I Modal */}
+      <Modal
+        isOpen={openModal === "pillarI"}
+        onClose={() => setOpenModal(null)}
+        title="Pillar I Score"
+        description="Aggregated score across safety, security, and fraud."
+      >
+        <PillarScoreCard
+          title="Pillar I Score"
+          subtitle="Aggregated score across safety, security, and fraud."
+          score={4.3}
+          status="success"
+          barData={[
+            { label: "Your Model", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+            { label: "SomeAI Model-5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
+            { label: "Other Model 4.5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+          ]}
+        />
+      </Modal>
+
+      {/* Pillar II Modal */}
+      <Modal
+        isOpen={openModal === "pillarII"}
+        onClose={() => setOpenModal(null)}
+        title="Pillar II Score"
+        description="Focused score on brand value and correctness"
+      >
+        <PillarScoreCard
+          title="Pillar II Score"
+          subtitle="Focused score on brand value and correctness"
+          score={3.5}
+          status="warning"
+          barData={[
+            { label: "Your Model", value: 72, color: "#FEDF89", borderColor: "#DC6803" },
+            { label: "SomeAI Model-5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+            { label: "Other Model 4.5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
+          ]}
+        />
+      </Modal>
+
+      {/* Pillar III Modal */}
+      <Modal
+        isOpen={openModal === "pillarIII"}
+        onClose={() => setOpenModal(null)}
+        title="Pillar III Score"
+        description="Aggregated score against biases"
+      >
+        <PillarScoreCard
+          title="Pillar III Score"
+          subtitle="Aggregated score against biases"
+          score={0}
+          status="locked"
+          isLocked={true}
+          lockedMessage="Pillar III scores are coming Quarter 2026 and provide additional insights about model biases. Stay tuned!"
+          onLearnMore={() => console.log("Learn more clicked")}
+        />
+      </Modal>
+
+      {/* Found Vulnerabilities Modal */}
+      <Modal
+        isOpen={openModal === "foundVulnerabilities"}
+        onClose={() => setOpenModal(null)}
+        title="Found Vulnerabilities"
+        description="Statistics on vulnerabilities found across all test cases."
+      >
+        <FoundVulnerabilitiesCard
+          title="Found Vulnerabilities"
+          subtitle="Statistics on vulnerabilities found across all test cases."
+          identifiedCount={90}
+          unweightedASR={8.2}
+          weightedASR={9.1}
+          status="warning"
+          radarData={[
+            {
+              label: "Current Model",
+              color: "#B2DDFF",
+              data: [
+                { label: "Violence", value: 75 },
+                { label: "Self-Harm", value: 60 },
+                { label: "Hate Speech", value: 85 },
+                { label: "Illegal Activities", value: 70 },
+                { label: "Others", value: 65 },
+              ],
+            },
+            {
+              label: "OpenAI Safety",
+              color: "#A6F4C5",
+              data: [
+                { label: "Violence", value: 90 },
+                { label: "Self-Harm", value: 85 },
+                { label: "Hate Speech", value: 95 },
+                { label: "Illegal Activities", value: 88 },
+                { label: "Others", value: 80 },
+              ],
+            },
+            {
+              label: "Reinforce Labs",
+              color: "#FECDD6",
+              data: [
+                { label: "Violence", value: 88 },
+                { label: "Self-Harm", value: 82 },
+                { label: "Hate Speech", value: 92 },
+                { label: "Illegal Activities", value: 85 },
+                { label: "Others", value: 78 },
+              ],
+            },
+          ]}
+          onHelpClick={() => console.log("Help clicked")}
+        />
+      </Modal>
+
+      {/* Conversational Statistics Modal */}
+      <Modal
+        isOpen={openModal === "conversationalStatistics"}
+        onClose={() => setOpenModal(null)}
+        title="Conversation Statistics"
+        description="Average number of turns and length of each turn."
+      >
+        <ConversationalStatisticsCard
+          title="Conversation Statistics"
+          subtitle="Average number of turns and length of each turn."
+          avgChatLength={4.73}
+          avgMessageLength={203.1}
+          chatLengthStatus="success"
+          messageLengthStatus="success"
+          chatLengthChartData={[
+            { x: 0, y: 0.2 },
+            { x: 1, y: 0.4 },
+            { x: 2, y: 0.6 },
+            { x: 3, y: 0.5 },
+            { x: 4, y: 0.3 },
+            { x: 5, y: 0.1 },
+          ]}
+          messageLengthChartData={[
+            { x: 0, y: 0.1 },
+            { x: 60, y: 0.3 },
+            { x: 120, y: 0.5 },
+            { x: 180, y: 0.4 },
+            { x: 240, y: 0.2 },
+            { x: 300, y: 0.1 },
+          ]}
+        />
+      </Modal>
     </div>
   );
 }
