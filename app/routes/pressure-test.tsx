@@ -12,6 +12,9 @@ import {
 import { Section } from "~/components/section/section";
 import { CasesCard } from "~/components/cases-card/cases-card";
 import { RatingCard } from "~/components/rating-card/rating-card";
+import { PillarScoreCard } from "~/components/pillar-score-card/pillar-score-card";
+import { FoundVulnerabilitiesCard } from "~/components/found-vulnerabilities-card/found-vulnerabilities-card";
+import { ConversationalStatisticsCard } from "~/components/conversational-statistics-card/conversational-statistics-card";
 import { useNavigate } from "react-router";
 
 export function meta({ }: Route.MetaArgs) {
@@ -159,6 +162,128 @@ export default function PressureTest() {
                 onMaximizeClick={() => console.log("Maximize clicked")}
               />
             </div>
+          </div>
+        </div>
+
+        {/* Pillar Score Section */}
+        <div className="px-8 mt-8">
+          <h2 className="font-medium text-[24px] leading-[32px] text-[#181d27] mb-6">
+            Pillar Scores
+          </h2>
+          <div className="grid grid-cols-3 gap-6 items-stretch">
+            <PillarScoreCard
+              title="Pillar I Score"
+              subtitle="Aggregated score across safety, security, and fraud."
+              score={4.3}
+              status="success"
+              barData={[
+                { label: "Your Model", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+                { label: "SomeAI Model-5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
+                { label: "Other Model 4.5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+              ]}
+              onMaximizeClick={() => console.log("Pillar I maximize clicked")}
+            />
+            <PillarScoreCard
+              title="Pillar II Score"
+              subtitle="Focused score on brand value and correctness"
+              score={3.5}
+              status="warning"
+              barData={[
+                { label: "Your Model", value: 72, color: "#FEDF89", borderColor: "#DC6803" },
+                { label: "SomeAI Model-5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+                { label: "Other Model 4.5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
+              ]}
+              onMaximizeClick={() => console.log("Pillar II maximize clicked")}
+            />
+            <PillarScoreCard
+              title="Pillar III Score"
+              subtitle="Aggregated score against biases"
+              score={0}
+              status="locked"
+              isLocked={true}
+              lockedMessage="Pillar III scores are coming Quarter 2026 and provide additional insights about model biases. Stay tuned!"
+              onLearnMore={() => console.log("Learn more clicked")}
+              onMaximizeClick={() => console.log("Pillar III maximize clicked")}
+            />
+          </div>
+        </div>
+
+        {/* Found Vulnerabilities and Conversational Statistics Section */}
+        <div className="px-8 mt-8">
+          <h2 className="font-medium text-[24px] leading-[32px] text-[#181d27] mb-6">
+            Vulnerability Analysis
+          </h2>
+          <div className="grid grid-cols-2 gap-6 items-stretch">
+            <FoundVulnerabilitiesCard
+              title="Found Vulnerabilities"
+              subtitle="Statistics on vulnerabilities found across all test cases."
+              identifiedCount={90}
+              unweightedASR={8.2}
+              weightedASR={9.1}
+              status="warning"
+              radarData={[
+                {
+                  label: "Current Model",
+                  color: "#B2DDFF",
+                  data: [
+                    { label: "Violence", value: 75 },
+                    { label: "Self-Harm", value: 60 },
+                    { label: "Hate Speech", value: 85 },
+                    { label: "Illegal Activities", value: 70 },
+                    { label: "Others", value: 65 },
+                  ],
+                },
+                {
+                  label: "OpenAI Safety",
+                  color: "#A6F4C5",
+                  data: [
+                    { label: "Violence", value: 90 },
+                    { label: "Self-Harm", value: 85 },
+                    { label: "Hate Speech", value: 95 },
+                    { label: "Illegal Activities", value: 88 },
+                    { label: "Others", value: 80 },
+                  ],
+                },
+                {
+                  label: "Reinforce Labs",
+                  color: "#FECDD6",
+                  data: [
+                    { label: "Violence", value: 88 },
+                    { label: "Self-Harm", value: 82 },
+                    { label: "Hate Speech", value: 92 },
+                    { label: "Illegal Activities", value: 85 },
+                    { label: "Others", value: 78 },
+                  ],
+                },
+              ]}
+              onMaximizeClick={() => console.log("Found Vulnerabilities maximize clicked")}
+              onHelpClick={() => console.log("Help clicked")}
+            />
+            <ConversationalStatisticsCard
+              title="Conversation Statistics"
+              subtitle="Average number of turns and length of each turn."
+              avgChatLength={4.73}
+              avgMessageLength={203.1}
+              chatLengthStatus="success"
+              messageLengthStatus="success"
+              chatLengthChartData={[
+                { x: 0, y: 0.2 },
+                { x: 1, y: 0.4 },
+                { x: 2, y: 0.6 },
+                { x: 3, y: 0.5 },
+                { x: 4, y: 0.3 },
+                { x: 5, y: 0.1 },
+              ]}
+              messageLengthChartData={[
+                { x: 0, y: 0.1 },
+                { x: 60, y: 0.3 },
+                { x: 120, y: 0.5 },
+                { x: 180, y: 0.4 },
+                { x: 240, y: 0.2 },
+                { x: 300, y: 0.1 },
+              ]}
+              onMaximizeClick={() => console.log("Conversational Statistics maximize clicked")}
+            />
           </div>
         </div>
       </div>
