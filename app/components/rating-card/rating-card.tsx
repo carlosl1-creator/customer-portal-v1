@@ -29,7 +29,7 @@ export function RatingCard({
     >
       {/* Header section */}
       <div className="flex items-start justify-between w-full">
-        <div className="flex flex-col gap-2 flex-1">
+        <div className="flex flex-col gap-2 flex-1 min-w-0">
           {/* Title row with icon */}
           <div className="flex items-center gap-2.5">
             {icon || defaultIcon}

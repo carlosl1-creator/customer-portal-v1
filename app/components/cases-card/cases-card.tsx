@@ -36,7 +36,7 @@ export function CasesCard({
 
   return (
     <div
-      className={`bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 relative h-full ${className}`}
+      className={`bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 h-full relative min-h-[220px] max-h-[224px] ${className}`}
     >
       {/* Maximize button */}
       {onMaximizeClick && (
@@ -60,7 +60,7 @@ export function CasesCard({
       </div>
 
       {/* Body: Number, bubbles, and legend */}
-      <div className="flex gap-4 items-center w-full">
+      <div className="flex gap-4 items-center w-full flex-1">
         {/* Number and label */}
         <div className="flex flex-col gap-2 flex-shrink-0">
           <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
@@ -72,7 +72,7 @@ export function CasesCard({
         </div>
 
         {/* Bubbles and legend */}
-        <div className="flex flex-1 items-center justify-center gap-4 h-[82px]">
+        <div className="flex flex-1 items-center justify-center gap-4">
           {/* Bubble chart */}
           <BubbleChart bubbles={bubbleData} />
 
