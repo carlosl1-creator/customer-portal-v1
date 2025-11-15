@@ -1,5 +1,6 @@
 import React from "react";
-import { RiskAreasTable, RiskAreaCase } from "~/components/risk-areas-table/risk-areas-table";
+import { RiskAreasTable } from "~/components/risk-areas-table/risk-areas-table";
+import type { RiskAreaCase } from "~/components/risk-areas-table/risk-areas-table";
 import { Pagination } from "~/components/pagination/pagination";
 import { HelpIcon } from "~/components/icons/icons";
 
@@ -111,29 +112,21 @@ export function TopRiskAreaCard({
       </div>
 
       {/* Stats Section */}
-      <div className="flex gap-3 items-start">
-        {/* Labels Column */}
+      <div className="flex gap-124 items-start">
+        {/* Group 1: High Risk Cases and Avg. Turns */}
         <div className="flex flex-col gap-2 justify-center">
           <div className="flex gap-2.5 h-8 items-center">
             <p className="font-medium text-[16px] leading-[24px] text-[#535862]">
               High Risk Cases:
+            </p>
+            <p className="font-normal text-[16px] leading-[24px] text-[#181d27]">
+              {highRiskCases}
             </p>
           </div>
           <div className="flex gap-2.5 h-8 items-center">
             <p className="font-medium text-[16px] leading-[24px] text-[#535862]">
               Avg. Turns:
             </p>
-          </div>
-        </div>
-
-        {/* Values Column */}
-        <div className="flex flex-col gap-2 justify-center w-[28px]">
-          <div className="flex h-8 items-center justify-between">
-            <p className="font-normal text-[16px] leading-[24px] text-[#181d27]">
-              {highRiskCases}
-            </p>
-          </div>
-          <div className="flex gap-2.5 h-8 items-center">
             <div className="bg-[#EFF8FF] inline-flex gap-1.5 items-center justify-center pl-2.5 pr-3 py-1 rounded-[16px]">
               <div className="w-2 h-2 rounded-full bg-[#2E90FA]" />
               <p className="font-medium text-[14px] leading-[20px] text-center tracking-[-0.28px] text-[#175CD3]">
@@ -143,23 +136,12 @@ export function TopRiskAreaCard({
           </div>
         </div>
 
-        {/* Priority and Avg Turn Length Labels */}
+        {/* Group 2: Priority and Avg. Turn Length */}
         <div className="flex flex-col gap-2 justify-center">
           <div className="flex gap-2.5 h-8 items-center">
             <p className="font-medium text-[16px] leading-[24px] text-[#535862]">
               Priority:
             </p>
-          </div>
-          <div className="flex gap-2.5 h-8 items-center w-[162px]">
-            <p className="font-medium text-[16px] leading-[24px] text-[#535862]">
-              Avg. Turn Length:
-            </p>
-          </div>
-        </div>
-
-        {/* Priority and Avg Turn Length Values */}
-        <div className="flex flex-col gap-2 items-end justify-center">
-          <div className="flex flex-col gap-2.5 h-8 items-start justify-center">
             <div
               className="inline-flex gap-1 items-center justify-center pl-3 pr-2.5 py-1 rounded-[16px]"
               style={{ backgroundColor: priorityBadge.bg }}
@@ -186,6 +168,9 @@ export function TopRiskAreaCard({
             </div>
           </div>
           <div className="flex gap-2.5 h-8 items-center">
+            <p className="font-medium text-[16px] leading-[24px] text-[#535862]">
+              Avg. Turn Length:
+            </p>
             <div className="bg-[#EFF8FF] inline-flex gap-1.5 items-center justify-center pl-2.5 pr-3 py-1 rounded-[16px]">
               <div className="w-2 h-2 rounded-full bg-[#2E90FA]" />
               <p className="font-medium text-[14px] leading-[20px] text-center tracking-[-0.28px] text-[#175CD3]">

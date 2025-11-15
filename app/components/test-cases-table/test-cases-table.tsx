@@ -118,12 +118,12 @@ export function TestCasesTable({
                     </p>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between w-full">
                       <p className="font-normal text-[14px] leading-[20px] text-[#535862]">
                         {testCase.chatAndTurnLength}
                       </p>
                       <ChevronRightIcon
-                        className="w-5 h-5"
+                        className="w-5 h-5 flex-shrink-0"
                         stroke="#535862"
                       />
                     </div>
