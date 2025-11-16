@@ -117,18 +117,18 @@ export function Dashboard({
         {/* Metric Cards */}
         <div className="flex gap-6 items-center w-full">
           {/* Overall Readiness */}
-          <div className="flex flex-1">
+          <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
             <RatingCard
               title="Overall Readiness"
               subtitle=""
               rating={4.1}
               description="Effectively enforces policies against direct violations but consistently struggles with nuanced evasion and obfuscation tactics."
-              className="w-full"
+              className="flex-1 w-full h-full"
             />
           </div>
 
           {/* Pillar I Score */}
-          <div className="flex flex-1">
+          <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
             <PillarScoreCard
               title="Pillar I Score"
               subtitle="Aggregated score across safety, security, and fraud."
@@ -139,11 +139,12 @@ export function Dashboard({
                 { label: "SomeAI Model-5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
                 { label: "Other Model 4.5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
               ]}
+              className="flex-1 w-full h-full"
             />
           </div>
 
           {/* Pillar II Score */}
-          <div className="flex flex-1">
+          <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
             <PillarScoreCard
               title="Pillar II Score"
               subtitle="Focused score on brand value and correctness"
@@ -154,6 +155,7 @@ export function Dashboard({
                 { label: "SomeAI Model-5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
                 { label: "Other Model 4.5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
               ]}
+              className="flex-1 w-full h-full"
             />
           </div>
         </div>
@@ -164,7 +166,9 @@ export function Dashboard({
 
       {/* All Past Reports Section */}
       <div className="flex flex-col gap-6 items-start w-full px-8">
-        <h2 className="font-medium text-[20px] leading-[30px] text-[#181d27]">All Past Reports</h2>
+        <div className="flex flex-col gap-1 items-start">
+          <h2 className="font-medium text-[20px] leading-[30px] text-[#181d27]">All Past Reports</h2>
+        </div>
 
         {/* Filter Bar */}
         <ReportsFilterBar

@@ -53,10 +53,10 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
   };
 
   return (
-    <div className={`bg-white border border-[#e9eaeb] rounded-xl overflow-hidden ${className}`}>
-      <div className="flex flex-col">
+    <div className={`bg-white border border-[#e9eaeb] rounded-[12px] overflow-hidden w-full ${className}`}>
+      <div className="flex flex-col w-full">
         {/* Header */}
-        <div className="bg-white flex items-start border-b border-[#e9eaeb]">
+        <div className="bg-white flex items-start border-b border-[#e9eaeb] w-full">
           {/* Report ID */}
           <div className="flex flex-col w-[196px]">
             <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
@@ -143,7 +143,7 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
           return (
             <div
               key={report.id}
-              className={`${bgColor} flex items-start border-b border-[#e9eaeb] cursor-pointer hover:bg-gray-100 transition-colors`}
+              className={`${bgColor} flex items-start border-b border-[#e9eaeb] cursor-pointer hover:bg-gray-100 transition-colors w-full`}
               onClick={() => onRowClick?.(report)}
             >
               {/* Report ID */}
@@ -251,7 +251,7 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
       </div>
 
       {/* Pagination */}
-      <div className="border-t border-[#e9eaeb] flex items-center justify-between px-6 py-3">
+      <div className="border-t border-[#e9eaeb] flex items-center justify-between px-6 py-3 w-full">
         <div className="flex gap-3 items-start">
           <button className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
             <p className="font-semibold text-[14px] leading-[20px] text-[#d5d7da]">Previous</p>
