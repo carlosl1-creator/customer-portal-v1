@@ -14,6 +14,7 @@ export interface SelectableReportsTableProps {
   maxSelections?: number;
   title?: string;
   className?: string;
+  externalDisabled?: boolean; // When true, all checkboxes are disabled
 }
 
 const getStatusVariant = (status: string): "success" | "warning" | "neutral" => {
@@ -75,7 +76,8 @@ export function SelectableReportsTable({
   onSelectionChange,
   maxSelections = 2,
   title = "Your Reports",
-  className = "" 
+  className = "",
+  externalDisabled = false
 }: SelectableReportsTableProps) {
   const [sortColumn, setSortColumn] = React.useState<string | null>("id");
   const [sortDirection, setSortDirection] = React.useState<"up" | "down">("up");
@@ -157,7 +159,7 @@ export function SelectableReportsTable({
             const isEven = index % 2 === 0;
             const bgColor = isEven ? "bg-neutral-50" : "bg-white";
             const isSelected = selectedIds.has(report.id);
-            const isDisabled = report.disabled || (!isSelected && selectedIds.size >= maxSelections);
+            const isDisabled = externalDisabled || report.disabled || (!isSelected && selectedIds.size >= maxSelections);
 
             return (
               <div

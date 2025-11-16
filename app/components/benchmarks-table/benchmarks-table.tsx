@@ -15,6 +15,8 @@ export interface BenchmarksTableProps {
   maxSelections?: number;
   title?: string;
   className?: string;
+  externalDisabled?: boolean; // When true, all checkboxes are disabled
+  allowSelection?: boolean; // When false, no new selections allowed (but can deselect)
 }
 
 const Checkbox = ({ 
@@ -63,9 +65,11 @@ export function BenchmarksTable({
   benchmarks, 
   selectedIds, 
   onSelectionChange,
-  maxSelections = 2,
+  maxSelections = 1,
   title = "Benchmarks",
-  className = "" 
+  className = "",
+  externalDisabled = false,
+  allowSelection = true
 }: BenchmarksTableProps) {
   const [sortColumn, setSortColumn] = React.useState<string | null>("id");
   const [sortDirection, setSortDirection] = React.useState<"up" | "down">("up");
@@ -81,8 +85,9 @@ export function BenchmarksTable({
 
   const handleCheckboxChange = (id: string) => {
     const isSelected = selectedIds.has(id);
-    if (!isSelected && selectedIds.size >= maxSelections) {
-      return; // Don't allow more than maxSelections
+    // Allow deselection, but prevent new selection if not allowed or max reached
+    if (!isSelected && (!allowSelection || selectedIds.size >= maxSelections)) {
+      return;
     }
     onSelectionChange(id, !isSelected);
   };
@@ -140,7 +145,7 @@ export function BenchmarksTable({
             const isEven = index % 2 === 0;
             const bgColor = isEven ? "bg-neutral-50" : "bg-white";
             const isSelected = selectedIds.has(benchmark.id);
-            const isDisabled = benchmark.disabled || (!isSelected && selectedIds.size >= maxSelections);
+            const isDisabled = externalDisabled || benchmark.disabled || (!isSelected && (!allowSelection || selectedIds.size >= maxSelections));
 
             return (
               <div

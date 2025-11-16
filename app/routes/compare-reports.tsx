@@ -90,6 +90,10 @@ export default function CompareReports() {
     const newSet = new Set(selectedReports);
     if (selected) {
       newSet.add(id);
+      // If we now have 2 reports, clear benchmarks
+      if (newSet.size === 2) {
+        setSelectedBenchmarks(new Set());
+      }
     } else {
       newSet.delete(id);
     }
@@ -100,6 +104,12 @@ export default function CompareReports() {
     const newSet = new Set(selectedBenchmarks);
     if (selected) {
       newSet.add(id);
+      // If we select a benchmark, we can only have 1 report selected
+      // Clear any extra reports if we have more than 1
+      if (selectedReports.size > 1) {
+        const firstReportId = Array.from(selectedReports)[0];
+        setSelectedReports(new Set([firstReportId]));
+      }
     } else {
       newSet.delete(id);
     }
@@ -107,8 +117,14 @@ export default function CompareReports() {
   };
 
   const handleShowComparison = () => {
-    const totalSelected = selectedReports.size + selectedBenchmarks.size;
-    if (totalSelected === 2) {
+    // Valid combinations:
+    // - 2 reports, 0 benchmarks
+    // - 1 report, 1 benchmark
+    const isValid = 
+      (selectedReports.size === 2 && selectedBenchmarks.size === 0) ||
+      (selectedReports.size === 1 && selectedBenchmarks.size === 1);
+    
+    if (isValid) {
       // Navigate to comparison view (to be implemented)
       console.log("Show comparison:", {
         reports: Array.from(selectedReports),
@@ -117,7 +133,20 @@ export default function CompareReports() {
     }
   };
 
-  const canShowComparison = selectedReports.size + selectedBenchmarks.size === 2;
+  // Valid combinations:
+  // - 2 reports, 0 benchmarks
+  // - 1 report, 1 benchmark
+  const canShowComparison = 
+    (selectedReports.size === 2 && selectedBenchmarks.size === 0) ||
+    (selectedReports.size === 1 && selectedBenchmarks.size === 1);
+
+  // Benchmarks are disabled when:
+  // - 0 reports selected (can't compare without at least 1 report)
+  // - 2 reports selected (must use 2 reports, not 1 report + 1 benchmark)
+  const benchmarksDisabled = selectedReports.size === 0 || selectedReports.size === 2;
+  
+  // Benchmarks can only have 1 selection, and only when exactly 1 report is selected
+  const benchmarksAllowSelection = selectedReports.size === 1;
 
   return (
     <div className="w-full">
@@ -173,8 +202,10 @@ export default function CompareReports() {
               benchmarks={mockBenchmarks}
               selectedIds={selectedBenchmarks}
               onSelectionChange={handleBenchmarkSelection}
-              maxSelections={2}
+              maxSelections={1}
               title="Benchmarks"
+              externalDisabled={benchmarksDisabled}
+              allowSelection={benchmarksAllowSelection}
             />
           </div>
         </div>
