@@ -125,11 +125,13 @@ export default function CompareReports() {
       (selectedReports.size === 1 && selectedBenchmarks.size === 1);
     
     if (isValid) {
-      // Navigate to comparison view (to be implemented)
-      console.log("Show comparison:", {
-        reports: Array.from(selectedReports),
-        benchmarks: Array.from(selectedBenchmarks),
-      });
+      // Navigate to comparison view with selected items as URL params
+      const reportIds = Array.from(selectedReports).join(",");
+      const benchmarkIds = Array.from(selectedBenchmarks).join(",");
+      const params = new URLSearchParams();
+      if (reportIds) params.set("reports", reportIds);
+      if (benchmarkIds) params.set("benchmarks", benchmarkIds);
+      navigate(`/show-comparison?${params.toString()}`);
     }
   };
 
