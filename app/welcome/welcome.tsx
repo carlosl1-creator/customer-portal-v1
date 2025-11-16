@@ -3,15 +3,21 @@ import logoLight from "./logo-light.svg";
 import { Button } from "~/components/button/button";
 import { ArrowUpRightIcon, ListIcon } from "~/components/icons/icons";
 
-export function Welcome() {
+export interface WelcomeProps {
+  onAction?: () => void;
+}
+
+export function Welcome({ onAction }: WelcomeProps) {
   const handleOpenFirstReport = () => {
     // Handle open first report action
     console.log("Open First Report clicked");
+    onAction?.();
   };
 
   const handleExploreDashboard = () => {
     // Handle explore dashboard action
     console.log("Explore Dashboard clicked");
+    onAction?.();
   };
 
   return (

@@ -41,22 +41,26 @@ export function Modal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* Backdrop with blur */}
+    <>
+      {/* Backdrop with blur - covers entire screen including navbar */}
       <div
-        className="absolute inset-0 bg-[rgba(0,0,0,0.24)] backdrop-blur-sm backdrop-filter"
+        className="fixed inset-0 z-[9998] bg-[rgba(0,0,0,0.24)] backdrop-blur-lg backdrop-filter"
         onClick={onClose}
         aria-hidden="true"
+        style={{ WebkitBackdropFilter: "blur(16px)" }}
       />
+      
+      {/* Modal Container */}
+      <div className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none">
 
-      {/* Modal Content */}
-      <div
-        className={`relative bg-white rounded-[14px] flex flex-col max-h-[90vh] w-full max-w-[90vw] overflow-hidden ${className}`}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-title"
-        aria-describedby={description ? "modal-description" : undefined}
-      >
+        {/* Modal Content */}
+        <div
+          className={`relative bg-white rounded-[14px] flex flex-col max-h-[90vh] w-full max-w-[90vw] overflow-hidden pointer-events-auto ${className}`}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+          aria-describedby={description ? "modal-description" : undefined}
+        >
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -84,12 +88,13 @@ export function Modal({
           )}
         </div>
 
-        {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto px-12 py-6">
-          {children}
+          {/* Scrollable Content */}
+          <div className="flex-1 overflow-y-auto px-12 py-6">
+            {children}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
