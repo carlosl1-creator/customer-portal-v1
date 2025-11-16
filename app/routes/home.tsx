@@ -1,5 +1,6 @@
 import type { Route } from "./+types/home";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { Welcome } from "../welcome/welcome";
 import { Dashboard } from "~/components/dashboard/dashboard";
 
@@ -11,6 +12,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const navigate = useNavigate();
   const [isFirstLogin, setIsFirstLogin] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -39,7 +41,7 @@ export default function Home() {
   return (
     <Dashboard
       onCreateReport={() => console.log("Create Report clicked")}
-      onCompareReports={() => console.log("Compare Reports clicked")}
+      onCompareReports={() => navigate("/compare-reports")}
       onReportClick={(report) => console.log("Report clicked:", report)}
     />
   );

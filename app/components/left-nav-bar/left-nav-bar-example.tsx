@@ -29,7 +29,7 @@ export function LeftNavBarExample() {
       id: "report-comparison",
       label: "Report Comparison",
       icon: <CompareIcon stroke="currentColor" />,
-      path: "/report-comparison",
+      path: "/compare-reports",
     },
     {
       id: "policy-manager",
