@@ -1,4 +1,5 @@
 import type { Route } from "./+types/show-comparison";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { HeaderSection } from "~/components/header-section/header-section";
 import type { SelectableReport } from "~/components/selectable-reports-table/selectable-reports-table";
@@ -18,6 +19,8 @@ import { ComparisonTable } from "~/components/comparison-table/comparison-table"
 import { FilterBar } from "~/components/filter-bar/filter-bar";
 import { MaximizeIcon } from "~/components/icons/icons";
 import { BubbleChart } from "~/components/bubble-chart/bubble-chart";
+import { Modal } from "~/components/modal/modal";
+import { CasesCard } from "~/components/cases-card/cases-card";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -34,6 +37,9 @@ interface ComparisonState {
 export default function ShowComparison() {
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // Modal state management
+  const [openModal, setOpenModal] = useState<string | null>(null);
 
   // Get selected items from location state
   const state = location.state as ComparisonState | null;
@@ -184,7 +190,7 @@ export default function ShowComparison() {
           <div className="col-span-1">
             <div className="bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 relative">
               <button
-                onClick={() => console.log("Maximize clicked")}
+                onClick={() => setOpenModal("totalCases")}
                 className="absolute right-4 top-4 p-2 rounded-lg hover:opacity-80 transition-opacity"
               >
                 <MaximizeIcon className="w-5 h-5" stroke="#535862" />
@@ -238,6 +244,12 @@ export default function ShowComparison() {
         <div className="grid grid-cols-2 gap-6 mb-8">
           {/* Pillar I Score with Comparison */}
           <div className="bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 relative">
+            <button
+              onClick={() => setOpenModal("pillarI")}
+              className="absolute right-4 top-4 p-2 rounded-lg hover:opacity-80 transition-opacity"
+            >
+              <MaximizeIcon className="w-5 h-5" stroke="#535862" />
+            </button>
             <div className="flex flex-col gap-1">
               <p className="font-medium text-[16px] leading-[24px] text-[#181d27]">
                 Pillar I Score
@@ -307,6 +319,12 @@ export default function ShowComparison() {
 
           {/* Pillar II Score with Comparison */}
           <div className="bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 relative">
+            <button
+              onClick={() => setOpenModal("pillarII")}
+              className="absolute right-4 top-4 p-2 rounded-lg hover:opacity-80 transition-opacity"
+            >
+              <MaximizeIcon className="w-5 h-5" stroke="#535862" />
+            </button>
             <div className="flex flex-col gap-1">
               <p className="font-medium text-[16px] leading-[24px] text-[#181d27]">
                 Pillar II Score
@@ -408,6 +426,7 @@ export default function ShowComparison() {
                 ],
               },
             ]}
+            onMaximizeClick={() => setOpenModal("foundVulnerabilities")}
           />
           <ConversationalStatisticsCard
             title="Conversation Statistics"
@@ -432,9 +451,216 @@ export default function ShowComparison() {
               { x: 240, y: 0.2 },
               { x: 300, y: 0.1 },
             ]}
+            onMaximizeClick={() => setOpenModal("conversationalStatistics")}
           />
         </div>
       </div>
+
+      {/* Modals */}
+      {/* Total Cases Modal */}
+      <Modal
+        isOpen={openModal === "totalCases"}
+        onClose={() => setOpenModal(null)}
+        title="Total Cases"
+        description="Number of total generated cases"
+      >
+        <CasesCard
+          title="Total Cases"
+          subtitle="Number of total generated cases"
+          totalCases={1576}
+          scenarios={[
+            { label: "Violence", percentage: 48, color: "#B2DDFF" },
+            { label: "Hate Speech", percentage: 29, color: "#A6F4C5" },
+            { label: "Others", percentage: 16, color: "#FECDD6" },
+          ]}
+        />
+      </Modal>
+
+      {/* Pillar I Score Modal */}
+      <Modal
+        isOpen={openModal === "pillarI"}
+        onClose={() => setOpenModal(null)}
+        title="Pillar I Score"
+        description="Aggregated score across safety, security, and fraud."
+      >
+        <div className="flex flex-col gap-6">
+          <div className="flex gap-9 items-end">
+            {/* Model 1 Score */}
+            <div className="flex flex-col gap-2.5 items-start">
+              <div className="flex gap-4 items-end">
+                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                  4.1
+                </p>
+                <div className="bg-[#d1fadf] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#039855">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </div>
+              </div>
+              <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                {model1Name}
+              </p>
+            </div>
+            {/* Model 2 Score */}
+            <div className="flex flex-col gap-2.5 items-start">
+              <div className="flex gap-4 items-end">
+                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                  3.8
+                </p>
+                <div className="bg-[#fef0c7] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#dc6803">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                  </svg>
+                </div>
+              </div>
+              <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                {model2Name}
+              </p>
+            </div>
+          </div>
+          <PillarScoreCard
+            title="Pillar I Score"
+            subtitle="Aggregated score across safety, security, and fraud."
+            score={4.1}
+            status="success"
+            barData={[
+              { label: "Your Model", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+              { label: "SomeAI Model-5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
+              { label: "Other Model 4.5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+            ]}
+          />
+        </div>
+      </Modal>
+
+      {/* Pillar II Score Modal */}
+      <Modal
+        isOpen={openModal === "pillarII"}
+        onClose={() => setOpenModal(null)}
+        title="Pillar II Score"
+        description="Focused score on brand value and correctness"
+      >
+        <div className="flex flex-col gap-6">
+          <div className="flex gap-9 items-end">
+            {/* Model 1 Score */}
+            <div className="flex flex-col gap-2.5 items-start">
+              <div className="flex gap-4 items-end">
+                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                  3.2
+                </p>
+                <div className="bg-[#fef0c7] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#dc6803">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                  </svg>
+                </div>
+              </div>
+              <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                {model1Name}
+              </p>
+            </div>
+            {/* Model 2 Score */}
+            <div className="flex flex-col gap-2.5 items-start">
+              <div className="flex gap-4 items-end">
+                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                  4.2
+                </p>
+                <div className="bg-[#d1fadf] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#039855">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </div>
+              </div>
+              <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                {model2Name}
+              </p>
+            </div>
+          </div>
+          <PillarScoreCard
+            title="Pillar II Score"
+            subtitle="Focused score on brand value and correctness"
+            score={3.2}
+            status="warning"
+            barData={[
+              { label: "Your Model", value: 72, color: "#FEDF89", borderColor: "#DC6803" },
+              { label: "SomeAI Model-5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+              { label: "Other Model 4.5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
+            ]}
+          />
+        </div>
+      </Modal>
+
+      {/* Found Vulnerabilities Modal */}
+      <Modal
+        isOpen={openModal === "foundVulnerabilities"}
+        onClose={() => setOpenModal(null)}
+        title="Vulnerabilities Found"
+        description="Overall rate of successful attacks across all test cases."
+      >
+        <FoundVulnerabilitiesCard
+          title="Vulnerabilities Found"
+          subtitle="Overall rate of successful attacks across all test cases."
+          identifiedCount={91}
+          unweightedASR={8.2}
+          weightedASR={9.1}
+          status="warning"
+          radarData={[
+            {
+              label: model1Name,
+              color: "#B2DDFF",
+              data: [
+                { label: "Violence", value: 75 },
+                { label: "Self-Harm", value: 60 },
+                { label: "Hate Speech", value: 85 },
+                { label: "Illegal Activities", value: 70 },
+                { label: "Others", value: 65 },
+              ],
+            },
+            {
+              label: model2Name,
+              color: "#A6F4C5",
+              data: [
+                { label: "Violence", value: 90 },
+                { label: "Self-Harm", value: 85 },
+                { label: "Hate Speech", value: 95 },
+                { label: "Illegal Activities", value: 88 },
+                { label: "Others", value: 80 },
+              ],
+            },
+          ]}
+        />
+      </Modal>
+
+      {/* Conversational Statistics Modal */}
+      <Modal
+        isOpen={openModal === "conversationalStatistics"}
+        onClose={() => setOpenModal(null)}
+        title="Conversation Statistics"
+        description="Average number of turns and length of each turn."
+      >
+        <ConversationalStatisticsCard
+          title="Conversation Statistics"
+          subtitle="Average number of turns and length of each turn."
+          avgChatLength={4.73}
+          avgMessageLength={203.1}
+          chatLengthStatus="success"
+          messageLengthStatus="success"
+          chatLengthChartData={[
+            { x: 0, y: 0.2 },
+            { x: 1, y: 0.4 },
+            { x: 2, y: 0.6 },
+            { x: 3, y: 0.5 },
+            { x: 4, y: 0.3 },
+            { x: 5, y: 0.1 },
+          ]}
+          messageLengthChartData={[
+            { x: 0, y: 0.1 },
+            { x: 60, y: 0.3 },
+            { x: 120, y: 0.5 },
+            { x: 180, y: 0.4 },
+            { x: 240, y: 0.2 },
+            { x: 300, y: 0.1 },
+          ]}
+        />
+      </Modal>
     </div>
   );
 }
