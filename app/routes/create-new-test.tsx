@@ -1,10 +1,13 @@
 import type { Route } from "./+types/create-new-test";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { HeaderSection } from "~/components/header-section/header-section";
 import { Select, type SelectOption } from "~/components/select/select";
 import { CategoriesTable, type Category, type Priority } from "~/components/categories-table/categories-table";
 import { SuggestionsCard, type Suggestion } from "~/components/suggestions-card/suggestions-card";
-import { ArrowUpRightIcon } from "~/components/icons/icons";
+import { LoadingHeader } from "~/components/loading-header/loading-header";
+import { LoadingStepCard, type LoadingStep, type StepStatus } from "~/components/loading-step-card/loading-step-card";
+import { ArrowUpRightIcon, ChevronLeftIcon } from "~/components/icons/icons";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -13,10 +16,14 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
+type LoadingState = "idle" | "curating" | "executing" | "collecting" | "completed";
+
 export default function CreateNewTest() {
+  const navigate = useNavigate();
   const [chatbotVersion, setChatbotVersion] = useState<string>("retail-1.5");
   const [policyVersion, setPolicyVersion] = useState<string>("");
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set());
+  const [loadingState, setLoadingState] = useState<LoadingState>("idle");
 
   // Mock data for dropdowns
   const chatbotOptions: SelectOption[] = [
@@ -118,10 +125,117 @@ export default function CreateNewTest() {
       policyVersion,
       selectedCategories: Array.from(selectedCategories),
     });
-    // TODO: Navigate to test creation or show success message
+    setLoadingState("curating");
   };
 
+  const handleBackToHome = () => {
+    navigate("/");
+  };
+
+  // Handle loading state transitions
+  useEffect(() => {
+    if (loadingState === "curating") {
+      const timer = setTimeout(() => {
+        setLoadingState("executing");
+      }, 5000);
+      return () => clearTimeout(timer);
+    } else if (loadingState === "executing") {
+      const timer = setTimeout(() => {
+        setLoadingState("collecting");
+      }, 5000);
+      return () => clearTimeout(timer);
+    } else if (loadingState === "collecting") {
+      const timer = setTimeout(() => {
+        setLoadingState("completed");
+      }, 5000);
+      return () => clearTimeout(timer);
+    } else if (loadingState === "completed") {
+      const timer = setTimeout(() => {
+        setLoadingState("idle");
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [loadingState]);
+
+  const getStepStatus = (stepName: string): StepStatus => {
+    if (loadingState === "idle" || loadingState === "completed") {
+      return "pending";
+    }
+    if (stepName === "curating") {
+      return loadingState === "curating" ? "in-progress" : "completed";
+    }
+    if (stepName === "executing") {
+      if (loadingState === "curating") return "pending";
+      return loadingState === "executing" ? "in-progress" : "completed";
+    }
+    if (stepName === "collecting") {
+      if (loadingState === "curating" || loadingState === "executing") return "pending";
+      return loadingState === "collecting" ? "in-progress" : "completed";
+    }
+    return "pending";
+  };
+
+  const loadingSteps: LoadingStep[] = [
+    {
+      title: "Curating Relevant Tests",
+      description: "Identifying the most relevant test cases according to your settings",
+      status: getStepStatus("curating"),
+    },
+    {
+      title: "Executing Test Cases",
+      description: "Running curated test cases in parallel to stress-test your model",
+      status: getStepStatus("executing"),
+    },
+    {
+      title: "Collecting Data",
+      description: "Finalizing your report and adding final touches",
+      status: getStepStatus("collecting"),
+    },
+  ];
+
   const canCreateTest = chatbotVersion !== "" && policyVersion !== "" && selectedCategories.size > 0;
+
+  // Show loading screen
+  if (loadingState !== "idle" && loadingState !== "completed") {
+    return (
+      <div className="w-full px-10 relative">
+        {/* Gradient Background */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute bg-gradient-to-b blur-[100px] filter from-[rgba(24,75,255,0)] opacity-10 to-[#174aff] h-[559px] left-[227px] top-[-76px] w-[394px]" />
+        </div>
+
+        {/* Main Content */}
+        <div className="px-16 pb-12 pt-10 relative z-10">
+          <div className="flex flex-col gap-8 items-start">
+            {/* Loading Header */}
+            <LoadingHeader
+              title="Creating Your Test Report"
+              subtitle="Your report is being generated."
+            />
+
+            {/* Loading Steps Card */}
+            <div className="flex flex-col gap-9 items-start">
+              <LoadingStepCard steps={loadingSteps} className="w-[503px]" />
+
+              {/* Info Text and Back Button */}
+              <div className="flex flex-col gap-6 items-start">
+                <p className="font-normal leading-5 text-[#535862] text-sm">
+                  You will be notified when the report has been generated.
+                </p>
+                <button
+                  onClick={handleBackToHome}
+                  className="bg-white border border-[#d5d7da] rounded-lg flex gap-2 items-center justify-center px-5 py-3 hover:opacity-80 transition-opacity"
+                >
+                  <ChevronLeftIcon className="w-5 h-5" stroke="#414651" />
+                  <span className="font-semibold text-base leading-6 text-[#414651]">Back to Home Page</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full px-10 relative">
@@ -191,7 +305,7 @@ export default function CreateNewTest() {
                 disabled={!canCreateTest}
                 className={`box-border flex gap-2 items-center justify-center px-5 py-3 rounded-lg transition-colors ${
                   canCreateTest
-                    ? "bg-[#010] border border-[#535862] text-white hover:opacity-90 cursor-pointer"
+                    ? "bg-black border border-[#535862] text-white hover:opacity-90 cursor-pointer"
                     : "bg-gray-300 border border-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
               >
