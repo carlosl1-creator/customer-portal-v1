@@ -5,4 +5,5 @@ export default [
   route("pressure-test", "routes/pressure-test.tsx"),
   route("compare-reports", "routes/compare-reports.tsx"),
   route("show-comparison", "routes/show-comparison.tsx"),
+  route("create-new-test", "routes/create-new-test.tsx"),
 ] satisfies RouteConfig;
