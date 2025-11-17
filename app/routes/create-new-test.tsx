@@ -191,7 +191,7 @@ export default function CreateNewTest() {
                 disabled={!canCreateTest}
                 className={`box-border flex gap-2 items-center justify-center px-5 py-3 rounded-lg transition-colors ${
                   canCreateTest
-                    ? "bg-[#535862] border border-[#535862] text-white hover:opacity-90 cursor-pointer"
+                    ? "bg-[#010] border border-[#535862] text-white hover:opacity-90 cursor-pointer"
                     : "bg-gray-300 border border-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
               >
