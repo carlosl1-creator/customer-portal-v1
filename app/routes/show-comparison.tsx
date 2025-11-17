@@ -34,7 +34,7 @@ export default function ShowComparison() {
 
   // Mock data - in real app, fetch based on IDs
   const model1Name = "Acme Inc. Content Model 2.1";
-  const model2Name = benchmarkIds.length > 0 
+  const model2Name = benchmarkIds.length > 0
     ? "SomeAI Model-5" // If benchmark selected, use benchmark name
     : "Account Model 1.0"; // Otherwise use second report name
 
@@ -413,52 +413,6 @@ export default function ShowComparison() {
               { x: 300, y: 0.1 },
             ]}
           />
-        </div>
-
-        {/* Generated Attacks Section */}
-        <div className="flex flex-col gap-6">
-          <h2 className="font-medium text-[24px] leading-[32px] text-[#181d27]">
-            Generated Attacks
-          </h2>
-
-          {/* Filter Bar */}
-          <FilterBar
-            turnLengthOptions={[
-              { label: "Short", value: "short" },
-              { label: "Medium", value: "medium" },
-              { label: "Long", value: "long" },
-            ]}
-            categoryOptions={[
-              { label: "Violence", value: "violence" },
-              { label: "Self-Harm", value: "self-harm" },
-              { label: "Hate Speech", value: "hate-speech" },
-              { label: "Illegal Activities", value: "illegal" },
-              { label: "Others", value: "others" },
-            ]}
-            onTurnLengthChange={(value) => console.log("Turn length changed:", value)}
-            onCategoryChange={(value) => console.log("Category changed:", value)}
-            onSearchChange={(value) => console.log("Search changed:", value)}
-            onMoreFiltersClick={() => console.log("More filters clicked")}
-            className="mb-6"
-          />
-
-          {/* Comparison Tables */}
-          <div className="flex gap-6 items-start">
-            <div className="flex-1">
-              <ComparisonTable
-                title={model1Name}
-                cases={model1Cases}
-                onCaseClick={(caseItem) => console.log("Case clicked:", caseItem)}
-              />
-            </div>
-            <div className="flex-1">
-              <ComparisonTable
-                title={model2Name}
-                cases={model2Cases}
-                onCaseClick={(caseItem) => console.log("Case clicked:", caseItem)}
-              />
-            </div>
-          </div>
         </div>
       </div>
     </div>
