@@ -91,6 +91,94 @@ export default function ShowComparison() {
     navigate("/compare-reports");
   };
 
+  // Extract card data to avoid duplication
+  const totalCasesData = {
+    totalCases: 1576,
+    scenarios: [
+      { label: "Violence", percentage: 48, color: "#B2DDFF" },
+      { label: "Hate Speech", percentage: 29, color: "#A6F4C5" },
+      { label: "Others", percentage: 16, color: "#FECDD6" },
+    ],
+  };
+
+  const pillarIData = {
+    model1Score: 4.1,
+    model1Status: "success" as "success" | "warning",
+    model2Score: 3.8,
+    model2Status: "warning" as "success" | "warning",
+    barData: [
+      { label: "Your Model", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+      { label: "SomeAI Model-5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
+      { label: "Other Model 4.5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+    ],
+  };
+
+  const pillarIIData = {
+    model1Score: 3.2,
+    model1Status: "warning" as "success" | "warning",
+    model2Score: 4.2,
+    model2Status: "success" as "success" | "warning",
+    barData: [
+      { label: "Your Model", value: 72, color: "#FEDF89", borderColor: "#DC6803" },
+      { label: "SomeAI Model-5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
+      { label: "Other Model 4.5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
+    ],
+  };
+
+  const vulnerabilitiesData = {
+    identifiedCount: 91,
+    unweightedASR: 8.2,
+    weightedASR: 9.1,
+    status: "warning" as "success" | "warning",
+    radarData: [
+      {
+        label: model1Name,
+        color: "#B2DDFF",
+        data: [
+          { label: "Violence", value: 75 },
+          { label: "Self-Harm", value: 60 },
+          { label: "Hate Speech", value: 85 },
+          { label: "Illegal Activities", value: 70 },
+          { label: "Others", value: 65 },
+        ],
+      },
+      {
+        label: model2Name,
+        color: "#A6F4C5",
+        data: [
+          { label: "Violence", value: 90 },
+          { label: "Self-Harm", value: 85 },
+          { label: "Hate Speech", value: 95 },
+          { label: "Illegal Activities", value: 88 },
+          { label: "Others", value: 80 },
+        ],
+      },
+    ],
+  };
+
+  const conversationalStatsData = {
+    avgChatLength: 4.73,
+    avgMessageLength: 203.1,
+    chatLengthStatus: "success" as "success" | "warning",
+    messageLengthStatus: "success" as "success" | "warning",
+    chatLengthChartData: [
+      { x: 0, y: 0.2 },
+      { x: 1, y: 0.4 },
+      { x: 2, y: 0.6 },
+      { x: 3, y: 0.5 },
+      { x: 4, y: 0.3 },
+      { x: 5, y: 0.1 },
+    ],
+    messageLengthChartData: [
+      { x: 0, y: 0.1 },
+      { x: 60, y: 0.3 },
+      { x: 120, y: 0.5 },
+      { x: 180, y: 0.4 },
+      { x: 240, y: 0.2 },
+      { x: 300, y: 0.1 },
+    ],
+  };
+
   // Mock comparison data
   const model1Cases: Array<{ caseId: string; category: string; riskFactor: number; turnLength: { turns: number; chars: number } }> = [
     { caseId: "#37", category: "Violence", riskFactor: 16, turnLength: { turns: 5, chars: 184 } },
@@ -206,7 +294,7 @@ export default function ShowComparison() {
               <div className="flex gap-4 items-center justify-center">
                 <div className="flex flex-col gap-2">
                   <p className="font-medium text-[36px] leading-[44px] text-[#181d27] tracking-[-0.72px]">
-                    1,576
+                    {totalCasesData.totalCases.toLocaleString()}
                   </p>
                   <p className="font-normal text-[14px] leading-[20px] text-[#535862]">
                     Generated
@@ -214,25 +302,15 @@ export default function ShowComparison() {
                 </div>
                 <div className="flex-1 flex flex-col gap-4 items-end justify-center">
                   <BubbleChart
-                    bubbles={[
-                      { percentage: 48, color: "#B2DDFF" },
-                      { percentage: 29, color: "#A6F4C5" },
-                      { percentage: 16, color: "#FECDD6" },
-                    ]}
+                    bubbles={totalCasesData.scenarios.map(s => ({ percentage: s.percentage, color: s.color }))}
                   />
                   <div className="flex flex-col gap-0.5 items-end">
-                    <div className="flex gap-1 items-center">
-                      <div className="w-4 h-4 rounded-full" style={{ backgroundColor: "#B2DDFF" }} />
-                      <p className="font-normal text-[12px] leading-[18px] text-[#535862]">Violence</p>
-                    </div>
-                    <div className="flex gap-1 items-center">
-                      <div className="w-4 h-4 rounded-full" style={{ backgroundColor: "#A6F4C5" }} />
-                      <p className="font-normal text-[12px] leading-[18px] text-[#535862]">Hate Speech</p>
-                    </div>
-                    <div className="flex gap-1 items-center">
-                      <div className="w-4 h-4 rounded-full" style={{ backgroundColor: "#FECDD6" }} />
-                      <p className="font-normal text-[12px] leading-[18px] text-[#535862]">Others</p>
-                    </div>
+                    {totalCasesData.scenarios.map((scenario) => (
+                      <div key={scenario.label} className="flex gap-1 items-center">
+                        <div className="w-4 h-4 rounded-full" style={{ backgroundColor: scenario.color }} />
+                        <p className="font-normal text-[12px] leading-[18px] text-[#535862]">{scenario.label}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -263,47 +341,68 @@ export default function ShowComparison() {
               <div className="flex flex-col gap-2.5 items-start">
                 <div className="flex gap-4 items-end">
                   <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
-                    4.1
+                    {pillarIData.model1Score}
                   </p>
-                  <div className="bg-[#d1fadf] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#039855">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
+                    pillarIData.model1Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
+                  }`}>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIData.model1Status === "success" ? "#039855" : "#dc6803"}>
+                      {pillarIData.model1Status === "success" ? (
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      ) : (
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                      )}
                     </svg>
                   </div>
                 </div>
                 <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
-                  Acme Inc.
+                  {model1Name}
                 </p>
               </div>
               {/* Model 2 Score */}
               <div className="flex flex-col gap-2.5 items-start">
                 <div className="flex gap-4 items-end">
                   <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
-                    3.8
+                    {pillarIData.model2Score}
                   </p>
-                  <div className="bg-[#fef0c7] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#dc6803">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
+                    pillarIData.model2Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
+                  }`}>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIData.model2Status === "success" ? "#039855" : "#dc6803"}>
+                      {pillarIData.model2Status === "success" ? (
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      ) : (
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                      )}
                     </svg>
                   </div>
                 </div>
                 <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
-                  SomeAI
+                  {model2Name}
                 </p>
               </div>
               {/* Bar Chart */}
               <div className="flex flex-1 gap-4 items-end relative">
                 <div className="flex flex-col gap-2.5 justify-center">
-                  <p className="font-normal text-[12px] leading-[18px] text-[#535862]">Your Model</p>
-                  <p className="font-normal text-[12px] leading-[18px] text-[#535862]">SomeAI Model-5</p>
-                  <div className="h-[22px]" />
-                  <p className="font-normal text-[12px] leading-[18px] text-[#535862]">Other Model 4.5</p>
+                  {pillarIData.barData.map((bar) => (
+                    <p key={bar.label} className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                      {bar.label}
+                    </p>
+                  ))}
                 </div>
                 <div className="flex flex-col gap-2.5 items-start relative">
-                  <div className="bg-[#b2ddff] border border-[#1570ef] h-3 opacity-80 w-[67px]" />
-                  <div className="bg-[#a6f4c5] border border-[#039855] h-[13px] opacity-80 w-[75px]" />
-                  <div className="h-[22px]" />
-                  <div className="bg-[#a6f4c5] border border-[#039855] h-[13px] opacity-80 w-[67px]" />
+                  {pillarIData.barData.map((bar, index) => (
+                    <div
+                      key={bar.label}
+                      className="opacity-80"
+                      style={{
+                        height: index === 1 ? "13px" : "12px",
+                        width: `${bar.value}px`,
+                        backgroundColor: bar.color,
+                        border: `1px solid ${bar.borderColor}`,
+                      }}
+                    />
+                  ))}
                   {/* X-axis line */}
                   <div className="absolute -bottom-5 left-0 right-0 h-px bg-[#e9eaeb]" />
                   {/* X-axis labels */}
@@ -338,47 +437,68 @@ export default function ShowComparison() {
               <div className="flex flex-col gap-2.5 items-start">
                 <div className="flex gap-4 items-end">
                   <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
-                    3.2
+                    {pillarIIData.model1Score}
                   </p>
-                  <div className="bg-[#fef0c7] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#dc6803">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
+                    pillarIIData.model1Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
+                  }`}>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIIData.model1Status === "success" ? "#039855" : "#dc6803"}>
+                      {pillarIIData.model1Status === "success" ? (
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      ) : (
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                      )}
                     </svg>
                   </div>
                 </div>
                 <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
-                  Acme Inc.
+                  {model1Name}
                 </p>
               </div>
               {/* Model 2 Score */}
               <div className="flex flex-col gap-2.5 items-start">
                 <div className="flex gap-4 items-end">
                   <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
-                    4.2
+                    {pillarIIData.model2Score}
                   </p>
-                  <div className="bg-[#d1fadf] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#039855">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
+                    pillarIIData.model2Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
+                  }`}>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIIData.model2Status === "success" ? "#039855" : "#dc6803"}>
+                      {pillarIIData.model2Status === "success" ? (
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                      ) : (
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                      )}
                     </svg>
                   </div>
                 </div>
                 <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
-                  SomeAI
+                  {model2Name}
                 </p>
               </div>
               {/* Bar Chart */}
               <div className="flex flex-1 gap-4 items-end relative">
                 <div className="flex flex-col gap-2.5 justify-center">
-                  <p className="font-normal text-[12px] leading-[18px] text-[#535862]">Your Model</p>
-                  <p className="font-normal text-[12px] leading-[18px] text-[#535862]">SomeAI Model-5</p>
-                  <div className="h-[22px]" />
-                  <p className="font-normal text-[12px] leading-[18px] text-[#535862]">Other Model 4.5</p>
+                  {pillarIIData.barData.map((bar) => (
+                    <p key={bar.label} className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                      {bar.label}
+                    </p>
+                  ))}
                 </div>
                 <div className="flex flex-col gap-2.5 items-start relative">
-                  <div className="bg-[#b2ddff] border border-[#1570ef] h-3 opacity-80 w-[67px]" />
-                  <div className="bg-[#a6f4c5] border border-[#039855] h-[13px] opacity-80 w-[75px]" />
-                  <div className="h-[22px]" />
-                  <div className="bg-[#a6f4c5] border border-[#039855] h-[13px] opacity-80 w-[67px]" />
+                  {pillarIIData.barData.map((bar, index) => (
+                    <div
+                      key={bar.label}
+                      className="opacity-80"
+                      style={{
+                        height: index === 1 ? "13px" : "12px",
+                        width: `${bar.value}px`,
+                        backgroundColor: bar.color,
+                        border: `1px solid ${bar.borderColor}`,
+                      }}
+                    />
+                  ))}
                   {/* X-axis line */}
                   <div className="absolute -bottom-5 left-0 right-0 h-px bg-[#e9eaeb]" />
                   {/* X-axis labels */}
@@ -398,59 +518,22 @@ export default function ShowComparison() {
           <FoundVulnerabilitiesCard
             title="Vulnerabilities Found"
             subtitle="Overall rate of successful attacks across all test cases."
-            identifiedCount={91}
-            unweightedASR={8.2}
-            weightedASR={9.1}
-            status="warning"
-            radarData={[
-              {
-                label: "Acme Inc.",
-                color: "#B2DDFF",
-                data: [
-                  { label: "Violence", value: 75 },
-                  { label: "Self-Harm", value: 60 },
-                  { label: "Hate Speech", value: 85 },
-                  { label: "Illegal Activities", value: 70 },
-                  { label: "Others", value: 65 },
-                ],
-              },
-              {
-                label: "SomeAI",
-                color: "#A6F4C5",
-                data: [
-                  { label: "Violence", value: 90 },
-                  { label: "Self-Harm", value: 85 },
-                  { label: "Hate Speech", value: 95 },
-                  { label: "Illegal Activities", value: 88 },
-                  { label: "Others", value: 80 },
-                ],
-              },
-            ]}
+            identifiedCount={vulnerabilitiesData.identifiedCount}
+            unweightedASR={vulnerabilitiesData.unweightedASR}
+            weightedASR={vulnerabilitiesData.weightedASR}
+            status={vulnerabilitiesData.status}
+            radarData={vulnerabilitiesData.radarData}
             onMaximizeClick={() => setOpenModal("foundVulnerabilities")}
           />
           <ConversationalStatisticsCard
             title="Conversation Statistics"
             subtitle="Average number of turns and length of each turn."
-            avgChatLength={4.73}
-            avgMessageLength={203.1}
-            chatLengthStatus="success"
-            messageLengthStatus="success"
-            chatLengthChartData={[
-              { x: 0, y: 0.2 },
-              { x: 1, y: 0.4 },
-              { x: 2, y: 0.6 },
-              { x: 3, y: 0.5 },
-              { x: 4, y: 0.3 },
-              { x: 5, y: 0.1 },
-            ]}
-            messageLengthChartData={[
-              { x: 0, y: 0.1 },
-              { x: 60, y: 0.3 },
-              { x: 120, y: 0.5 },
-              { x: 180, y: 0.4 },
-              { x: 240, y: 0.2 },
-              { x: 300, y: 0.1 },
-            ]}
+            avgChatLength={conversationalStatsData.avgChatLength}
+            avgMessageLength={conversationalStatsData.avgMessageLength}
+            chatLengthStatus={conversationalStatsData.chatLengthStatus}
+            messageLengthStatus={conversationalStatsData.messageLengthStatus}
+            chatLengthChartData={conversationalStatsData.chatLengthChartData}
+            messageLengthChartData={conversationalStatsData.messageLengthChartData}
             onMaximizeClick={() => setOpenModal("conversationalStatistics")}
           />
         </div>
@@ -467,12 +550,8 @@ export default function ShowComparison() {
         <CasesCard
           title="Total Cases"
           subtitle="Number of total generated cases"
-          totalCases={1576}
-          scenarios={[
-            { label: "Violence", percentage: 48, color: "#B2DDFF" },
-            { label: "Hate Speech", percentage: 29, color: "#A6F4C5" },
-            { label: "Others", percentage: 16, color: "#FECDD6" },
-          ]}
+          totalCases={totalCasesData.totalCases}
+          scenarios={totalCasesData.scenarios}
         />
       </Modal>
 
@@ -489,11 +568,17 @@ export default function ShowComparison() {
             <div className="flex flex-col gap-2.5 items-start">
               <div className="flex gap-4 items-end">
                 <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
-                  4.1
+                  {pillarIData.model1Score}
                 </p>
-                <div className="bg-[#d1fadf] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#039855">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
+                  pillarIData.model1Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
+                }`}>
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIData.model1Status === "success" ? "#039855" : "#dc6803"}>
+                    {pillarIData.model1Status === "success" ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    )}
                   </svg>
                 </div>
               </div>
@@ -505,11 +590,17 @@ export default function ShowComparison() {
             <div className="flex flex-col gap-2.5 items-start">
               <div className="flex gap-4 items-end">
                 <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
-                  3.8
+                  {pillarIData.model2Score}
                 </p>
-                <div className="bg-[#fef0c7] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#dc6803">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
+                  pillarIData.model2Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
+                }`}>
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIData.model2Status === "success" ? "#039855" : "#dc6803"}>
+                    {pillarIData.model2Status === "success" ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    )}
                   </svg>
                 </div>
               </div>
@@ -521,13 +612,9 @@ export default function ShowComparison() {
           <PillarScoreCard
             title="Pillar I Score"
             subtitle="Aggregated score across safety, security, and fraud."
-            score={4.1}
-            status="success"
-            barData={[
-              { label: "Your Model", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
-              { label: "SomeAI Model-5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
-              { label: "Other Model 4.5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
-            ]}
+            score={pillarIData.model1Score}
+            status={pillarIData.model1Status}
+            barData={pillarIData.barData}
           />
         </div>
       </Modal>
@@ -545,11 +632,17 @@ export default function ShowComparison() {
             <div className="flex flex-col gap-2.5 items-start">
               <div className="flex gap-4 items-end">
                 <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
-                  3.2
+                  {pillarIIData.model1Score}
                 </p>
-                <div className="bg-[#fef0c7] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#dc6803">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
+                  pillarIIData.model1Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
+                }`}>
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIIData.model1Status === "success" ? "#039855" : "#dc6803"}>
+                    {pillarIIData.model1Status === "success" ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    )}
                   </svg>
                 </div>
               </div>
@@ -561,11 +654,17 @@ export default function ShowComparison() {
             <div className="flex flex-col gap-2.5 items-start">
               <div className="flex gap-4 items-end">
                 <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
-                  4.2
+                  {pillarIIData.model2Score}
                 </p>
-                <div className="bg-[#d1fadf] rounded-[12px] w-6 h-6 flex items-center justify-center mb-2">
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="#039855">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
+                  pillarIIData.model2Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
+                }`}>
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIIData.model2Status === "success" ? "#039855" : "#dc6803"}>
+                    {pillarIIData.model2Status === "success" ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    )}
                   </svg>
                 </div>
               </div>
@@ -577,13 +676,9 @@ export default function ShowComparison() {
           <PillarScoreCard
             title="Pillar II Score"
             subtitle="Focused score on brand value and correctness"
-            score={3.2}
-            status="warning"
-            barData={[
-              { label: "Your Model", value: 72, color: "#FEDF89", borderColor: "#DC6803" },
-              { label: "SomeAI Model-5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
-              { label: "Other Model 4.5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
-            ]}
+            score={pillarIIData.model1Score}
+            status={pillarIIData.model1Status}
+            barData={pillarIIData.barData}
           />
         </div>
       </Modal>
@@ -598,34 +693,11 @@ export default function ShowComparison() {
         <FoundVulnerabilitiesCard
           title="Vulnerabilities Found"
           subtitle="Overall rate of successful attacks across all test cases."
-          identifiedCount={91}
-          unweightedASR={8.2}
-          weightedASR={9.1}
-          status="warning"
-          radarData={[
-            {
-              label: model1Name,
-              color: "#B2DDFF",
-              data: [
-                { label: "Violence", value: 75 },
-                { label: "Self-Harm", value: 60 },
-                { label: "Hate Speech", value: 85 },
-                { label: "Illegal Activities", value: 70 },
-                { label: "Others", value: 65 },
-              ],
-            },
-            {
-              label: model2Name,
-              color: "#A6F4C5",
-              data: [
-                { label: "Violence", value: 90 },
-                { label: "Self-Harm", value: 85 },
-                { label: "Hate Speech", value: 95 },
-                { label: "Illegal Activities", value: 88 },
-                { label: "Others", value: 80 },
-              ],
-            },
-          ]}
+          identifiedCount={vulnerabilitiesData.identifiedCount}
+          unweightedASR={vulnerabilitiesData.unweightedASR}
+          weightedASR={vulnerabilitiesData.weightedASR}
+          status={vulnerabilitiesData.status}
+          radarData={vulnerabilitiesData.radarData}
         />
       </Modal>
 
@@ -639,26 +711,12 @@ export default function ShowComparison() {
         <ConversationalStatisticsCard
           title="Conversation Statistics"
           subtitle="Average number of turns and length of each turn."
-          avgChatLength={4.73}
-          avgMessageLength={203.1}
-          chatLengthStatus="success"
-          messageLengthStatus="success"
-          chatLengthChartData={[
-            { x: 0, y: 0.2 },
-            { x: 1, y: 0.4 },
-            { x: 2, y: 0.6 },
-            { x: 3, y: 0.5 },
-            { x: 4, y: 0.3 },
-            { x: 5, y: 0.1 },
-          ]}
-          messageLengthChartData={[
-            { x: 0, y: 0.1 },
-            { x: 60, y: 0.3 },
-            { x: 120, y: 0.5 },
-            { x: 180, y: 0.4 },
-            { x: 240, y: 0.2 },
-            { x: 300, y: 0.1 },
-          ]}
+          avgChatLength={conversationalStatsData.avgChatLength}
+          avgMessageLength={conversationalStatsData.avgMessageLength}
+          chatLengthStatus={conversationalStatsData.chatLengthStatus}
+          messageLengthStatus={conversationalStatsData.messageLengthStatus}
+          chatLengthChartData={conversationalStatsData.chatLengthChartData}
+          messageLengthChartData={conversationalStatsData.messageLengthChartData}
         />
       </Modal>
     </div>
