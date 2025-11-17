@@ -125,13 +125,17 @@ export default function CompareReports() {
       (selectedReports.size === 1 && selectedBenchmarks.size === 1);
     
     if (isValid) {
-      // Navigate to comparison view with selected items as URL params
-      const reportIds = Array.from(selectedReports).join(",");
-      const benchmarkIds = Array.from(selectedBenchmarks).join(",");
-      const params = new URLSearchParams();
-      if (reportIds) params.set("reports", reportIds);
-      if (benchmarkIds) params.set("benchmarks", benchmarkIds);
-      navigate(`/show-comparison?${params.toString()}`);
+      // Find the selected reports and benchmarks from the mock data
+      const selectedReportObjects = mockReports.filter(report => selectedReports.has(report.id));
+      const selectedBenchmarkObjects = mockBenchmarks.filter(benchmark => selectedBenchmarks.has(benchmark.id));
+      
+      // Navigate to comparison view with selected items as state
+      navigate("/show-comparison", {
+        state: {
+          selectedReports: selectedReportObjects,
+          selectedBenchmarks: selectedBenchmarkObjects,
+        },
+      });
     }
   };
 

@@ -1,6 +1,8 @@
 import type { Route } from "./+types/show-comparison";
-import { useSearchParams, useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import { HeaderSection } from "~/components/header-section/header-section";
+import type { SelectableReport } from "~/components/selectable-reports-table/selectable-reports-table";
+import type { Benchmark } from "~/components/benchmarks-table/benchmarks-table";
 import {
   SlackIcon,
   JiraIcon,
@@ -24,19 +26,37 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
+interface ComparisonState {
+  selectedReports: SelectableReport[];
+  selectedBenchmarks: Benchmark[];
+}
+
 export default function ShowComparison() {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  // Get selected items from URL params
-  const reportIds = searchParams.get("reports")?.split(",") || [];
-  const benchmarkIds = searchParams.get("benchmarks")?.split(",") || [];
+  // Get selected items from location state
+  const state = location.state as ComparisonState | null;
+  const selectedReports = state?.selectedReports || [];
+  const selectedBenchmarks = state?.selectedBenchmarks || [];
 
-  // Mock data - in real app, fetch based on IDs
-  const model1Name = "Acme Inc. Content Model 2.1";
-  const model2Name = benchmarkIds.length > 0
-    ? "SomeAI Model-5" // If benchmark selected, use benchmark name
-    : "Account Model 1.0"; // Otherwise use second report name
+  // Determine model names based on selected items
+  let model1Name = "";
+  let model2Name = "";
+
+  if (selectedReports.length === 2 && selectedBenchmarks.length === 0) {
+    // Two reports selected
+    model1Name = selectedReports[0]?.botVersion || "";
+    model2Name = selectedReports[1]?.botVersion || "";
+  } else if (selectedReports.length === 1 && selectedBenchmarks.length === 1) {
+    // One report and one benchmark selected
+    model1Name = selectedReports[0]?.botVersion || "";
+    model2Name = selectedBenchmarks[0]?.bot || "";
+  } else {
+    // Fallback to default values if state is missing
+    model1Name = "Acme Inc. Content Model 2.1";
+    model2Name = "SomeAI Model-5";
+  }
 
   const comparisonTitle = `${model1Name} vs. ${model2Name}`;
   const generatedDate = "8/24/2025";
