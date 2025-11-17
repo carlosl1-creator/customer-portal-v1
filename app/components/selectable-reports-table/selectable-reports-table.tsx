@@ -163,7 +163,7 @@ export function SelectableReportsTable({
 
             return (
               <div
-                key={report.id}
+                key={`${report.id}-${index}`}
                 className={`${bgColor} flex items-start border-b border-[#e9eaeb] w-full`}
               >
                 {/* Checkbox */}

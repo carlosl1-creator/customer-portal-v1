@@ -126,8 +126,14 @@ export default function CompareReports() {
     
     if (isValid) {
       // Find the selected reports and benchmarks from the mock data
-      const selectedReportObjects = mockReports.filter(report => selectedReports.has(report.id));
-      const selectedBenchmarkObjects = mockBenchmarks.filter(benchmark => selectedBenchmarks.has(benchmark.id));
+      // If there are duplicate IDs, find() will return the first match
+      const selectedReportObjects = Array.from(selectedReports)
+        .map(id => mockReports.find(report => report.id === id))
+        .filter((report): report is SelectableReport => report !== undefined);
+      
+      const selectedBenchmarkObjects = Array.from(selectedBenchmarks)
+        .map(id => mockBenchmarks.find(benchmark => benchmark.id === id))
+        .filter((benchmark): benchmark is Benchmark => benchmark !== undefined);
       
       // Navigate to comparison view with selected items as state
       navigate("/show-comparison", {

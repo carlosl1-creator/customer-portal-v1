@@ -149,7 +149,7 @@ export function BenchmarksTable({
 
             return (
               <div
-                key={benchmark.id}
+                key={`${benchmark.id}-${index}`}
                 className={`${bgColor} flex items-start border-b border-[#e9eaeb] w-full`}
               >
                 {/* Checkbox */}
