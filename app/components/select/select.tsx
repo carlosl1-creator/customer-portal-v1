@@ -93,24 +93,44 @@ export function Select({
 
         {isOpen && (
           <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#e9eaeb] rounded-[8px] shadow-lg z-50 max-h-[240px] overflow-y-auto">
-            {options.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                onClick={() => handleSelect(option.value)}
-                className={`w-full px-[14px] py-[10px] text-left hover:bg-[#f5f5f5] transition-colors ${
-                  selectedValue === option.value ? "bg-[#eff8ff]" : ""
-                }`}
-              >
-                <p
-                  className={`font-normal leading-6 text-base ${
-                    selectedValue === option.value ? "text-[#1570ef]" : "text-[#181d27]"
+            {options.map((option) => {
+              const isSelected = selectedValue === option.value;
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => handleSelect(option.value)}
+                  className={`w-full px-[14px] py-[10px] text-left hover:bg-[#f5f5f5] transition-colors flex items-center gap-2 ${
+                    isSelected ? "bg-[#eff8ff]" : ""
                   }`}
                 >
-                  {option.label}
-                </p>
-              </button>
-            ))}
+                  <div className="w-4 h-4 shrink-0 flex items-center justify-center">
+                    {isSelected && (
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2.5}
+                        stroke="#1570ef"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M4.5 12.75l6 6 9-13.5"
+                        />
+                      </svg>
+                    )}
+                  </div>
+                  <p
+                    className={`font-normal leading-6 text-base flex-1 ${
+                      isSelected ? "text-[#1570ef]" : "text-[#181d27]"
+                    }`}
+                  >
+                    {option.label}
+                  </p>
+                </button>
+              );
+            })}
           </div>
         )}
       </div>

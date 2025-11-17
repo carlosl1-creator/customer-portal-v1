@@ -124,7 +124,12 @@ export default function CreateNewTest() {
   const canCreateTest = chatbotVersion !== "" && policyVersion !== "" && selectedCategories.size > 0;
 
   return (
-    <div className="w-full px-10">
+    <div className="w-full px-10 relative">
+      {/* Gradient Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute bg-gradient-to-b blur-[100px] filter from-[rgba(24,75,255,0)] opacity-10 to-[#174aff] h-[559px] left-[227px] top-[-76px] w-[394px]" />
+      </div>
+
       <HeaderSection
         pageName="CREATE NEW TEST"
         title="Create a New Test"
@@ -136,7 +141,7 @@ export default function CreateNewTest() {
       />
 
       {/* Main Content */}
-      <div className="px-10 pb-12 pt-10">
+      <div className="px-10 pb-12 pt-10 relative z-10">
         <div className="flex gap-12 items-start">
           {/* Left Column - Form */}
           <div className="flex flex-col gap-8 items-start relative shrink-0 flex-1 max-w-[800px]">

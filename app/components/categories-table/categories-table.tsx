@@ -77,7 +77,7 @@ export function CategoriesTable({
                 >
                   {allSelected && (
                     <div className="overflow-hidden relative rounded-[inherit] size-5">
-                      <div className="absolute inset-[15%] overflow-hidden">
+                      <div className="absolute inset-[1%] overflow-hidden">
                         <svg
                           className="absolute bottom-[29.17%] left-[16.67%] right-[16.67%] top-1/4 w-3 h-3"
                           fill="none"
@@ -133,7 +133,7 @@ export function CategoriesTable({
                     >
                       {isSelected && (
                         <div className="overflow-hidden relative rounded-[inherit] size-5">
-                          <div className="absolute inset-[15%] overflow-hidden">
+                          <div className="absolute inset-[1%] overflow-hidden">
                             <svg
                               className="absolute bottom-[29.17%] left-[16.67%] right-[16.67%] top-1/4 w-3 h-3"
                               fill="none"
