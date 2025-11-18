@@ -7,4 +7,5 @@ export default [
   route("show-comparison", "routes/show-comparison.tsx"),
   route("create-new-test", "routes/create-new-test.tsx"),
   route("settings", "routes/settings.tsx"),
+  route("policy-manager", "routes/policy-manager.tsx"),
 ] satisfies RouteConfig;
