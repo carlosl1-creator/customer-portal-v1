@@ -1,5 +1,6 @@
 import type { Route } from "./+types/policy-manager";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
 import { PoliciesTable, type Policy } from "~/components/policies-table/policies-table";
 import { PlusIcon } from "~/components/icons/icons";
@@ -49,6 +50,8 @@ export function meta({ }: Route.MetaArgs) {
 }
 
 export default function PolicyManager() {
+  const navigate = useNavigate();
+  
   // Mock data for policies
   const [policies] = useState<Policy[]>([
     {
@@ -99,8 +102,7 @@ export default function PolicyManager() {
   ]);
 
   const handleAddNewPolicy = () => {
-    console.log("Add New Policy clicked");
-    // TODO: Implement add new policy functionality
+    navigate("/add-new-policy");
   };
 
   const handleImportFromGoogleDrive = () => {
