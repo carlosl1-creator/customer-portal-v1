@@ -121,8 +121,9 @@ export default function PolicyManager() {
   };
 
   const handleEdit = (policy: Policy) => {
-    console.log("Edit policy:", policy);
-    // TODO: Implement edit policy functionality
+    navigate("/edit-policy", {
+      state: { policy },
+    });
   };
 
   const handleDelete = (policy: Policy) => {
