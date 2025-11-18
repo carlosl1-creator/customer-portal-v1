@@ -10,4 +10,5 @@ export default [
   route("policy-manager", "routes/policy-manager.tsx"),
   route("add-new-policy", "routes/add-new-policy.tsx"),
   route("edit-policy", "routes/edit-policy.tsx"),
+  route("preview-policy-changes", "routes/preview-policy-changes.tsx"),
 ] satisfies RouteConfig;

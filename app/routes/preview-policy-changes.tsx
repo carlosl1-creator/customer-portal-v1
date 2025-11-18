@@ -1,11 +1,13 @@
-import type { Route } from "./+types/edit-policy";
-import { useState, useEffect } from "react";
+import type { Route } from "./+types/preview-policy-changes";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
 import { ButtonGroup, type ButtonGroupOption } from "~/components/button-group/button-group";
-import { TestPrioritizationTable, type TestCategory, type Priority } from "~/components/test-prioritization-table/test-prioritization-table";
-import { ArrowUpRightIcon } from "~/components/icons/icons";
+import { ContentDiffView } from "~/components/content-diff-view/content-diff-view";
+import { TestPrioritizationDiffTable, type TestCategoryDiff } from "~/components/test-prioritization-diff-table/test-prioritization-diff-table";
+import { EditIcon } from "~/components/icons/icons";
 import type { Policy } from "~/components/policies-table/policies-table";
+import type { TestCategory } from "~/components/test-prioritization-table/test-prioritization-table";
 
 // Icon components for import buttons
 function UploadIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
@@ -64,77 +66,64 @@ function NotionIcon({ className = "w-5 h-5" }: { className?: string }) {
 
 export function meta({ }: Route.MetaArgs) {
   return [
-    { title: "Edit Policy - Reinforce Labs" },
-    { name: "description", content: "Edit an existing policy" },
+    { title: "Preview Policy Changes - Reinforce Labs" },
+    { name: "description", content: "Preview changes before committing policy updates" },
   ];
 }
 
-export default function EditPolicy() {
+export default function PreviewPolicyChanges() {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Get policy data from navigation state or use defaults
-  const policy = (location.state as { policy?: Policy })?.policy;
+  // Get original and edited data from navigation state
+  const state = location.state as {
+    originalPolicy?: { name: string; status: "active" | "draft" | "archive"; content: string };
+    editedPolicy?: { name: string; status: "active" | "draft" | "archive"; content: string };
+    originalCategories?: TestCategory[];
+    editedCategories?: TestCategory[];
+    policyId?: string;
+  } | null;
+
+  const originalPolicy = state?.originalPolicy;
+  const editedPolicy = state?.editedPolicy;
+  const originalCategories = state?.originalCategories || [];
+  const editedCategories = state?.editedCategories || [];
   
-  // Store original values for comparison - these should never change after initial load
-  const [originalName] = useState(() => policy?.name || "Content Policy 2.1");
-  const [originalStatus] = useState<"active" | "draft" | "archive">(() =>
-    policy?.status || "active"
-  );
-  const [originalContent] = useState(() =>
-    policy?.content || "The following outlines the content policy pertaining to Acme Inc.'s customer-facing chatbot:\n1. The model must never encourage violent or aggressive behavior..."
-  );
-  
-  // Original categories - in a real app, this would come from the policy
-  // For now, using mock data that represents the original state
-  const [originalCategories] = useState<TestCategory[]>([
-    {
-      id: "1",
-      name: "Violence",
-      priority: "high",
-      description: "Blocks threats, depictions, or instructions for physical harm or weapon use. Enables safety compliance and protects brand integrity.",
-    },
-    {
-      id: "2",
-      name: "Self-Harm",
-      priority: "high",
-      description: "Prevents encouragement or normalization of suicide and self-injury. Reduces user risk and regulatory exposure.",
-    },
-    {
-      id: "3",
-      name: "Illegal Activities",
-      priority: "critical",
-      description: "Restricts promotion or facilitation of crimes like hacking or drug trade. Safeguards legal standing and partner trust.",
-    },
-    {
-      id: "4",
-      name: "Hate & Harassment",
-      priority: "medium",
-      description: "Stops attacks or slurs targeting identity or group membership. Maintains inclusive environments and advertiser confidence.",
-    },
-  ]);
-  
-  const [name, setName] = useState(() => policy?.name || "Content Policy 2.1");
-  const [status, setStatus] = useState<"active" | "draft" | "archive">(() =>
-    policy?.status || "active"
-  );
-  const [content, setContent] = useState(() =>
-    policy?.content || "The following outlines the content policy pertaining to Acme Inc.'s customer-facing chatbot:\n1. The model must never encourage violent or aggressive behavior..."
+  // Use edited values for display (these are the new values)
+  const [name, setName] = useState(editedPolicy?.name || originalPolicy?.name || "Content Policy 2.1");
+  const [status, setStatus] = useState<"active" | "draft" | "archive">(
+    editedPolicy?.status || originalPolicy?.status || "active"
   );
 
-  // Current categories - initialized with original values (copy to avoid reference issues)
-  const [categories, setCategories] = useState<TestCategory[]>(() => 
-    originalCategories.map(cat => ({ ...cat }))
-  );
+  // Content before (original) and after (edited)
+  const contentBefore = originalPolicy?.content || "";
+  const contentAfter = editedPolicy?.content || "";
 
-  // Update form when policy data is available (only if policy comes in after mount)
+  // Compute category diffs by comparing original and edited categories
+  const categoryDiffs: TestCategoryDiff[] = React.useMemo(() => {
+    // Create a map of edited categories by id
+    const editedMap = new Map(editedCategories.map(cat => [cat.id, cat]));
+    
+    // For each original category, find its edited version and create a diff
+    return originalCategories.map(originalCat => {
+      const editedCat = editedMap.get(originalCat.id);
+      return {
+        id: originalCat.id,
+        name: originalCat.name,
+        oldPriority: originalCat.priority,
+        newPriority: editedCat?.priority || originalCat.priority,
+        description: originalCat.description,
+      };
+    });
+  }, [originalCategories, editedCategories]);
+
+  // Update form when data is available
   useEffect(() => {
-    if (policy) {
-      setName(policy.name);
-      setStatus(policy.status);
-      setContent(policy.content);
+    if (editedPolicy) {
+      setName(editedPolicy.name);
+      setStatus(editedPolicy.status);
     }
-  }, [policy]);
+  }, [editedPolicy]);
 
   const handleUploadLocalFile = () => {
     console.log("Upload Local File clicked");
@@ -156,43 +145,22 @@ export default function EditPolicy() {
     // TODO: Implement import from Notion functionality
   };
 
-  const handlePriorityChange = (id: string, priority: Priority) => {
-    setCategories((prev) =>
-      prev.map((cat) => (cat.id === id ? { ...cat, priority } : cat))
-    );
-  };
-
-  const handleViewDetails = (category: TestCategory) => {
+  const handleViewDetails = (category: TestCategoryDiff) => {
     console.log("View details for category:", category);
     // TODO: Implement view details functionality
   };
 
-  const handleUpdatePolicy = () => {
-    console.log("Updating policy:", {
-      id: policy?.id,
+  const handleCommitChanges = () => {
+    console.log("Committing policy changes:", {
+      id: state?.policyId,
       name,
       status,
-      content,
-      categories,
+      contentAfter,
+      categoryDiffs,
     });
-    // Navigate to preview policy changes screen with both original and edited data
-    navigate("/preview-policy-changes", {
-      state: {
-        originalPolicy: {
-          name: originalName,
-          status: originalStatus,
-          content: originalContent,
-        },
-        editedPolicy: {
-          name,
-          status,
-          content,
-        },
-        originalCategories,
-        editedCategories: categories,
-        policyId: policy?.id,
-      },
-    });
+    // TODO: Implement commit changes functionality
+    // After commit, navigate back to policy manager
+    navigate("/policy-manager");
   };
 
   const statusOptions: ButtonGroupOption[] = [
@@ -233,7 +201,7 @@ export default function EditPolicy() {
     },
   ];
 
-  const canUpdatePolicy = name.trim() !== "" && content.trim() !== "";
+  const canCommitChanges = name.trim() !== "" && contentAfter.trim() !== "";
 
   return (
     <div className="w-full px-10 relative">
@@ -243,9 +211,9 @@ export default function EditPolicy() {
       </div>
 
       <HeaderSection
-        pageName="EDIT POLICY"
-        title="Edit Policy"
-        infoText={["Edit an existing policy to test your chatbots against"]}
+        pageName="PREVIEW POLICY CHANGES"
+        title="Preview Policy Changes"
+        infoText={["Edit your policy in detail for any updates, changes, or typos"]}
         buttons={headerButtons}
       />
 
@@ -284,20 +252,12 @@ export default function EditPolicy() {
             </div>
           </div>
 
-          {/* Content Field */}
+          {/* Content Diff Field */}
           <div className="flex flex-col gap-2 items-start relative shrink-0 w-full">
             <p className="font-medium leading-6 text-[#535862] text-base">
               Content <span className="font-bold text-[#d92d20]">*</span>
             </p>
-            <div className="flex flex-col gap-1.5 items-start relative w-full">
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                className="bg-white border border-[#d5d7da] rounded-[8px] w-full px-[14px] py-[10px] font-normal leading-6 text-base tracking-[-0.32px] text-[#181d27] outline-none hover:border-[#1570ef] focus:border-[#1570ef] transition-colors resize-none"
-                rows={8}
-                placeholder="Enter policy content..."
-              />
-            </div>
+            <ContentDiffView before={contentBefore} after={contentAfter} />
           </div>
 
           {/* Test Prioritization Section */}
@@ -306,35 +266,26 @@ export default function EditPolicy() {
               <p className="font-medium leading-6 text-[#535862] text-base">
                 Test Prioritization
               </p>
-              <p className="font-normal leading-5 text-[#535862] text-sm">
-                Category priorities have been preset for you. Customize to your top areas of concern.
-              </p>
             </div>
-            <TestPrioritizationTable
-              categories={categories}
-              onPriorityChange={handlePriorityChange}
+            <TestPrioritizationDiffTable
+              categories={categoryDiffs}
               onViewDetails={handleViewDetails}
             />
           </div>
 
-          {/* Mandatory Fields Note */}
-          <p className="font-normal leading-5 text-[#535862] text-sm">
-            Fields marked with <span className="text-[#d92d20]">*</span> are mandatory.
-          </p>
-
-          {/* Update Policy Button */}
+          {/* Commit Changes Button */}
           <div className="flex gap-6 items-start">
             <button
-              onClick={canUpdatePolicy ? handleUpdatePolicy : undefined}
-              disabled={!canUpdatePolicy}
+              onClick={canCommitChanges ? handleCommitChanges : undefined}
+              disabled={!canCommitChanges}
               className={`box-border flex gap-2 items-center justify-center px-5 py-3 rounded-lg transition-colors ${
-                canUpdatePolicy
+                canCommitChanges
                   ? "bg-[#181d27] border border-[#181d27] text-white hover:opacity-90 cursor-pointer"
                   : "bg-gray-300 border border-gray-300 text-gray-500 cursor-not-allowed"
               }`}
             >
-              <ArrowUpRightIcon className="w-5 h-5" stroke={canUpdatePolicy ? "white" : "currentColor"} />
-              <span className="font-semibold text-base leading-6">Update Policy</span>
+              <EditIcon className="w-5 h-5" stroke={canCommitChanges ? "white" : "currentColor"} />
+              <span className="font-semibold text-base leading-6">Commit Changes</span>
             </button>
           </div>
         </div>
