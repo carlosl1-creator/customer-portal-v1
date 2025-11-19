@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { HeaderSection } from "~/components/header-section/header-section";
 import { Select, type SelectOption } from "~/components/select/select";
-import { CategoriesTable, type Category, type Priority } from "~/components/categories-table/categories-table";
-import { SuggestionsCard, type Suggestion } from "~/components/suggestions-card/suggestions-card";
-import { LoadingHeader } from "~/components/loading-header/loading-header";
-import { LoadingStepCard, type LoadingStep, type StepStatus } from "~/components/loading-step-card/loading-step-card";
+import { CategoriesTable, type Category, type Priority } from "~/components/tables/categories-table/categories-table";
+import { SuggestionsCard, type Suggestion } from "~/components/cards/suggestions-card/suggestions-card";
+import { LoadingHeader } from "~/components/loading/loading-header/loading-header";
+import { LoadingStepCard, type LoadingStep, type StepStatus } from "~/components/cards/loading-step-card/loading-step-card";
 import { ArrowUpRightIcon, ChevronLeftIcon } from "~/components/icons/icons";
 
 export function meta({ }: Route.MetaArgs) {

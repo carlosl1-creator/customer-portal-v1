@@ -1,6 +1,6 @@
 import React from "react";
 import { HashIcon, HelpIcon } from "~/components/icons/icons";
-import { RadialChart } from "~/components/radial-chart/radial-chart";
+import { RadialChart } from "~/components/charts/radial-chart/radial-chart";
 
 export interface RatingCardProps {
   icon?: React.ReactNode;

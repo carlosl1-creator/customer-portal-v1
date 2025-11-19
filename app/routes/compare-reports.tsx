@@ -1,9 +1,9 @@
 import type { Route } from "./+types/compare-reports";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { ReportsFilterBar } from "~/components/reports-filter-bar/reports-filter-bar";
-import { SelectableReportsTable, type SelectableReport } from "~/components/selectable-reports-table/selectable-reports-table";
-import { BenchmarksTable, type Benchmark } from "~/components/benchmarks-table/benchmarks-table";
+import { ReportsFilterBar } from "~/components/filters/reports-filter-bar/reports-filter-bar";
+import { SelectableReportsTable, type SelectableReport } from "~/components/tables/selectable-reports-table/selectable-reports-table";
+import { BenchmarksTable, type Benchmark } from "~/components/tables/benchmarks-table/benchmarks-table";
 import { ArrowUpRightIcon } from "~/components/icons/icons";
 
 export function meta({ }: Route.MetaArgs) {

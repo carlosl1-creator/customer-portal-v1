@@ -1,6 +1,6 @@
 import React from "react";
 import { MaximizeIcon } from "~/components/icons/icons";
-import { BubbleChart } from "~/components/bubble-chart/bubble-chart";
+import { BubbleChart } from "~/components/charts/bubble-chart/bubble-chart";
 
 export interface Scenario {
   label: string;

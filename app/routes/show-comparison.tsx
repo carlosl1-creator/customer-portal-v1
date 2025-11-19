@@ -2,8 +2,8 @@ import type { Route } from "./+types/show-comparison";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { HeaderSection } from "~/components/header-section/header-section";
-import type { SelectableReport } from "~/components/selectable-reports-table/selectable-reports-table";
-import type { Benchmark } from "~/components/benchmarks-table/benchmarks-table";
+import type { SelectableReport } from "~/components/tables/selectable-reports-table/selectable-reports-table";
+import type { Benchmark } from "~/components/tables/benchmarks-table/benchmarks-table";
 import {
   SlackIcon,
   JiraIcon,
@@ -11,16 +11,16 @@ import {
   ClipboardIcon,
   ChevronLeftIcon,
 } from "~/components/icons/icons";
-import { RadialChart } from "~/components/radial-chart/radial-chart";
-import { PillarScoreCard } from "~/components/pillar-score-card/pillar-score-card";
-import { FoundVulnerabilitiesCard } from "~/components/found-vulnerabilities-card/found-vulnerabilities-card";
-import { ConversationalStatisticsCard } from "~/components/conversational-statistics-card/conversational-statistics-card";
-import { ComparisonTable } from "~/components/comparison-table/comparison-table";
-import { FilterBar } from "~/components/filter-bar/filter-bar";
+import { RadialChart } from "~/components/charts/radial-chart/radial-chart";
+import { PillarScoreCard } from "~/components/cards/pillar-score-card/pillar-score-card";
+import { FoundVulnerabilitiesCard } from "~/components/cards/found-vulnerabilities-card/found-vulnerabilities-card";
+import { ConversationalStatisticsCard } from "~/components/cards/conversational-statistics-card/conversational-statistics-card";
+import { ComparisonTable } from "~/components/tables/comparison-table/comparison-table";
+import { FilterBar } from "~/components/filters/filter-bar/filter-bar";
 import { MaximizeIcon } from "~/components/icons/icons";
-import { BubbleChart } from "~/components/bubble-chart/bubble-chart";
+import { BubbleChart } from "~/components/charts/bubble-chart/bubble-chart";
 import { Modal } from "~/components/modal/modal";
-import { CasesCard } from "~/components/cases-card/cases-card";
+import { CasesCard } from "~/components/cards/cases-card/cases-card";
 
 export function meta({ }: Route.MetaArgs) {
   return [

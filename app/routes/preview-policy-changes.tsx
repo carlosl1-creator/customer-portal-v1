@@ -4,10 +4,10 @@ import { useNavigate, useLocation } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
 import { ButtonGroup, type ButtonGroupOption } from "~/components/button-group/button-group";
 import { ContentDiffView } from "~/components/content-diff-view/content-diff-view";
-import { TestPrioritizationDiffTable, type TestCategoryDiff } from "~/components/test-prioritization-diff-table/test-prioritization-diff-table";
+import { TestPrioritizationDiffTable, type TestCategoryDiff } from "~/components/tables/test-prioritization-diff-table/test-prioritization-diff-table";
 import { EditIcon } from "~/components/icons/icons";
-import type { Policy } from "~/components/policies-table/policies-table";
-import type { TestCategory } from "~/components/test-prioritization-table/test-prioritization-table";
+import type { Policy } from "~/components/tables/policies-table/policies-table";
+import type { TestCategory } from "~/components/tables/test-prioritization-table/test-prioritization-table";
 
 // Icon components for import buttons
 function UploadIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {

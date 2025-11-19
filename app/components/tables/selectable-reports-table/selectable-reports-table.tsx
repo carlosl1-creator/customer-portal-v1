@@ -1,7 +1,7 @@
 import React from "react";
 import { Badge } from "~/components/badge/badge";
 import { ChevronUpIcon, ChevronDownIcon } from "~/components/icons/icons";
-import type { Report } from "~/components/reports-table/reports-table";
+import type { Report } from "~/components/tables/reports-table/reports-table";
 
 export interface SelectableReport extends Report {
   disabled?: boolean;

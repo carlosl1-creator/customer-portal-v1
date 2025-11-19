@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
 import { ButtonGroup, type ButtonGroupOption } from "~/components/button-group/button-group";
-import { TestPrioritizationTable, type TestCategory, type Priority } from "~/components/test-prioritization-table/test-prioritization-table";
+import { TestPrioritizationTable, type TestCategory, type Priority } from "~/components/tables/test-prioritization-table/test-prioritization-table";
 import { ArrowUpRightIcon, UploadIcon } from "~/components/icons/icons";
-import type { Policy } from "~/components/policies-table/policies-table";
+import type { Policy } from "~/components/tables/policies-table/policies-table";
 import { UploadLocalFileModal } from "~/components/upload-local-file-modal/upload-local-file-modal";
 
 // Icon components for import buttons

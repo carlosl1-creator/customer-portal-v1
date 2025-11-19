@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, type CardProps } from "~/components/card/card";
+import { Card, type CardProps } from "~/components/cards/card/card";
 
 export interface SectionProps {
   title: string;

@@ -1,5 +1,5 @@
 import React from "react";
-import { LoadingSpinner } from "~/components/loading-spinner/loading-spinner";
+import { LoadingSpinner } from "~/components/loading/loading-spinner/loading-spinner";
 
 export type StepStatus = "completed" | "in-progress" | "pending";
 

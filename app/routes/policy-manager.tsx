@@ -2,7 +2,7 @@ import type { Route } from "./+types/policy-manager";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
-import { PoliciesTable, type Policy } from "~/components/policies-table/policies-table";
+import { PoliciesTable, type Policy } from "~/components/tables/policies-table/policies-table";
 import { PlusIcon } from "~/components/icons/icons";
 
 // Icon components for import buttons

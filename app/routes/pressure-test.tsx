@@ -11,15 +11,15 @@ import {
   FeatherIcon,
 } from "~/components/icons/icons";
 import { Section } from "~/components/section/section";
-import { CasesCard } from "~/components/cases-card/cases-card";
-import { RatingCard } from "~/components/rating-card/rating-card";
-import { PillarScoreCard } from "~/components/pillar-score-card/pillar-score-card";
-import { FoundVulnerabilitiesCard } from "~/components/found-vulnerabilities-card/found-vulnerabilities-card";
-import { ConversationalStatisticsCard } from "~/components/conversational-statistics-card/conversational-statistics-card";
-import { FilterBar } from "~/components/filter-bar/filter-bar";
-import { TestCasesTable } from "~/components/test-cases-table/test-cases-table";
+import { CasesCard } from "~/components/cards/cases-card/cases-card";
+import { RatingCard } from "~/components/cards/rating-card/rating-card";
+import { PillarScoreCard } from "~/components/cards/pillar-score-card/pillar-score-card";
+import { FoundVulnerabilitiesCard } from "~/components/cards/found-vulnerabilities-card/found-vulnerabilities-card";
+import { ConversationalStatisticsCard } from "~/components/cards/conversational-statistics-card/conversational-statistics-card";
+import { FilterBar } from "~/components/filters/filter-bar/filter-bar";
+import { TestCasesTable } from "~/components/tables/test-cases-table/test-cases-table";
 import { Pagination } from "~/components/pagination/pagination";
-import { TopRiskAreaCard } from "~/components/top-risk-area-card/top-risk-area-card";
+import { TopRiskAreaCard } from "~/components/cards/top-risk-area-card/top-risk-area-card";
 import { Modal } from "~/components/modal/modal";
 import { useNavigate } from "react-router";
 

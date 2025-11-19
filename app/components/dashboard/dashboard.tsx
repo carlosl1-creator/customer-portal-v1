@@ -1,11 +1,11 @@
 import React from "react";
 import { Button } from "~/components/button/button";
 import { PlusIcon, CompareIcon } from "~/components/icons/icons";
-import { RatingCard } from "~/components/rating-card/rating-card";
-import { PillarScoreCard } from "~/components/pillar-score-card/pillar-score-card";
-import { ReportsFilterBar } from "~/components/reports-filter-bar/reports-filter-bar";
-import { ReportsTable } from "~/components/reports-table/reports-table";
-import type { Report } from "~/components/reports-table/reports-table";
+import { RatingCard } from "~/components/cards/rating-card/rating-card";
+import { PillarScoreCard } from "~/components/cards/pillar-score-card/pillar-score-card";
+import { ReportsFilterBar } from "~/components/filters/reports-filter-bar/reports-filter-bar";
+import { ReportsTable } from "~/components/tables/reports-table/reports-table";
+import type { Report } from "~/components/tables/reports-table/reports-table";
 
 export interface DashboardProps {
   userName?: string;

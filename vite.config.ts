@@ -16,5 +16,17 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     css: true,
     testTimeout: 10000,
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json", "html"],
+      include: ["app/**/*.{ts,tsx}"],
+      exclude: [
+        "tests/**",
+        "app/routes/**",
+        "app/root.tsx",
+        "app/routes.ts",
+        "node_modules/**",
+      ],
+    },
   },
 });

@@ -1,6 +1,6 @@
 import React from "react";
-import { RiskAreasTable } from "~/components/risk-areas-table/risk-areas-table";
-import type { RiskAreaCase } from "~/components/risk-areas-table/risk-areas-table";
+import { RiskAreasTable } from "~/components/tables/risk-areas-table/risk-areas-table";
+import type { RiskAreaCase } from "~/components/tables/risk-areas-table/risk-areas-table";
 import { Pagination } from "~/components/pagination/pagination";
 import { HelpIcon } from "~/components/icons/icons";
 

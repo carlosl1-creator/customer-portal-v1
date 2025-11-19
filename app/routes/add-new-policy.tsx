@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
 import { InputField } from "~/components/input-field/input-field";
 import { ButtonGroup, type ButtonGroupOption } from "~/components/button-group/button-group";
-import { TestPrioritizationTable, type TestCategory, type Priority } from "~/components/test-prioritization-table/test-prioritization-table";
+import { TestPrioritizationTable, type TestCategory, type Priority } from "~/components/tables/test-prioritization-table/test-prioritization-table";
 import { ArrowUpRightIcon, UploadIcon } from "~/components/icons/icons";
 import { UploadLocalFileModal } from "~/components/upload-local-file-modal/upload-local-file-modal";
 
