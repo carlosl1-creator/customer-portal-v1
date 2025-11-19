@@ -5,26 +5,10 @@ import { HeaderSection, type HeaderButton } from "~/components/header-section/he
 import { InputField } from "~/components/input-field/input-field";
 import { ButtonGroup, type ButtonGroupOption } from "~/components/button-group/button-group";
 import { TestPrioritizationTable, type TestCategory, type Priority } from "~/components/test-prioritization-table/test-prioritization-table";
-import { ArrowUpRightIcon } from "~/components/icons/icons";
+import { ArrowUpRightIcon, UploadIcon } from "~/components/icons/icons";
+import { UploadLocalFileModal } from "~/components/upload-local-file-modal/upload-local-file-modal";
 
 // Icon components for import buttons
-function UploadIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke={stroke}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-      />
-    </svg>
-  );
-}
 
 function GoogleDriveIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
@@ -71,6 +55,7 @@ export function meta({ }: Route.MetaArgs) {
 
 export default function AddNewPolicy() {
   const navigate = useNavigate();
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [name, setName] = useState("Content Policy 2.1");
   const [status, setStatus] = useState<"active" | "draft" | "archive">("active");
   const [content, setContent] = useState(
@@ -106,8 +91,20 @@ export default function AddNewPolicy() {
   ]);
 
   const handleUploadLocalFile = () => {
-    console.log("Upload Local File clicked");
-    // TODO: Implement upload local file functionality
+    setIsUploadModalOpen(true);
+  };
+
+  const handleFileUpload = (file: File) => {
+    console.log("File uploaded:", file.name);
+    // Read file content and set it to the content field
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      if (text) {
+        setContent(text);
+      }
+    };
+    reader.readAsText(file);
   };
 
   const handleImportFromGoogleDrive = () => {
@@ -292,6 +289,13 @@ export default function AddNewPolicy() {
           </div>
         </div>
       </div>
+
+      {/* Upload Local File Modal */}
+      <UploadLocalFileModal
+        isOpen={isUploadModalOpen}
+        onClose={() => setIsUploadModalOpen(false)}
+        onConfirm={handleFileUpload}
+      />
     </div>
   );
 }
