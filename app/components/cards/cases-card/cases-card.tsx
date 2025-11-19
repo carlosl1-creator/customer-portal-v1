@@ -26,7 +26,7 @@ export function CasesCard({
   className = "",
 }: CasesCardProps) {
   // Format number with commas
-  const formattedTotal = totalCases.toLocaleString();
+  const formattedTotal = totalCases.toLocaleString('en-US');
 
   // Prepare bubble data from scenarios
   const bubbleData = scenarios.map((scenario) => ({

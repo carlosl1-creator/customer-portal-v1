@@ -43,9 +43,9 @@ export function ReportsFilterBar({
 
         {/* Policy Tags */}
         {policies.map((policy, index) => (
-          <button
+          <div
             key={index}
-            className="bg-white border border-[#e9eaeb] rounded-lg flex gap-2 items-center justify-center px-4 py-2.5 h-10 hover:opacity-80 transition-opacity"
+            className="bg-white border border-[#e9eaeb] rounded-lg flex gap-2 items-center justify-center px-4 py-2.5 h-10"
           >
             <p className="font-medium text-[14px] leading-[20px] text-[#414651]">{policy}</p>
             <button
@@ -53,11 +53,11 @@ export function ReportsFilterBar({
                 e.stopPropagation();
                 onPolicyRemove?.(policy);
               }}
-              className="p-0 border-0 bg-transparent cursor-pointer"
+              className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
             >
               <XIcon className="w-5 h-5" stroke="#414651" />
             </button>
-          </button>
+          </div>
         ))}
 
         {/* More Filters */}

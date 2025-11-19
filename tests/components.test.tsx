@@ -1969,11 +1969,10 @@ describe("Card", () => {
 
   it("calls onThumbsUpClick when thumbs up is clicked", async () => {
     const handleThumbsUp = vi.fn();
-    const user = userEvent.setup();
     render(<Card {...mockCard} onThumbsUpClick={handleThumbsUp} />);
     
     const thumbsUp = screen.getByLabelText("Thumbs up");
-    await user.click(thumbsUp);
+    fireEvent.click(thumbsUp);
     
     expect(handleThumbsUp).toHaveBeenCalledTimes(1);
   });
@@ -2100,12 +2099,12 @@ describe("ReportsTable", () => {
 
   it("calls onRowClick when row is clicked", async () => {
     const handleClick = vi.fn();
-    const user = userEvent.setup();
     render(<ReportsTable reports={mockReports} onRowClick={handleClick} />);
     
-    const row = screen.getByText("1").closest("div");
+    const reportId = screen.getByText("1");
+    const row = reportId.closest("div[class*='cursor-pointer']");
     if (row) {
-      await user.click(row);
+      fireEvent.click(row);
       expect(handleClick).toHaveBeenCalled();
     }
   });
@@ -2121,13 +2120,12 @@ describe("ReportsFilterBar", () => {
 
   it("calls onSearchChange when typing", async () => {
     const handleSearch = vi.fn();
-    const user = userEvent.setup();
     render(<ReportsFilterBar onSearchChange={handleSearch} />);
     
     const input = screen.getByPlaceholderText("Search");
-    await user.type(input, "test");
+    fireEvent.change(input, { target: { value: "test" } });
     
-    expect(handleSearch).toHaveBeenCalled();
+    expect(handleSearch).toHaveBeenCalledWith("test");
   });
 });
 
@@ -2142,13 +2140,12 @@ describe("FilterBar", () => {
 
   it("calls onSearchChange when typing", async () => {
     const handleSearch = vi.fn();
-    const user = userEvent.setup();
     render(<FilterBar onSearchChange={handleSearch} />);
     
     const input = screen.getByPlaceholderText("Search");
-    await user.type(input, "test");
+    fireEvent.change(input, { target: { value: "test" } });
     
-    expect(handleSearch).toHaveBeenCalled();
+    expect(handleSearch).toHaveBeenCalledWith("test");
   });
 });
 
@@ -2173,12 +2170,12 @@ describe("TestCasesTable", () => {
 
   it("calls onRowClick when row is clicked", async () => {
     const handleClick = vi.fn();
-    const user = userEvent.setup();
     render(<TestCasesTable testCases={mockCases} onRowClick={handleClick} />);
     
-    const row = screen.getByText("C1").closest("tr");
+    const caseId = screen.getByText("C1");
+    const row = caseId.closest("tr");
     if (row) {
-      await user.click(row);
+      fireEvent.click(row);
       expect(handleClick).toHaveBeenCalled();
     }
   });
@@ -2204,7 +2201,6 @@ describe("CategoriesTable", () => {
 
   it("calls onSelectionChange when checkbox is clicked", async () => {
     const handleChange = vi.fn();
-    const user = userEvent.setup();
     render(
       <CategoriesTable
         categories={mockCategories}
@@ -2213,10 +2209,15 @@ describe("CategoriesTable", () => {
       />
     );
     
-    const checkboxes = screen.getAllByRole("button");
-    if (checkboxes.length > 0) {
-      await user.click(checkboxes[0]);
-      expect(handleChange).toHaveBeenCalled();
+    // Find the first category name and get its parent row, then find the checkbox button
+    const categoryName = screen.getByText("Category 1");
+    const row = categoryName.closest("div[class*='border-b']");
+    if (row) {
+      const checkboxButton = row.querySelector('button');
+      if (checkboxButton) {
+        fireEvent.click(checkboxButton);
+        expect(handleChange).toHaveBeenCalledWith("1", true);
+      }
     }
   });
 });
@@ -2240,11 +2241,10 @@ describe("ComparisonTable", () => {
 
   it("calls onCaseClick when case is clicked", async () => {
     const handleClick = vi.fn();
-    const user = userEvent.setup();
     render(<ComparisonTable title="Test" cases={mockCases} onCaseClick={handleClick} />);
     
     const caseLink = screen.getByText(/Category 1/);
-    await user.click(caseLink);
+    fireEvent.click(caseLink);
     
     expect(handleClick).toHaveBeenCalled();
   });
@@ -2283,8 +2283,9 @@ describe("BenchmarksTable", () => {
     // Try to select second benchmark (should be prevented)
     const checkboxes = screen.getAllByRole("button");
     if (checkboxes.length > 1) {
-      await user.click(checkboxes[1]);
+      fireEvent.click(checkboxes[1]);
       // Should not call onChange for new selection
+      expect(handleChange).not.toHaveBeenCalled();
     }
   });
 });
@@ -2309,12 +2310,12 @@ describe("RiskAreasTable", () => {
 
   it("calls onRowClick when row is clicked", async () => {
     const handleClick = vi.fn();
-    const user = userEvent.setup();
     render(<RiskAreasTable cases={mockCases} onRowClick={handleClick} />);
     
-    const row = screen.getByText("High").closest("tr");
+    const rows = screen.getAllByText("High");
+    const row = rows[0].closest("tr");
     if (row) {
-      await user.click(row);
+      fireEvent.click(row);
       expect(handleClick).toHaveBeenCalled();
     }
   });
@@ -2345,8 +2346,7 @@ describe("SelectableReportsTable", () => {
 
   it("calls onSelectionChange when checkbox is clicked", async () => {
     const handleChange = vi.fn();
-    const user = userEvent.setup();
-    render(
+    const { container } = render(
       <SelectableReportsTable
         reports={mockReports}
         selectedIds={new Set()}
@@ -2354,9 +2354,10 @@ describe("SelectableReportsTable", () => {
       />
     );
     
-    const checkboxes = screen.getAllByRole("button");
-    if (checkboxes.length > 0) {
-      await user.click(checkboxes[0]);
+    // Find the checkbox div (has cursor-pointer class)
+    const checkbox = container.querySelector('div[class*="cursor-pointer"][class*="rounded-[6px]"]');
+    if (checkbox) {
+      fireEvent.click(checkbox);
       expect(handleChange).toHaveBeenCalled();
     }
   });
@@ -2384,7 +2385,6 @@ describe("CasesCard", () => {
 
   it("calls onMaximizeClick when maximize button is clicked", async () => {
     const handleMaximize = vi.fn();
-    const user = userEvent.setup();
     render(
       <CasesCard
         title="Test"
@@ -2396,7 +2396,7 @@ describe("CasesCard", () => {
     );
     
     const maximizeButton = screen.getByLabelText("Maximize");
-    await user.click(maximizeButton);
+    fireEvent.click(maximizeButton);
     
     expect(handleMaximize).toHaveBeenCalledTimes(1);
   });
@@ -2421,12 +2421,11 @@ describe("SuggestionsCard", () => {
     const suggestions: Suggestion[] = [
       { title: "Suggestion 1", description: "Desc", onClick: handleClick },
     ];
-    const user = userEvent.setup();
     render(<SuggestionsCard suggestions={suggestions} />);
     
-    const suggestion = screen.getByText("Suggestion 1").closest("div");
+    const suggestion = screen.getByText("Suggestion 1").closest("div[class*='cursor-pointer']");
     if (suggestion) {
-      await user.click(suggestion);
+      fireEvent.click(suggestion);
       expect(handleClick).toHaveBeenCalledTimes(1);
     }
   });
@@ -2464,7 +2463,8 @@ describe("TopRiskAreaCard", () => {
       />
     );
     expect(screen.getByText("1. Risk Area")).toBeInTheDocument();
-    expect(screen.getByText("High")).toBeInTheDocument();
+    // "High" appears multiple times, so we check that it exists at least once
+    expect(screen.getAllByText("High").length).toBeGreaterThan(0);
   });
 });
 
@@ -2488,7 +2488,6 @@ describe("FoundVulnerabilitiesCard", () => {
 
   it("calls onMaximizeClick when maximize button is clicked", async () => {
     const handleMaximize = vi.fn();
-    const user = userEvent.setup();
     render(
       <FoundVulnerabilitiesCard
         title="Test"
@@ -2502,7 +2501,7 @@ describe("FoundVulnerabilitiesCard", () => {
     );
     
     const maximizeButton = screen.getByLabelText("Maximize");
-    await user.click(maximizeButton);
+    fireEvent.click(maximizeButton);
     
     expect(handleMaximize).toHaveBeenCalledTimes(1);
   });
@@ -2527,7 +2526,6 @@ describe("ConversationalStatisticsCard", () => {
 
   it("calls onMaximizeClick when maximize button is clicked", async () => {
     const handleMaximize = vi.fn();
-    const user = userEvent.setup();
     render(
       <ConversationalStatisticsCard
         title="Test"
@@ -2541,7 +2539,7 @@ describe("ConversationalStatisticsCard", () => {
     );
     
     const maximizeButton = screen.getByLabelText("Maximize");
-    await user.click(maximizeButton);
+    fireEvent.click(maximizeButton);
     
     expect(handleMaximize).toHaveBeenCalledTimes(1);
   });
@@ -2556,22 +2554,20 @@ describe("Dashboard", () => {
 
   it("calls onCreateReport when create button is clicked", async () => {
     const handleCreate = vi.fn();
-    const user = userEvent.setup();
     render(<Dashboard onCreateReport={handleCreate} />);
     
     const createButton = screen.getByText("Create Report");
-    await user.click(createButton);
+    fireEvent.click(createButton);
     
     expect(handleCreate).toHaveBeenCalledTimes(1);
   });
 
   it("calls onCompareReports when compare button is clicked", async () => {
     const handleCompare = vi.fn();
-    const user = userEvent.setup();
     render(<Dashboard onCompareReports={handleCompare} />);
     
     const compareButton = screen.getByText("Compare Reports");
-    await user.click(compareButton);
+    fireEvent.click(compareButton);
     
     expect(handleCompare).toHaveBeenCalledTimes(1);
   });
@@ -2594,7 +2590,6 @@ describe("RatingCard", () => {
 
   it("calls onHelpClick when help button is clicked", async () => {
     const handleHelp = vi.fn();
-    const user = userEvent.setup();
     render(
       <RatingCard
         title="Test"
@@ -2606,7 +2601,7 @@ describe("RatingCard", () => {
     );
     
     const helpButton = screen.getByLabelText("Help");
-    await user.click(helpButton);
+    fireEvent.click(helpButton);
     
     expect(handleHelp).toHaveBeenCalledTimes(1);
   });
@@ -2643,7 +2638,6 @@ describe("PillarScoreCard", () => {
 
   it("calls onMaximizeClick when maximize button is clicked", async () => {
     const handleMaximize = vi.fn();
-    const user = userEvent.setup();
     render(
       <PillarScoreCard
         title="Test"
@@ -2655,7 +2649,7 @@ describe("PillarScoreCard", () => {
     );
     
     const maximizeButton = screen.getByLabelText("Maximize");
-    await user.click(maximizeButton);
+    fireEvent.click(maximizeButton);
     
     expect(handleMaximize).toHaveBeenCalledTimes(1);
   });
