@@ -99,13 +99,13 @@ export function TopRiskAreaCard({
             className="bg-white border border-[#e9eaeb] rounded-[8px] px-3.5 py-2 opacity-50 cursor-not-allowed"
           >
             <p className="font-semibold text-[14px] leading-[20px] text-[#d5d7da]">
-              Button
+              Previous
             </p>
           </button>
           {/* Active button placeholder */}
           <button className="bg-white border border-[#d5d7da] rounded-[8px] px-3.5 py-2 hover:bg-neutral-50 transition-colors cursor-pointer">
             <p className="font-semibold text-[14px] leading-[20px] text-[#414651]">
-              Button
+              Next
             </p>
           </button>
         </div>

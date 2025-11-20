@@ -20,8 +20,8 @@ export function RadialChart({ rating, size = 90, className = "" }: RadialChartPr
   const strokeDasharray = circumference;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
   
-  // Start from bottom (90 degrees = bottom)
-  const rotation = 90;
+  // Start from top (270 degrees = top)
+  const rotation = 270;
 
   return (
     <div className={`relative inline-grid justify-items-start ${className}`} style={{ width: size, height: size }}>

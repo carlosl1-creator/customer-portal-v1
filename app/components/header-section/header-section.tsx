@@ -59,7 +59,7 @@ export function HeaderSection({
             <button
               key={index}
               onClick={button.onClick}
-              className="border border-[#d5d7da] border-solid rounded-[8px] flex gap-2 items-center justify-center px-[18px] py-[10px] transition-colors duration-200 relative isolate"
+              className="border border-[#d5d7da] border-solid rounded-[8px] flex gap-[8px] items-center justify-center px-[18px] py-[10px] transition-colors duration-200 relative isolate"
               style={{ 
                 backgroundColor: '#FFFFFF',
                 opacity: 1,
@@ -76,10 +76,10 @@ export function HeaderSection({
                 e.currentTarget.style.setProperty('background-color', '#FFFFFF', 'important');
               }}
             >
-              <div className="shrink-0 w-5 h-5 flex items-center justify-center relative z-10">
+              <div className="shrink-0 w-6 h-6 flex items-center justify-center relative z-10">
                 {button.icon}
               </div>
-              <span className="font-medium leading-6 text-[#414651] text-base relative z-10">
+              <span className="font-medium leading-[24px] text-[#414651] text-[16px] relative z-10">
                 {button.text}
               </span>
             </button>
