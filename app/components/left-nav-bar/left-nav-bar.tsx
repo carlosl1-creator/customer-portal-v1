@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router";
 
 export interface NavItem {
@@ -28,30 +28,14 @@ export function LeftNavBar({
   logOutItem,
 }: LeftNavBarProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
 
-  const handleMouseEnter = () => {
-    hoverTimeoutRef.current = setTimeout(() => {
-      setIsExpanded(true);
-    }, 1000); // 1 second delay
-  };
-
-  const handleMouseLeave = () => {
-    if (hoverTimeoutRef.current) {
-      clearTimeout(hoverTimeoutRef.current);
-      hoverTimeoutRef.current = null;
+  const handleLogoClick = () => {
+    setIsExpanded((prev) => !prev);
+    if (onLogoClick) {
+      onLogoClick();
     }
-    setIsExpanded(false);
   };
-
-  useEffect(() => {
-    return () => {
-      if (hoverTimeoutRef.current) {
-        clearTimeout(hoverTimeoutRef.current);
-      }
-    };
-  }, []);
 
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -67,8 +51,6 @@ export function LeftNavBar({
       className={`box-border flex flex-col h-screen items-center justify-between px-4 py-6 transition-all duration-300 fixed left-0 top-0 z-50 ${
         isExpanded ? "w-[240px]" : "w-[76px]"
       } ${bgColor}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       {/* Top Section */}
       <div className="flex flex-col gap-8 items-start w-full">
@@ -80,9 +62,9 @@ export function LeftNavBar({
         >
           {logoIcon && (
             <button
-              onClick={onLogoClick}
+              onClick={handleLogoClick}
               className="cursor-pointer flex items-center"
-              aria-label="Logo"
+              aria-label="Toggle navigation"
             >
               {logoIcon}
             </button>
@@ -90,7 +72,7 @@ export function LeftNavBar({
         </div>
 
         {/* Navigation Items */}
-        <div className="flex flex-col gap-3 items-center w-full">
+        <div className="flex flex-col gap-3 items-center">
           {navItems.map((item) => {
             const active = isActive(item.path);
             return (
