@@ -101,7 +101,7 @@ export function LeftNavBar({
 
       {/* Bottom Section - Log Out */}
       {logOutItem && (
-        <div className="w-full flex justify-end">
+        <div className={`w-full flex ${isExpanded ? "justify-end" : "items-center"}`}>
           {isExpanded ? (
             <button
               onClick={logOutItem.onClick}
@@ -113,12 +113,11 @@ export function LeftNavBar({
               <div className="shrink-0 w-5 h-5 flex items-center justify-center">
                 {logOutItem.icon}
               </div>
-
             </button>
           ) : (
             <button
               onClick={logOutItem.onClick}
-              className="flex items-center justify-center p-3.5 rounded-md hover:opacity-70 transition-colors"
+              className="flex items-center justify-center p-3.5 rounded-md w-full hover:opacity-70 transition-colors"
               aria-label={logOutItem.label}
             >
               <div className="shrink-0 w-6 h-6 flex items-center justify-center">
