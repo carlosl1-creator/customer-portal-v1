@@ -48,17 +48,15 @@ export function LeftNavBar({
 
   return (
     <div
-      className={`box-border flex flex-col h-screen items-center justify-between px-4 py-6 transition-all duration-300 fixed left-0 top-0 z-50 ${
-        isExpanded ? "w-[240px]" : "w-[76px]"
-      } ${bgColor}`}
+      className={`box-border flex flex-col h-screen items-center justify-between px-4 py-6 transition-all duration-300 fixed left-0 top-0 z-50 ${isExpanded ? "w-[240px]" : "w-[76px]"
+        } ${bgColor}`}
     >
       {/* Top Section */}
       <div className="flex flex-col gap-8 items-start w-full">
         {/* Logo */}
         <div
-          className={`flex ${
-            isExpanded ? "flex-col gap-3 w-full" : "w-full"
-          }`}
+          className={`flex ${isExpanded ? "flex-col gap-3 w-full" : "w-full"
+            }`}
         >
           {logoIcon && (
             <button
@@ -79,20 +77,18 @@ export function LeftNavBar({
               <Link
                 key={item.id}
                 to={item.path}
-                className={`box-border flex gap-2.5 items-center p-3.5 rounded-md w-full transition-colors ${
-                  active
+                className={`box-border flex gap-2.5 items-center p-3.5 rounded-md w-full transition-colors ${active
                     ? surfaceColor
                     : "hover:opacity-70"
-                }`}
+                  }`}
               >
                 <div className="shrink-0 w-6 h-6 flex items-center justify-center">
                   {item.icon}
                 </div>
                 {isExpanded && (
                   <span
-                    className={`text-base font-normal leading-6 whitespace-nowrap ${
-                      active ? textColor : inactiveTextColor
-                    }`}
+                    className={`text-base font-normal leading-6 whitespace-nowrap ${active ? textColor : inactiveTextColor
+                      }`}
                   >
                     {item.label}
                   </span>
@@ -105,25 +101,24 @@ export function LeftNavBar({
 
       {/* Bottom Section - Log Out */}
       {logOutItem && (
-        <div className="w-full">
+        <div className="w-full flex justify-end">
           {isExpanded ? (
             <button
               onClick={logOutItem.onClick}
-              className="flex items-center justify-between w-full p-2 rounded-lg hover:opacity-70 transition-colors"
+              className="flex items-center gap-2 p-2 rounded-lg hover:opacity-70 transition-colors"
             >
-              <div className="flex items-center gap-2">
-                <div className="shrink-0 w-5 h-5 flex items-center justify-center">
-                  {logOutItem.icon}
-                </div>
-                <span className={`text-sm font-medium ${inactiveTextColor}`}>
-                  {logOutItem.label}
-                </span>
+              <span className={`text-sm font-medium ${inactiveTextColor}`}>
+                {logOutItem.label}
+              </span>
+              <div className="shrink-0 w-5 h-5 flex items-center justify-center">
+                {logOutItem.icon}
               </div>
+
             </button>
           ) : (
             <button
               onClick={logOutItem.onClick}
-              className="flex items-center justify-center p-3.5 rounded-md w-full hover:opacity-70 transition-colors"
+              className="flex items-center justify-center p-3.5 rounded-md hover:opacity-70 transition-colors"
               aria-label={logOutItem.label}
             >
               <div className="shrink-0 w-6 h-6 flex items-center justify-center">
