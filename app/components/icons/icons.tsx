@@ -668,3 +668,95 @@ export function UploadIcon({ className = "w-5 h-5", stroke = "currentColor" }: {
   );
 }
 
+// Icon components for settings
+export function UserIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="#181D27" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function BellIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M13.73 21C13.5542 21.3031 13.3018 21.5547 12.9982 21.7295C12.6946 21.9044 12.3504 21.9965 12 21.9965C11.6496 21.9965 11.3054 21.9044 11.0018 21.7295C10.6982 21.5547 10.4458 21.3031 10.27 21M18 8C18 6.4087 17.3679 4.88258 16.2426 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.88258 2.63214 7.75736 3.75736C6.63214 4.88258 6 6.4087 6 8C6 15 3 17 3 17H21C21 17 18 15 18 8Z" />
+    </svg>
+  );
+}
+
+export function SlidersIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4 21V14M4 10V3M12 21V12M12 8V3M20 21V16M20 12V3M1 14H7M9 8H15M17 16H23" stroke="#181D27" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function SunIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <g clip-path="url(#clip0_3376_4577)">
+        <path d="M10 0.833496V2.50016M10 17.5002V19.1668M3.51668 3.51683L4.70001 4.70016M15.3 15.3002L16.4833 16.4835M0.833344 10.0002H2.50001M17.5 10.0002H19.1667M3.51668 16.4835L4.70001 15.3002M15.3 4.70016L16.4833 3.51683M14.1667 10.0002C14.1667 12.3013 12.3012 14.1668 10 14.1668C7.69882 14.1668 5.83334 12.3013 5.83334 10.0002C5.83334 7.69898 7.69882 5.8335 10 5.8335C12.3012 5.8335 14.1667 7.69898 14.1667 10.0002Z" stroke="#717680" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
+      <defs>
+        <clipPath id="clip0_3376_4577">
+          <rect width="20" height="20" fill="white" />
+        </clipPath>
+      </defs>
+    </svg>
+  );
+}
+
+export function MoonIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M17.5 10.6583C17.3689 12.0768 16.8365 13.4287 15.9652 14.5557C15.0938 15.6826 13.9196 16.5382 12.5797 17.0221C11.2399 17.5061 9.78997 17.5984 8.39956 17.2884C7.00916 16.9784 5.73581 16.2788 4.7285 15.2715C3.72119 14.2642 3.0216 12.9908 2.71157 11.6004C2.40154 10.21 2.49391 8.76007 2.97786 7.42025C3.46182 6.08042 4.31734 4.90614 5.44432 4.03479C6.57131 3.16345 7.92314 2.63109 9.34165 2.5C8.51116 3.62356 8.11152 5.00787 8.21542 6.40118C8.31932 7.79448 8.91986 9.10422 9.90781 10.0922C10.8958 11.0801 12.2055 11.6807 13.5988 11.7846C14.9921 11.8885 16.3764 11.4888 17.5 10.6583Z" stroke="#717680" stroke-linecap="round" stroke-linejoin="round"
+      />
+    </svg>
+  );
+}
