@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router";
 
 export interface NavItem {
@@ -29,6 +29,7 @@ export function LeftNavBar({
 }: LeftNavBarProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const location = useLocation();
+  const navRef = useRef<HTMLDivElement>(null);
 
   const handleLogoClick = () => {
     setIsExpanded((prev) => !prev);
@@ -36,6 +37,23 @@ export function LeftNavBar({
       onLogoClick();
     }
   };
+
+  // Handle clicks outside the navbar
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setIsExpanded(false);
+      }
+    };
+
+    if (isExpanded) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isExpanded]);
 
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -48,6 +66,7 @@ export function LeftNavBar({
 
   return (
     <div
+      ref={navRef}
       className={`box-border flex flex-col h-screen items-center justify-between px-4 py-6 transition-all duration-300 fixed left-0 top-0 z-50 ${isExpanded ? "w-[240px]" : "w-[76px]"
         } ${bgColor}`}
     >
