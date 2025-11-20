@@ -12,6 +12,7 @@ import "./app.css";
 import { LeftNavBarExample } from "~/components/left-nav-bar/left-nav-bar-example";
 import { LeftNavBarDarkExample } from "~/components/left-nav-bar/left-nav-bar-example";
 import { PageContainer } from "~/components/page-container/page-container";
+import { ThemeProvider } from "~/utils/theme-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -36,14 +37,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="flex">
-        <LeftNavBarExample />
-        <div className="flex-1 ml-[76px]">
-          <PageContainer>
-            <div className="flex-1">
-              {children}
-            </div>
-          </PageContainer>
-        </div>
+        <ThemeProvider>
+          <LeftNavBarExample />
+          <div className="flex-1 ml-[76px]">
+            <PageContainer>
+              <div className="flex-1">
+                {children}
+              </div>
+            </PageContainer>
+          </div>
+        </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
