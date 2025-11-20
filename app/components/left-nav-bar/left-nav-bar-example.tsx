@@ -8,7 +8,7 @@ import {
   SettingsIcon,
   LogOutIcon,
   LogoIcon,
-} from "./icons";
+} from "../icons/icons";
 
 // Example: How to use the LeftNavBar component
 export function LeftNavBarExample() {
@@ -29,7 +29,7 @@ export function LeftNavBarExample() {
       id: "report-comparison",
       label: "Report Comparison",
       icon: <CompareIcon stroke="currentColor" />,
-      path: "/report-comparison",
+      path: "/compare-reports",
     },
     {
       id: "policy-manager",

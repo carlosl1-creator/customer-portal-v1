@@ -1,9 +1,7 @@
 export function GeometricBackground() {
   return (
-    <div className="fixed inset-0 -z-50 overflow-hidden pointer-events-none">
-      <div 
-        className="absolute left-0 right-0 w-[100%] h-[110%]"
-      >
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute left-0 right-0 top-0 w-full h-full">
         <img
           src="/sine.svg"
           alt=""

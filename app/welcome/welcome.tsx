@@ -1,22 +1,28 @@
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
-import { Button } from "~/components/button";
-import { ArrowUpRightIcon, ListIcon } from "~/components/icons";
+import { Button } from "~/components/button/button";
+import { ArrowUpRightIcon, ListIcon } from "~/components/icons/icons";
 
-export function Welcome() {
+export interface WelcomeProps {
+  onAction?: () => void;
+}
+
+export function Welcome({ onAction }: WelcomeProps) {
   const handleOpenFirstReport = () => {
     // Handle open first report action
     console.log("Open First Report clicked");
+    onAction?.();
   };
 
   const handleExploreDashboard = () => {
     // Handle explore dashboard action
     console.log("Explore Dashboard clicked");
+    onAction?.();
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen w-full">
-      <div className="flex flex-col gap-[58px] items-start max-w-[1140px] w-full px-16 pt-24 pb-6">
+    <div className="flex flex-col items-center justify-start w-full">
+      <div className="flex flex-col gap-[58px] items-start max-w-[1140px] w-full pt-24 pb-6">
         {/* Logo */}
         <div className="w-[84px] h-[84px] relative shrink-0">
           <img

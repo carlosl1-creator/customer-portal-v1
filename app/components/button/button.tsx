@@ -19,10 +19,10 @@ export function Button({
     "box-border flex gap-2 items-center justify-center px-5 py-3 rounded-lg transition-colors";
   
   const primaryStyles =
-    "bg-[#181d27] border border-[#181d27] text-white hover:opacity-90";
+    "bg-[#1570EF] border border-[#1570EF] text-white hover:opacity-90";
   
   const secondaryStyles =
-    "bg-white border border-[#d5d7da] text-[#414651] hover:opacity-90";
+    "bg-white border border-[#e9eaeb] text-[#414651] hover:opacity-90";
 
   const styles =
     variant === "primary"

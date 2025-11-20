@@ -9,10 +9,9 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { GeometricBackground } from "./components/geometric-background";
-import { LeftNavBar } from "~/components/left-nav-bar";
-import { LeftNavBarExample } from "~/components/left-nav-bar-example";
-import { LeftNavBarDarkExample } from "~/components/left-nav-bar-example";
+import { LeftNavBarExample } from "~/components/left-nav-bar/left-nav-bar-example";
+import { LeftNavBarDarkExample } from "~/components/left-nav-bar/left-nav-bar-example";
+import { PageContainer } from "~/components/page-container/page-container";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -38,9 +37,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="flex">
         <LeftNavBarExample />
-        <GeometricBackground />
-        <div className="flex-1">
-          {children}
+        <div className="flex-1 ml-[76px]">
+          <PageContainer>
+            <div className="flex-1">
+              {children}
+            </div>
+          </PageContainer>
         </div>
         <ScrollRestoration />
         <Scripts />
