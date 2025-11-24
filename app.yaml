@@ -1,0 +1,12 @@
+runtime: nodejs20 # Use a current Node.js runtime
+handlers:
+# 1. Serve all static files (JS, CSS, images) from the 'dist' folder
+- url: /(.*\.[\w]{2,4})$
+  static_files: dist/\1
+  upload: dist/(.*\.[\w]{2,4})$
+# 2. Catch-all handler for the SPA (sends all other requests to index.html)
+- url: /.*
+  static_files: dist/index.html
+  upload: dist/index.html
+  # Set expiration for aggressive caching, safe for UAT
+  expiration: 1h

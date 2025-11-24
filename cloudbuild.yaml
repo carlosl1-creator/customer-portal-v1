@@ -1,20 +1,25 @@
 steps:
-# 1. Install dependencies - USING NODE 20 BUILDER
+# 1. Install dependencies (Node 20)
 - name: 'node:20' 
   id: 'Install Dependencies'
   entrypoint: 'npm'
   args: ['install']
   
-# 2. Build the React/Vite app - USING NODE 20 BUILDER
+# 2. Build the React/Vite app (Node 20)
 - name: 'node:20'
   id: 'Build Application'
   entrypoint: 'npm'
   args: ['run', 'build']
   
-# 3. Deploy to App Engine (Use gcloud SDK for deployment)
+# 3. Deploy to App Engine - CORRECTED
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'Deploy to App Engine'
-  args: ['app', 'deploy']
+  # Set the command itself as the entrypoint
+  entrypoint: 'gcloud' 
+  args: [
+    'app', 
+    'deploy'
+  ]
   
 options:
   logging: CLOUD_LOGGING_ONLY
