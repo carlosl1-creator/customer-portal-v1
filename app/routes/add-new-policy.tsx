@@ -2,7 +2,6 @@ import type { Route } from "./+types/add-new-policy";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
-import { InputField } from "~/components/input-field/input-field";
 import { ButtonGroup, type ButtonGroupOption } from "~/components/button-group/button-group";
 import { TestPrioritizationTable, type TestCategory, type Priority } from "~/components/tables/test-prioritization-table/test-prioritization-table";
 import { ArrowUpRightIcon, UploadIcon, GoogleDriveIcon, ConfluenceIcon, NotionIcon } from "~/components/icons/icons";

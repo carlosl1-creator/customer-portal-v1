@@ -34,6 +34,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       root.classList.remove("dark");
     }
     localStorage.setItem("theme", theme);
+    console.log(theme);
   }, [theme]);
 
   const setTheme = (newTheme: Theme) => {

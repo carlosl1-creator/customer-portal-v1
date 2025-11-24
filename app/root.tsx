@@ -12,7 +12,7 @@ import "./app.css";
 import { LeftNavBarExample } from "~/components/left-nav-bar/left-nav-bar-example";
 import { LeftNavBarDarkExample } from "~/components/left-nav-bar/left-nav-bar-example";
 import { PageContainer } from "~/components/page-container/page-container";
-import { ThemeProvider } from "~/utils/theme-context";
+import { ThemeProvider, useTheme } from "~/utils/theme-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -27,6 +27,25 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+function LayoutContent({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme();
+
+  console.log(theme);
+  
+  return (
+    <>
+      {theme === "light" ? <LeftNavBarExample /> : <LeftNavBarDarkExample />}
+      <div className="flex-1 ml-[76px]">
+        <PageContainer>
+          <div className="flex-1">
+            {children}
+          </div>
+        </PageContainer>
+      </div>
+    </>
+  );
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -38,14 +57,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="flex">
         <ThemeProvider>
-          <LeftNavBarExample />
-          <div className="flex-1 ml-[76px]">
-            <PageContainer>
-              <div className="flex-1">
-                {children}
-              </div>
-            </PageContainer>
-          </div>
+          <LayoutContent>{children}</LayoutContent>
         </ThemeProvider>
         <ScrollRestoration />
         <Scripts />

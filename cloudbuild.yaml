@@ -1,0 +1,22 @@
+steps:
+# 1. Install dependencies
+- name: 'gcr.io/cloud-builders/npm'
+  id: 'Install Dependencies'
+  args: ['install']
+  
+# 2. Build the React/Vite app for production (creates 'dist' folder)
+- name: 'gcr.io/cloud-builders/npm'
+  id: 'Build Application'
+  args: ['run', 'build']
+  
+# 3. Deploy the built 'dist' folder to App Engine
+# (You must have an app.yaml file for App Engine deployment)
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: 'Deploy to App Engine'
+  args: ['app', 'deploy']
+  
+# 4. (Fix) Configure logging options
+options:
+  # This fixes the 'invalid argument' error by telling Cloud Build to store 
+  # logs in Cloud Logging, not a custom Storage bucket.
+  logging: CLOUD_LOGGING_ONLY
