@@ -19,10 +19,10 @@ export interface TestPrioritizationDiffTableProps {
 }
 
 const priorityStyles: Record<Priority, { bg: string; text: string; dot: string }> = {
-  high: { bg: "#FFF1F3", text: "#C01048", dot: "#FD6F8E" },
-  medium: { bg: "#FFFAEB", text: "#B54708", dot: "#FDB022" },
-  low: { bg: "#ECFDF3", text: "#027A48", dot: "#027A48" },
-  critical: { bg: "#FEF3F2", text: "#B42318", dot: "#D92D20" },
+  high: { bg: "var(--color-error-bg)", text: "var(--color-error-text)", dot: "var(--color-error)" },
+  medium: { bg: "var(--color-warning-bg)", text: "var(--color-warning-text)", dot: "var(--color-warning)" },
+  low: { bg: "var(--color-success-bg)", text: "var(--color-success-text)", dot: "var(--color-success)" },
+  critical: { bg: "var(--color-error-bg)", text: "var(--color-error-text)", dot: "var(--color-error)" },
 };
 
 const priorityLabels: Record<Priority, string> = {
@@ -32,7 +32,7 @@ const priorityLabels: Record<Priority, string> = {
   critical: "Critical",
 };
 
-function ArrowRightIcon({ className = "w-[18px] h-[18px]", stroke = "#717680" }: { className?: string; stroke?: string }) {
+function ArrowRightIcon({ className = "w-[18px] h-[18px]", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
@@ -63,8 +63,8 @@ function PriorityDiffCell({
 
   return (
     <div
-      className={`border-[#e9eaeb] border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex h-[72px] items-center px-6 py-4 relative shrink-0 w-[180px] ${
-        isEven ? "bg-neutral-50" : "bg-white"
+      className={`border-theme-primary border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex h-[72px] items-center px-6 py-4 relative shrink-0 w-[180px] ${
+        isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
       }`}
     >
       <div className="content-stretch flex gap-2 items-start overflow-clip relative shrink-0">
@@ -89,8 +89,8 @@ function PriorityDiffCell({
 
         {/* Arrow */}
         {hasChange && (
-          <div className="overflow-clip relative shrink-0 size-[18px] flex items-center justify-center">
-            <ArrowRightIcon className="size-[18px]" stroke="#717680" />
+          <div className="overflow-clip relative shrink-0 size-[18px] flex items-center justify-center text-theme-tertiary">
+            <ArrowRightIcon className="size-[18px]" />
           </div>
         )}
 
@@ -156,9 +156,9 @@ export function TestPrioritizationDiffTable({
       <div className="h-[44px] relative shrink-0 w-[320px]">
         <div className="absolute content-stretch flex flex-col gap-[6px] items-start left-0 right-0 top-0">
           <div className="content-stretch flex flex-col gap-[6px] items-start relative shrink-0 w-full">
-            <div className="bg-white border border-[#e9eaeb] border-solid box-border content-stretch flex gap-[8px] items-center px-[14px] py-[10px] relative rounded-[8px] shrink-0 w-full">
+            <div className="bg-theme-card border border-theme-primary border-solid box-border content-stretch flex gap-[8px] items-center px-[14px] py-[10px] relative rounded-[8px] shrink-0 w-full">
               <div className="content-stretch flex flex-[1_0_0] gap-[8px] items-center min-h-px min-w-px relative shrink-0">
-                <SearchIcon className="overflow-clip relative shrink-0 size-5" stroke="#717680" />
+                <SearchIcon className="overflow-clip relative shrink-0 size-5 text-theme-tertiary" />
                 <input
                   type="text"
                   value={searchQuery}
@@ -167,7 +167,7 @@ export function TestPrioritizationDiffTable({
                     setCurrentPage(1); // Reset to first page on search
                   }}
                   placeholder="Search"
-                  className="flex-1 font-normal leading-6 text-base text-[#717680] outline-none bg-transparent"
+                  className="flex-1 font-normal leading-6 text-base text-theme-tertiary placeholder:text-theme-tertiary outline-none bg-transparent"
                 />
               </div>
             </div>
@@ -176,14 +176,14 @@ export function TestPrioritizationDiffTable({
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-[#e9eaeb] border-solid relative rounded-[12px] shrink-0 w-full">
+      <div className="bg-theme-card border border-theme-primary border-solid relative rounded-[12px] shrink-0 w-full">
         <div className="content-stretch flex flex-col items-start overflow-visible relative rounded-[inherit] w-full">
-          <div className="bg-white content-stretch flex items-start relative shrink-0 w-full">
+          <div className="bg-theme-card content-stretch flex items-start relative shrink-0 w-full">
             {/* Category Column */}
             <div className="content-stretch flex flex-col items-start relative shrink-0">
-              <div className="bg-white border-[#e9eaeb] border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex gap-3 h-[44px] items-center px-6 py-3 relative shrink-0 w-[240px]">
+              <div className="bg-[var(--color-table-header-bg)] border-theme-primary border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex gap-3 h-[44px] items-center px-6 py-3 relative shrink-0 w-[240px]">
                 <div className="content-stretch flex gap-1 items-center relative shrink-0">
-                  <p className="font-medium leading-[18px] not-italic relative shrink-0 text-[#535862] text-[12px]">
+                  <p className="font-medium leading-[18px] not-italic relative shrink-0 text-theme-secondary text-[12px]">
                     Category
                   </p>
                 </div>
@@ -193,11 +193,11 @@ export function TestPrioritizationDiffTable({
                 return (
                   <div
                     key={category.id}
-                    className={`border-[#e9eaeb] border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex h-[72px] items-center px-6 py-4 relative shrink-0 w-[240px] ${
-                      isEven ? "bg-neutral-50" : "bg-white"
+                    className={`border-theme-primary border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex h-[72px] items-center px-6 py-4 relative shrink-0 w-[240px] ${
+                      isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
                     }`}
                   >
-                    <p className="font-normal leading-[20px] not-italic relative shrink-0 text-[#181d27] text-[14px]">
+                    <p className="font-normal leading-[20px] not-italic relative shrink-0 text-theme-primary text-[14px]">
                       {category.name}
                     </p>
                   </div>
@@ -207,12 +207,12 @@ export function TestPrioritizationDiffTable({
 
             {/* Priority Column */}
             <div className="content-stretch flex flex-col items-start relative shrink-0">
-              <div className="bg-white border-[#e9eaeb] border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex gap-3 h-[44px] items-center px-6 py-3 relative shrink-0 w-[180px]">
+              <div className="bg-[var(--color-table-header-bg)] border-theme-primary border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex gap-3 h-[44px] items-center px-6 py-3 relative shrink-0 w-[180px]">
                 <div className="content-stretch flex gap-1 items-center relative shrink-0">
-                  <p className="font-medium leading-[18px] not-italic relative shrink-0 text-[#535862] text-[12px]">
+                  <p className="font-medium leading-[18px] not-italic relative shrink-0 text-theme-secondary text-[12px]">
                     Priority
                   </p>
-                  <HelpIcon className="relative shrink-0 size-4" stroke="#A4A7AE" />
+                  <HelpIcon className="relative shrink-0 size-4 text-theme-muted" />
                 </div>
               </div>
               {currentCategories.map((category, index) => {
@@ -229,9 +229,9 @@ export function TestPrioritizationDiffTable({
 
             {/* Description Column */}
             <div className="content-stretch flex flex-[1_0_0] flex-col items-start min-h-px min-w-px relative shrink-0">
-              <div className="bg-white border-[#e9eaeb] border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex gap-3 h-[44px] items-center px-6 py-3 relative shrink-0 w-full">
+              <div className="bg-[var(--color-table-header-bg)] border-theme-primary border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex gap-3 h-[44px] items-center px-6 py-3 relative shrink-0 w-full">
                 <div className="content-stretch flex gap-1 items-center relative shrink-0">
-                  <p className="font-medium leading-[18px] not-italic relative shrink-0 text-[#535862] text-[12px]">
+                  <p className="font-medium leading-[18px] not-italic relative shrink-0 text-theme-secondary text-[12px]">
                     Description
                   </p>
                 </div>
@@ -241,11 +241,11 @@ export function TestPrioritizationDiffTable({
                 return (
                   <div
                     key={category.id}
-                    className={`border-[#e9eaeb] border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex h-[72px] items-center px-6 py-4 relative shrink-0 w-full ${
-                      isEven ? "bg-neutral-50" : "bg-white"
+                    className={`border-theme-primary border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex h-[72px] items-center px-6 py-4 relative shrink-0 w-full ${
+                      isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
                     }`}
                   >
-                    <p className="flex-[1_0_0] font-normal h-full leading-[20px] min-h-px min-w-px not-italic relative shrink-0 text-[#535862] text-[14px] whitespace-pre-wrap">
+                    <p className="flex-[1_0_0] font-normal h-full leading-[20px] min-h-px min-w-px not-italic relative shrink-0 text-theme-secondary text-[14px] whitespace-pre-wrap">
                       {category.description}
                     </p>
                   </div>
@@ -255,22 +255,22 @@ export function TestPrioritizationDiffTable({
 
             {/* Actions Column */}
             <div className="content-stretch flex flex-col items-start relative shrink-0">
-              <div className="bg-white border-[#e9eaeb] border-b border-l-0 border-r-0 border-solid border-t-0 h-[44px] shrink-0 w-[80px]" />
+              <div className="bg-[var(--color-table-header-bg)] border-theme-primary border-b border-l-0 border-r-0 border-solid border-t-0 h-[44px] shrink-0 w-[80px]" />
               {currentCategories.map((category, index) => {
                 const isEven = (startIndex + index) % 2 === 0;
                 return (
                   <div
                     key={category.id}
-                    className={`border-[#e9eaeb] border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex gap-1 h-[72px] items-center p-4 relative shrink-0 w-[80px] ${
-                      isEven ? "bg-neutral-50" : "bg-white"
+                    className={`border-theme-primary border-b border-l-0 border-r-0 border-solid border-t-0 box-border content-stretch flex gap-1 h-[72px] items-center p-4 relative shrink-0 w-[80px] ${
+                      isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
                     }`}
                   >
                     <button
                       onClick={() => onViewDetails?.(category)}
-                      className="content-stretch flex items-start relative rounded-[8px] shrink-0 hover:opacity-80 transition-opacity"
+                      className="content-stretch flex items-start relative rounded-[8px] shrink-0 hover:opacity-80 transition-opacity bg-transparent border-0 p-0 cursor-pointer"
                     >
                       <div className="box-border content-stretch flex gap-2 items-center justify-center overflow-clip p-[10px] relative rounded-[8px] shrink-0">
-                        <ArrowUpRightIcon className="overflow-clip relative shrink-0 size-5" stroke="#535862" />
+                        <ArrowUpRightIcon className="overflow-clip relative shrink-0 size-5 text-theme-secondary" />
                       </div>
                     </button>
                   </div>
@@ -280,18 +280,18 @@ export function TestPrioritizationDiffTable({
           </div>
 
           {/* Pagination */}
-          <div className="border-[#e9eaeb] border-b-0 border-l-0 border-r-0 border-solid border-t box-border content-stretch flex items-center justify-between pb-4 pt-3 px-6 relative shrink-0 w-full">
+          <div className="border-theme-primary border-b-0 border-l-0 border-r-0 border-solid border-t box-border content-stretch flex items-center justify-between pb-4 pt-3 px-6 relative shrink-0 w-full">
             <div className="content-stretch flex gap-3 items-start relative shrink-0">
               <button
                 onClick={handlePrevious}
                 disabled={currentPage === 1}
-                className={`content-stretch flex items-start relative shrink-0 ${
+                className={`content-stretch flex items-start relative shrink-0 bg-transparent border-0 p-0 ${
                   currentPage === 1 ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:opacity-80 transition-opacity"
                 }`}
               >
                 <p
                   className={`font-medium leading-[18px] text-[12px] ${
-                    currentPage === 1 ? "text-[#d5d7da]" : "text-[#535862]"
+                    currentPage === 1 ? "text-theme-muted" : "text-theme-secondary"
                   }`}
                 >
                   Previous
@@ -300,7 +300,7 @@ export function TestPrioritizationDiffTable({
               <button
                 onClick={handleNext}
                 disabled={currentPage === totalPages}
-                className={`content-stretch flex items-start relative shrink-0 ${
+                className={`content-stretch flex items-start relative shrink-0 bg-transparent border-0 p-0 ${
                   currentPage === totalPages
                     ? "opacity-50 cursor-not-allowed"
                     : "cursor-pointer hover:opacity-80 transition-opacity"
@@ -308,14 +308,14 @@ export function TestPrioritizationDiffTable({
               >
                 <p
                   className={`font-medium leading-[18px] text-[12px] ${
-                    currentPage === totalPages ? "text-[#d5d7da]" : "text-[#535862]"
+                    currentPage === totalPages ? "text-theme-muted" : "text-theme-secondary"
                   }`}
                 >
                   Next
                 </p>
               </button>
             </div>
-            <p className="font-normal leading-[18px] not-italic relative shrink-0 text-[#535862] text-[12px]">
+            <p className="font-normal leading-[18px] not-italic relative shrink-0 text-theme-secondary text-[12px]">
               Page {currentPage} of {totalPages || 1}
             </p>
           </div>
@@ -324,4 +324,3 @@ export function TestPrioritizationDiffTable({
     </div>
   );
 }
-

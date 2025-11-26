@@ -36,25 +36,25 @@ export function CasesCard({
 
   return (
     <div
-      className={`bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 h-full relative min-h-[220px] max-h-[224px] ${className}`}
+      className={`bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 h-full relative min-h-[220px] max-h-[224px] ${className}`}
     >
       {/* Maximize button */}
       {onMaximizeClick && (
         <button
           onClick={onMaximizeClick}
-          className="absolute top-4 right-4 p-2 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+          className="absolute top-4 right-4 p-2 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity text-theme-secondary"
           aria-label="Maximize"
         >
-          <MaximizeIcon className="w-5 h-5" stroke="#535862" />
+          <MaximizeIcon className="w-5 h-5" />
         </button>
       )}
 
       {/* Title and subtitle */}
       <div className="flex flex-col gap-1">
-        <h3 className="font-medium text-[16px] leading-[24px] text-[#181d27]">
+        <h3 className="font-medium text-[16px] leading-[24px] text-theme-primary">
           {title}
         </h3>
-        <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+        <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
           {subtitle}
         </p>
       </div>
@@ -63,10 +63,10 @@ export function CasesCard({
       <div className="flex gap-4 items-center w-full flex-1">
         {/* Number and label */}
         <div className="flex flex-col gap-2 flex-shrink-0">
-          <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+          <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
             {formattedTotal}
           </p>
-          <p className="font-normal text-[14px] leading-[20px] text-[#535862]">
+          <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">
             Generated
           </p>
         </div>
@@ -87,7 +87,7 @@ export function CasesCard({
                   className="w-4 h-4 rounded-full flex-shrink-0"
                   style={{ backgroundColor: scenario.color }}
                 />
-                <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                   {scenario.label}
                 </p>
               </div>
@@ -98,4 +98,3 @@ export function CasesCard({
     </div>
   );
 }
-

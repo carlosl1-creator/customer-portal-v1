@@ -37,30 +37,30 @@ export function FoundVulnerabilitiesCard({
   onHelpClick,
   className = "",
 }: FoundVulnerabilitiesCardProps) {
-  const statusColor = status === "success" ? "#d1fadf" : "#fef0c7";
-  const statusIconColor = status === "success" ? "#039855" : "#dc6803";
+  const statusColor = status === "success" ? "var(--color-success-bg)" : "var(--color-warning-bg)";
+  const statusIconColor = status === "success" ? "var(--color-success-text)" : "var(--color-warning-text)";
 
   return (
     <div
-      className={`bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 h-full relative ${className}`}
+      className={`bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 h-full relative ${className}`}
     >
       {/* Maximize button */}
       {onMaximizeClick && (
         <button
           onClick={onMaximizeClick}
-          className="absolute top-4 right-4 p-2 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+          className="absolute top-4 right-4 p-2 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity text-theme-secondary"
           aria-label="Maximize"
         >
-          <MaximizeIcon className="w-5 h-5" stroke="#535862" />
+          <MaximizeIcon className="w-5 h-5" />
         </button>
       )}
 
       {/* Header */}
       <div className="flex flex-col gap-1">
-        <h3 className="font-medium text-[16px] leading-[24px] text-[#181d27]">
+        <h3 className="font-medium text-[16px] leading-[24px] text-theme-primary">
           {title}
         </h3>
-        <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+        <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
           {subtitle}
         </p>
       </div>
@@ -72,7 +72,7 @@ export function FoundVulnerabilitiesCard({
           {/* Main number */}
           <div className="flex flex-col gap-2">
             <div className="flex items-end gap-2">
-              <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+              <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
                 {identifiedCount}
               </p>
               <div
@@ -111,7 +111,7 @@ export function FoundVulnerabilitiesCard({
                 )}
               </div>
             </div>
-            <p className="font-normal text-[14px] leading-[20px] text-[#535862]">
+            <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">
               Identified
             </p>
           </div>
@@ -119,36 +119,36 @@ export function FoundVulnerabilitiesCard({
           {/* ASR percentages */}
           <div className="flex flex-col gap-4">
             <div className="flex items-end gap-3">
-              <p className="font-normal text-[24px] leading-[32px] text-[#535862]">
+              <p className="font-normal text-[24px] leading-[32px] text-theme-secondary">
                 {unweightedASR.toFixed(1)}%
               </p>
               <div className="flex items-center gap-1.5 pb-1">
-                <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                   Unweighted ASR
                 </p>
                 <button
                   onClick={onHelpClick}
-                  className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+                  className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity text-theme-muted"
                   aria-label="Help"
                 >
-                  <HelpIcon className="w-4 h-4" stroke="#A4A7AE" />
+                  <HelpIcon className="w-4 h-4" />
                 </button>
               </div>
             </div>
             <div className="flex items-end gap-3">
-              <p className="font-normal text-[24px] leading-[32px] text-[#535862]">
+              <p className="font-normal text-[24px] leading-[32px] text-theme-secondary">
                 {weightedASR.toFixed(1)}%
               </p>
               <div className="flex items-center gap-1.5 pb-1">
-                <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                   Weighted ASR
                 </p>
                 <button
                   onClick={onHelpClick}
-                  className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+                  className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity text-theme-muted"
                   aria-label="Help"
                 >
-                  <HelpIcon className="w-4 h-4" stroke="#A4A7AE" />
+                  <HelpIcon className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -167,13 +167,13 @@ export function FoundVulnerabilitiesCard({
                 className="absolute inset-0"
               >
                 {/* Grid circles */}
-                <circle cx="74" cy="54" r="20" fill="none" stroke="#E9EAEB" strokeWidth="0.5" />
-                <circle cx="74" cy="54" r="35" fill="none" stroke="#E9EAEB" strokeWidth="0.5" />
-                <circle cx="74" cy="54" r="50" fill="none" stroke="#E9EAEB" strokeWidth="0.5" />
+                <circle cx="74" cy="54" r="20" fill="none" stroke="var(--color-border-primary)" strokeWidth="0.5" />
+                <circle cx="74" cy="54" r="35" fill="none" stroke="var(--color-border-primary)" strokeWidth="0.5" />
+                <circle cx="74" cy="54" r="50" fill="none" stroke="var(--color-border-primary)" strokeWidth="0.5" />
                 
                 {/* Axis lines */}
-                <line x1="74" y1="4" x2="74" y2="104" stroke="#E9EAEB" strokeWidth="0.5" />
-                <line x1="24" y1="54" x2="124" y2="54" stroke="#E9EAEB" strokeWidth="0.5" />
+                <line x1="74" y1="4" x2="74" y2="104" stroke="var(--color-border-primary)" strokeWidth="0.5" />
+                <line x1="24" y1="54" x2="124" y2="54" stroke="var(--color-border-primary)" strokeWidth="0.5" />
                 
                 {/* Placeholder for radar data - simplified */}
                 {radarData.map((series, seriesIndex) => {
@@ -202,7 +202,7 @@ export function FoundVulnerabilitiesCard({
               
               {/* Labels */}
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-[6px] leading-[9px] text-[#717680] font-normal text-center">
+                <div className="text-[6px] leading-[9px] text-theme-tertiary font-normal text-center">
                   <div className="absolute top-0 left-1/2 -translate-x-1/2">Violence</div>
                   <div className="absolute left-0 top-1/2 -translate-y-1/2">Self-Harm</div>
                   <div className="absolute bottom-0 left-1/2 -translate-x-1/2">Hate Speech</div>
@@ -223,7 +223,7 @@ export function FoundVulnerabilitiesCard({
                     className="w-4 h-4 rounded-full flex-shrink-0"
                     style={{ backgroundColor: series.color }}
                   />
-                  <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                  <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                     {series.label}
                   </p>
                 </div>
@@ -235,4 +235,3 @@ export function FoundVulnerabilitiesCard({
     </div>
   );
 }
-

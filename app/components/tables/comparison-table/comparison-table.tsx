@@ -34,71 +34,71 @@ export function ComparisonTable({
   return (
     <div className={`flex flex-col gap-[10px] items-start ${className}`}>
       <div className="px-1">
-        <p className="font-medium text-[16px] leading-[24px] text-[#535862]">{title}</p>
+        <p className="font-medium text-[16px] leading-[24px] text-theme-secondary">{title}</p>
       </div>
-      <div className="bg-white border border-[#e9eaeb] rounded-[12px] overflow-hidden w-full">
+      <div className="bg-theme-card border border-theme-primary rounded-[12px] overflow-hidden w-full">
         <div className="flex flex-col w-full">
           {/* Header */}
-          <div className="bg-white flex items-start border-b border-[#e9eaeb] w-full">
+          <div className="bg-theme-card flex items-start border-b border-theme-primary w-full">
             {/* Case ID */}
             <div className="flex flex-col">
-              <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
-                <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Case ID</p>
+              <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
+                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Case ID</p>
               </div>
             </div>
 
             {/* Category */}
             <div className="flex flex-col">
-              <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
-                <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Category</p>
+              <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
+                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Category</p>
               </div>
             </div>
 
             {/* Risk Factor */}
             <div className="flex flex-col">
-              <div className="bg-white border-b border-[#e9eaeb] flex gap-1 h-11 items-center px-6 py-3">
-                <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Risk Factor</p>
-                <HelpIcon className="w-4 h-4" stroke="#A4A7AE" />
+              <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-1 h-11 items-center px-6 py-3">
+                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Risk Factor</p>
+                <HelpIcon className="w-4 h-4 text-theme-muted" />
               </div>
             </div>
 
             {/* Turn Length */}
             <div className="flex flex-col">
-              <div className="bg-white border-b border-[#e9eaeb] flex gap-1 h-11 items-center px-6 py-3">
-                <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Turn Length</p>
-                <HelpIcon className="w-4 h-4" stroke="#A4A7AE" />
+              <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-1 h-11 items-center px-6 py-3">
+                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Turn Length</p>
+                <HelpIcon className="w-4 h-4 text-theme-muted" />
               </div>
             </div>
 
             {/* Actions */}
             <div className="flex flex-col">
-              <div className="bg-white border-b border-[#e9eaeb] h-11 px-6 py-3" />
+              <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary h-11 px-6 py-3" />
             </div>
           </div>
 
           {/* Rows */}
           {cases.map((caseItem, index) => {
             const isEven = index % 2 === 0;
-            const bgColor = isEven ? "bg-neutral-50" : "bg-white";
+            const bgClass = isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card";
 
             return (
               <div
                 key={caseItem.caseId}
-                className={`${bgColor} flex items-start border-b border-[#e9eaeb] w-full`}
+                className={`${bgClass} flex items-start border-b border-theme-primary w-full`}
               >
                 {/* Case ID */}
                 <div className="flex gap-3 h-18 items-center px-6 py-4">
-                  <p className="font-normal text-[14px] leading-[20px] text-[#181d27]">{caseItem.caseId}</p>
+                  <p className="font-normal text-[14px] leading-[20px] text-theme-primary">{caseItem.caseId}</p>
                 </div>
 
                 {/* Category */}
                 <div className="flex h-18 items-center px-6 py-4">
                   <a
-                    className="block cursor-pointer font-normal leading-[20px] text-[#535862] text-[14px] whitespace-nowrap"
+                    className="block cursor-pointer font-normal leading-[20px] text-theme-secondary text-[14px] whitespace-nowrap"
                     onClick={() => onCaseClick?.(caseItem)}
                   >
                     <p className="leading-[20px]">
-                      {caseItem.category} <span className="font-normal text-[#a4a7ae]">↗</span>
+                      {caseItem.category} <span className="font-normal text-theme-muted">↗</span>
                     </p>
                   </a>
                 </div>
@@ -115,17 +115,17 @@ export function ComparisonTable({
 
                 {/* Turn Length */}
                 <div className="flex flex-col h-18 justify-center px-6 py-4">
-                  <p className="font-medium text-[14px] leading-[20px] text-[#181d27]">{caseItem.turnLength.turns}</p>
-                  <p className="font-normal text-[14px] leading-[20px] text-[#535862]">{caseItem.turnLength.chars}</p>
+                  <p className="font-medium text-[14px] leading-[20px] text-theme-primary">{caseItem.turnLength.turns}</p>
+                  <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">{caseItem.turnLength.chars}</p>
                 </div>
 
                 {/* Actions */}
                 <div className="flex gap-1 h-18 items-center p-4">
                   <button
-                    className="p-2.5 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity rounded-lg"
+                    className="p-2.5 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity rounded-lg text-theme-secondary"
                     onClick={() => onCaseClick?.(caseItem)}
                   >
-                    <ArrowUpRightIcon className="w-5 h-5" stroke="#535862" />
+                    <ArrowUpRightIcon className="w-5 h-5" />
                   </button>
                 </div>
               </div>
@@ -134,19 +134,18 @@ export function ComparisonTable({
         </div>
 
         {/* Pagination */}
-        <div className="border-t border-[#e9eaeb] flex items-center justify-between px-6 py-3 w-full">
+        <div className="border-t border-theme-primary flex items-center justify-between px-6 py-3 w-full">
           <div className="flex gap-3 items-start">
             <button className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
-              <p className="font-medium text-[14px] leading-[20px] text-[#d5d7da]">Previous</p>
+              <p className="font-medium text-[14px] leading-[20px] text-theme-muted">Previous</p>
             </button>
             <button className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
-              <p className="font-medium text-[14px] leading-[20px] text-[#535862]">Next</p>
+              <p className="font-medium text-[14px] leading-[20px] text-theme-secondary">Next</p>
             </button>
           </div>
-          <p className="font-normal text-[14px] leading-[20px] text-[#414651]">Page 1 of 10</p>
+          <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">Page 1 of 10</p>
         </div>
       </div>
     </div>
   );
 }
-

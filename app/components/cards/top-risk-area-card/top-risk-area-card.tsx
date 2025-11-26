@@ -43,16 +43,16 @@ export function TopRiskAreaCard({
 }: TopRiskAreaCardProps) {
   const getThreatLevelBadgeColor = (level: string) => {
     const lower = level.toLowerCase();
-    if (lower === "high") return { bg: "#FEF3F2", text: "#B42318", dot: "#F04438" };
-    if (lower === "medium") return { bg: "#FEF0C7", text: "#DC6803", dot: "#DC6803" };
-    return { bg: "#ECFDF3", text: "#027A48", dot: "#039855" };
+    if (lower === "high") return { bg: "var(--color-error-bg)", text: "var(--color-error-text)", dot: "var(--color-error)" };
+    if (lower === "medium") return { bg: "var(--color-warning-bg)", text: "var(--color-warning-text)", dot: "var(--color-warning)" };
+    return { bg: "var(--color-success-bg)", text: "var(--color-success-text)", dot: "var(--color-success)" };
   };
 
   const getPriorityBadgeColor = (priority: string) => {
     const lower = priority.toLowerCase();
-    if (lower === "high") return { bg: "#FEF3F2", text: "#B42318", dot: "#F04438" };
-    if (lower === "medium") return { bg: "#FEF0C7", text: "#DC6803", dot: "#DC6803" };
-    return { bg: "#ECFDF3", text: "#027A48", dot: "#039855" };
+    if (lower === "high") return { bg: "var(--color-error-bg)", text: "var(--color-error-text)", dot: "var(--color-error)" };
+    if (lower === "medium") return { bg: "var(--color-warning-bg)", text: "var(--color-warning-text)", dot: "var(--color-warning)" };
+    return { bg: "var(--color-success-bg)", text: "var(--color-success-text)", dot: "var(--color-success)" };
   };
 
   const threatBadge = getThreatLevelBadgeColor(threatLevel);
@@ -60,12 +60,12 @@ export function TopRiskAreaCard({
 
   return (
     <div
-      className={`border border-[#e9eaeb] rounded-[12px] flex flex-col gap-6 p-8 ${className}`}
+      className={`border border-theme-primary rounded-[12px] flex flex-col gap-6 p-8 bg-theme-card ${className}`}
     >
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex gap-2.5 items-center">
-          <p className="font-normal text-[20px] leading-[30px] text-[#181d27]">
+          <p className="font-normal text-[20px] leading-[30px] text-theme-primary">
             {number}. {title}
           </p>
           {/* Threat Level Badge */}
@@ -85,9 +85,9 @@ export function TopRiskAreaCard({
             </p>
           </div>
           {/* ASR Percentage Badge */}
-          <div className="bg-[#EFF8FF] inline-flex gap-1.5 items-center justify-center pl-2.5 pr-3 py-1 rounded-[16px]">
-            <div className="w-2 h-2 rounded-full bg-[#2E90FA]" />
-            <p className="font-medium text-[14px] leading-[20px] text-center tracking-[-0.28px] text-[#175CD3]">
+          <div className="bg-[var(--color-info-bg)] inline-flex gap-1.5 items-center justify-center pl-2.5 pr-3 py-1 rounded-[16px]">
+            <div className="w-2 h-2 rounded-full bg-[var(--color-primary)]" />
+            <p className="font-medium text-[14px] leading-[20px] text-center tracking-[-0.28px] text-[var(--color-primary)]">
               {asrPercentage}% ASR
             </p>
           </div>
@@ -96,15 +96,15 @@ export function TopRiskAreaCard({
           {/* Disabled button placeholder */}
           <button
             disabled
-            className="bg-white border border-[#e9eaeb] rounded-[8px] px-3.5 py-2 opacity-50 cursor-not-allowed"
+            className="bg-theme-card border border-theme-primary rounded-[8px] px-3.5 py-2 opacity-50 cursor-not-allowed"
           >
-            <p className="font-semibold text-[14px] leading-[20px] text-[#d5d7da]">
+            <p className="font-semibold text-[14px] leading-[20px] text-theme-muted">
               Previous
             </p>
           </button>
           {/* Active button placeholder */}
-          <button className="bg-white border border-[#d5d7da] rounded-[8px] px-3.5 py-2 hover:bg-neutral-50 transition-colors cursor-pointer">
-            <p className="font-semibold text-[14px] leading-[20px] text-[#414651]">
+          <button className="bg-theme-card border border-theme-secondary rounded-[8px] px-3.5 py-2 hover:bg-theme-hover transition-colors cursor-pointer">
+            <p className="font-semibold text-[14px] leading-[20px] text-theme-secondary">
               Next
             </p>
           </button>
@@ -116,20 +116,20 @@ export function TopRiskAreaCard({
         {/* Group 1: High Risk Cases and Avg. Turns */}
         <div className="flex flex-col gap-2 justify-center">
           <div className="flex gap-2.5 h-8 items-center">
-            <p className="font-medium text-[16px] leading-[24px] text-[#535862]">
+            <p className="font-medium text-[16px] leading-[24px] text-theme-secondary">
               High Risk Cases:
             </p>
-            <p className="font-normal text-[16px] leading-[24px] text-[#181d27]">
+            <p className="font-normal text-[16px] leading-[24px] text-theme-primary">
               {highRiskCases}
             </p>
           </div>
           <div className="flex gap-2.5 h-8 items-center">
-            <p className="font-medium text-[16px] leading-[24px] text-[#535862]">
+            <p className="font-medium text-[16px] leading-[24px] text-theme-secondary">
               Avg. Turns:
             </p>
-            <div className="bg-[#EFF8FF] inline-flex gap-1.5 items-center justify-center pl-2.5 pr-3 py-1 rounded-[16px]">
-              <div className="w-2 h-2 rounded-full bg-[#2E90FA]" />
-              <p className="font-medium text-[14px] leading-[20px] text-center tracking-[-0.28px] text-[#175CD3]">
+            <div className="bg-[var(--color-info-bg)] inline-flex gap-1.5 items-center justify-center pl-2.5 pr-3 py-1 rounded-[16px]">
+              <div className="w-2 h-2 rounded-full bg-[var(--color-primary)]" />
+              <p className="font-medium text-[14px] leading-[20px] text-center tracking-[-0.28px] text-[var(--color-primary)]">
                 {avgTurns.toFixed(2)}
               </p>
             </div>
@@ -139,7 +139,7 @@ export function TopRiskAreaCard({
         {/* Group 2: Priority and Avg. Turn Length */}
         <div className="flex flex-col gap-2 justify-center">
           <div className="flex gap-2.5 h-8 items-center">
-            <p className="font-medium text-[16px] leading-[24px] text-[#535862]">
+            <p className="font-medium text-[16px] leading-[24px] text-theme-secondary">
               Priority:
             </p>
             <div
@@ -168,12 +168,12 @@ export function TopRiskAreaCard({
             </div>
           </div>
           <div className="flex gap-2.5 h-8 items-center">
-            <p className="font-medium text-[16px] leading-[24px] text-[#535862]">
+            <p className="font-medium text-[16px] leading-[24px] text-theme-secondary">
               Avg. Turn Length:
             </p>
-            <div className="bg-[#EFF8FF] inline-flex gap-1.5 items-center justify-center pl-2.5 pr-3 py-1 rounded-[16px]">
-              <div className="w-2 h-2 rounded-full bg-[#2E90FA]" />
-              <p className="font-medium text-[14px] leading-[20px] text-center tracking-[-0.28px] text-[#175CD3]">
+            <div className="bg-[var(--color-info-bg)] inline-flex gap-1.5 items-center justify-center pl-2.5 pr-3 py-1 rounded-[16px]">
+              <div className="w-2 h-2 rounded-full bg-[var(--color-primary)]" />
+              <p className="font-medium text-[14px] leading-[20px] text-center tracking-[-0.28px] text-[var(--color-primary)]">
                 {avgTurnLength}
               </p>
             </div>
@@ -182,7 +182,7 @@ export function TopRiskAreaCard({
       </div>
 
       {/* Key Insights */}
-      <div className="flex flex-col gap-1.5 items-start text-[#535862] text-[16px]">
+      <div className="flex flex-col gap-1.5 items-start text-theme-secondary text-[16px]">
         <p className="font-medium leading-[24px]">Key Insights</p>
         <ul className="block font-normal leading-[0] whitespace-pre-wrap list-disc pl-6">
           {keyInsights.map((insight, index) => (
@@ -209,4 +209,3 @@ export function TopRiskAreaCard({
     </div>
   );
 }
-

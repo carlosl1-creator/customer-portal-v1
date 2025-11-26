@@ -17,20 +17,21 @@ export interface LoadingStepCardProps {
 export function LoadingStepCard({ steps, className = "" }: LoadingStepCardProps) {
   return (
     <div
-      className={`backdrop-blur backdrop-filter bg-[rgba(255,255,255,0.2)] border border-[#e9eaeb] box-border flex flex-col gap-6 items-start px-12 py-9 relative rounded-[12px] shrink-0 ${className}`}
+      className={`backdrop-blur backdrop-filter bg-[var(--color-bg-overlay)] border border-theme-primary box-border flex flex-col gap-6 items-start px-12 py-9 relative rounded-[12px] shrink-0 ${className}`}
+      style={{ backgroundColor: 'rgba(var(--color-bg-card), 0.2)' }}
     >
       {steps.map((step, index) => (
         <div key={index} className="flex gap-2.5 items-start relative shrink-0 w-full">
           {/* Icon/Spinner */}
           <div className="flex items-center justify-center relative shrink-0" style={{ width: 24, height: 24 }}>
             {step.status === "completed" ? (
-              <div className="bg-[#d1fadf] rounded-xl flex items-center justify-center shrink-0" style={{ width: 24, height: 24 }}>
+              <div className="bg-status-success rounded-xl flex items-center justify-center shrink-0" style={{ width: 24, height: 24 }}>
                 <svg
                   className="w-3 h-3"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={2.5}
-                  stroke="#039855"
+                  stroke="var(--color-success-text)"
                 >
                   <path
                     strokeLinecap="round"
@@ -50,12 +51,12 @@ export function LoadingStepCard({ steps, className = "" }: LoadingStepCardProps)
           <div className="flex flex-col gap-1 items-start relative shrink-0 flex-1">
             <p
               className={`font-medium leading-6 text-base ${
-                step.status === "in-progress" ? "text-[#181d27]" : "text-[#535862]"
+                step.status === "in-progress" ? "text-theme-primary" : "text-theme-secondary"
               }`}
             >
               {step.title}
             </p>
-            <p className="font-normal leading-[18px] text-[#535862] text-[12px]">
+            <p className="font-normal leading-[18px] text-theme-secondary text-[12px]">
               {step.description}
             </p>
           </div>
@@ -64,4 +65,3 @@ export function LoadingStepCard({ steps, className = "" }: LoadingStepCardProps)
     </div>
   );
 }
-

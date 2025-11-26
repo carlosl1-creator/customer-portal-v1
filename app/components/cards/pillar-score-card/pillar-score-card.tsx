@@ -34,39 +34,39 @@ export function PillarScoreCard({
   className = "",
 }: PillarScoreCardProps) {
   const statusColors = {
-    success: { bg: "#d1fadf", icon: "✓" },
-    warning: { bg: "#fef0c7", icon: "⚠" },
-    locked: { bg: "#e9eaeb", icon: "🔒" },
+    success: { bg: "var(--color-success-bg)", stroke: "var(--color-success-text)" },
+    warning: { bg: "var(--color-warning-bg)", stroke: "var(--color-warning-text)" },
+    locked: { bg: "var(--color-badge-default-bg)", stroke: "var(--color-text-muted)" },
   };
 
   const statusColor = statusColors[status];
 
   return (
     <div
-      className={`bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 h-full relative ${className}`}
+      className={`bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 h-full relative ${className}`}
     >
       {/* Maximize button */}
       {onMaximizeClick && (
         <button
           onClick={onMaximizeClick}
-          className="absolute top-4 right-4 p-2 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+          className="absolute top-4 right-4 p-2 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity text-theme-secondary"
           aria-label="Maximize"
         >
-          <MaximizeIcon className="w-5 h-5" stroke="#535862" />
+          <MaximizeIcon className="w-5 h-5" />
         </button>
       )}
 
       {/* Header */}
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
-          <h3 className="font-medium text-[16px] leading-[24px] text-[#181d27]">
+          <h3 className="font-medium text-[16px] leading-[24px] text-theme-primary">
             {title}
           </h3>
           {isLocked && (
-            <LockIcon className="w-4 h-4" stroke="#535862" />
+            <LockIcon className="w-4 h-4 text-theme-secondary" />
           )}
         </div>
-        <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+        <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
           {subtitle}
         </p>
       </div>
@@ -74,20 +74,20 @@ export function PillarScoreCard({
       {/* Body */}
       {isLocked ? (
         <div className="flex flex-1 flex-col items-end justify-between">
-          <p className="font-normal text-[14px] leading-[20px] text-[#535862] whitespace-pre-wrap w-full">
+          <p className="font-normal text-[14px] leading-[20px] text-theme-secondary whitespace-pre-wrap w-full">
             {lockedMessage || "Pillar III scores are coming Quarter 2026 and provide additional insights about model biases. Stay tuned!"}
           </p>
           {onLearnMore && (
             <button
               onClick={onLearnMore}
-              className="flex items-center gap-2 p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity mt-4"
+              className="flex items-center gap-2 p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity mt-4 text-theme-secondary"
             >
               <svg
                 className="w-[18px] h-[18px]"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
-                stroke="#535862"
+                stroke="currentColor"
               >
                 <path
                   strokeLinecap="round"
@@ -95,7 +95,7 @@ export function PillarScoreCard({
                   d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
                 />
               </svg>
-              <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+              <p className="font-normal text-[12px] leading-[18px]">
                 Learn More
               </p>
             </button>
@@ -106,10 +106,10 @@ export function PillarScoreCard({
           {/* Score and status icon */}
           <div className="flex gap-4 items-end">
             <div className="flex items-end">
-              <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+              <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
                 {score.toFixed(1)}
               </p>
-              <span className="font-normal text-[30px] leading-[38px] text-[#717680] ml-1">
+              <span className="font-normal text-[30px] leading-[38px] text-theme-tertiary ml-1">
                 {" / 5"}
               </span>
             </div>
@@ -123,7 +123,7 @@ export function PillarScoreCard({
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={2.5}
-                  stroke="#039855"
+                  stroke={statusColor.stroke}
                 >
                   <path
                     strokeLinecap="round"
@@ -138,7 +138,7 @@ export function PillarScoreCard({
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={2.5}
-                  stroke="#dc6803"
+                  stroke={statusColor.stroke}
                 >
                   <path
                     strokeLinecap="round"
@@ -158,7 +158,7 @@ export function PillarScoreCard({
                 {barData.map((bar, index) => (
                   <p
                     key={index}
-                    className="font-normal text-[12px] leading-[18px] text-[#535862]"
+                    className="font-normal text-[12px] leading-[18px] text-theme-secondary"
                   >
                     {bar.label}
                   </p>
@@ -179,7 +179,7 @@ export function PillarScoreCard({
                   />
                 ))}
                 {/* X-axis labels */}
-                <div className="absolute -bottom-5 left-0 right-0 flex items-center justify-between text-[4px] leading-[4px] text-[#535862] font-normal">
+                <div className="absolute -bottom-5 left-0 right-0 flex items-center justify-between text-[4px] leading-[4px] text-theme-secondary font-normal">
                   <span>0</span>
                   <span>50</span>
                   <span>100</span>
@@ -192,4 +192,3 @@ export function PillarScoreCard({
     </div>
   );
 }
-

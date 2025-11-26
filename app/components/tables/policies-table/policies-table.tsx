@@ -39,29 +39,29 @@ export function PoliciesTable({ policies, onEdit, onDelete, className = "" }: Po
   };
 
   return (
-    <div className={`bg-white border border-[#e9eaeb] rounded-[12px] overflow-hidden w-full ${className}`}>
+    <div className={`bg-theme-card border border-theme-primary rounded-[12px] overflow-hidden w-full ${className}`}>
       <div className="flex flex-col w-full">
         {/* Header */}
-        <div className="bg-white flex items-start border-b border-[#e9eaeb] w-full">
+        <div className="bg-theme-card flex items-start border-b border-theme-primary w-full">
           {/* Name */}
           <div className="flex flex-col flex-1 min-w-[200px]">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Name</p>
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Name</p>
             </div>
           </div>
 
           {/* Version */}
           <div className="flex flex-col min-w-[120px]">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-1 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Version</p>
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-1 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Version</p>
               <button
                 onClick={() => handleSort("version")}
-                className="p-0 border-0 bg-transparent cursor-pointer"
+                className="p-0 border-0 bg-transparent cursor-pointer text-theme-secondary"
               >
                 {sortColumn === "version" && sortDirection === "up" ? (
-                  <ChevronUpIcon className="w-2.5 h-2.5" stroke="#535862" />
+                  <ChevronUpIcon className="w-2.5 h-2.5" />
                 ) : (
-                  <ChevronDownIcon className="w-2.5 h-2.5" stroke="#535862" />
+                  <ChevronDownIcon className="w-2.5 h-2.5" />
                 )}
               </button>
             </div>
@@ -69,61 +69,61 @@ export function PoliciesTable({ policies, onEdit, onDelete, className = "" }: Po
 
           {/* Created */}
           <div className="flex flex-col min-w-[140px]">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Created</p>
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Created</p>
             </div>
           </div>
 
           {/* Status */}
           <div className="flex flex-col min-w-[120px]">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Status</p>
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Status</p>
             </div>
           </div>
 
           {/* Reports */}
           <div className="flex flex-col min-w-[100px]">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Reports</p>
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Reports</p>
             </div>
           </div>
 
           {/* Content */}
           <div className="flex flex-col flex-1 min-w-[200px]">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Content</p>
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Content</p>
             </div>
           </div>
 
           {/* Actions */}
           <div className="flex flex-col min-w-[160px]">
-            <div className="bg-white border-b border-[#e9eaeb] h-11 px-6 py-3" />
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary h-11 px-6 py-3" />
           </div>
         </div>
 
         {/* Rows */}
         {policies.map((policy, index) => {
           const isEven = index % 2 === 0;
-          const bgColor = isEven ? "bg-neutral-50" : "bg-white";
+          const bgClass = isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card";
 
           return (
             <div
               key={policy.id}
-              className={`${bgColor} flex items-start border-b border-[#e9eaeb] w-full`}
+              className={`${bgClass} flex items-start border-b border-theme-primary w-full`}
             >
               {/* Name */}
               <div className="flex-1 min-w-[200px] flex h-18 items-center px-6 py-4">
-                <p className="font-normal text-[14px] leading-[20px] text-[#181d27]">{policy.name}</p>
+                <p className="font-normal text-[14px] leading-[20px] text-theme-primary">{policy.name}</p>
               </div>
 
               {/* Version */}
               <div className="min-w-[120px] flex h-18 items-center px-6 py-4">
-                <p className="font-normal text-[14px] leading-[20px] text-[#181d27]">{policy.version}</p>
+                <p className="font-normal text-[14px] leading-[20px] text-theme-primary">{policy.version}</p>
               </div>
 
               {/* Created */}
               <div className="min-w-[140px] flex h-18 items-center px-6 py-4">
-                <p className="font-normal text-[14px] leading-[20px] text-[#535862]">{policy.created}</p>
+                <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">{policy.created}</p>
               </div>
 
               {/* Status */}
@@ -138,12 +138,12 @@ export function PoliciesTable({ policies, onEdit, onDelete, className = "" }: Po
 
               {/* Reports */}
               <div className="min-w-[100px] flex h-18 items-center px-6 py-4">
-                <p className="font-normal text-[14px] leading-[20px] text-[#535862]">{policy.reports}</p>
+                <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">{policy.reports}</p>
               </div>
 
               {/* Content */}
               <div className="flex-1 min-w-[200px] flex h-18 items-center px-6 py-4">
-                <p className="font-normal text-[14px] leading-[20px] text-[#535862] whitespace-pre-wrap">
+                <p className="font-normal text-[14px] leading-[20px] text-theme-secondary whitespace-pre-wrap">
                   {policy.content}
                 </p>
               </div>
@@ -151,18 +151,18 @@ export function PoliciesTable({ policies, onEdit, onDelete, className = "" }: Po
               {/* Actions */}
               <div className="min-w-[160px] flex gap-3 h-18 items-center justify-end px-6 py-4">
                 <button
-                  className="flex gap-2 items-center justify-center p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+                  className="flex gap-2 items-center justify-center p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity text-theme-secondary"
                   onClick={() => onDelete?.(policy)}
                 >
-                  <TrashIcon className="w-5 h-5" stroke="#535862" />
-                  <p className="font-semibold text-[14px] leading-[20px] text-[#535862]">Delete</p>
+                  <TrashIcon className="w-5 h-5" />
+                  <p className="font-semibold text-[14px] leading-[20px]">Delete</p>
                 </button>
                 <button
-                  className="flex gap-2 items-center justify-center p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+                  className="flex gap-2 items-center justify-center p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity text-theme-secondary"
                   onClick={() => onEdit?.(policy)}
                 >
-                  <EditIcon className="w-5 h-5" stroke="#535862" />
-                  <p className="font-semibold text-[14px] leading-[20px] text-[#535862]">Edit</p>
+                  <EditIcon className="w-5 h-5" />
+                  <p className="font-semibold text-[14px] leading-[20px]">Edit</p>
                 </button>
               </div>
             </div>
@@ -171,18 +171,17 @@ export function PoliciesTable({ policies, onEdit, onDelete, className = "" }: Po
       </div>
 
       {/* Pagination */}
-      <div className="border-t border-[#e9eaeb] flex items-center justify-between px-6 py-4 w-full">
+      <div className="border-t border-theme-primary flex items-center justify-between px-6 py-4 w-full">
         <div className="flex gap-3 items-start">
           <button className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
-            <p className="font-medium text-[12px] leading-[18px] text-[#d5d7da]">Previous</p>
+            <p className="font-medium text-[12px] leading-[18px] text-theme-muted">Previous</p>
           </button>
           <button className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
-            <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Next</p>
+            <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Next</p>
           </button>
         </div>
-        <p className="font-normal text-[12px] leading-[18px] text-[#535862]">All 34 Selected Page 1 of 5</p>
+        <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">All 34 Selected Page 1 of 5</p>
       </div>
     </div>
   );
 }
-
