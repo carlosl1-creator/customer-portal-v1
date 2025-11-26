@@ -2,12 +2,15 @@ import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
 import { Button } from "~/components/button/button";
 import { ArrowUpRightIcon, ListIcon } from "~/components/icons/icons";
+import { useTheme } from "~/utils/theme-context";
 
 export interface WelcomeProps {
   onAction?: () => void;
 }
 
 export function Welcome({ onAction }: WelcomeProps) {
+  const { theme } = useTheme();
+  
   const handleOpenFirstReport = () => {
     // Handle open first report action
     console.log("Open First Report clicked");
@@ -26,7 +29,7 @@ export function Welcome({ onAction }: WelcomeProps) {
         {/* Logo */}
         <div className="w-[84px] h-[84px] relative shrink-0">
           <img
-            src="/rl_logo.svg"
+            src={theme === "dark" ? logoLight : logoDark}
             alt="Reinforce Labs Logo"
             className="w-full h-full object-contain"
           />
@@ -34,10 +37,10 @@ export function Welcome({ onAction }: WelcomeProps) {
 
         {/* Heading and supporting text */}
         <div className="flex flex-col gap-5 items-start w-full max-w-[1024px]">
-          <h1 className="font-semibold text-[36px] leading-[44px] text-[#181d27] tracking-[-0.72px] not-italic m-0">
+          <h1 className="font-semibold text-[36px] leading-[44px] text-theme-primary tracking-[-0.72px] not-italic m-0">
             👋 Welcome to Reinforce Labs
           </h1>
-          <p className="font-normal text-[18px] leading-[28px] text-[#535862] not-italic m-0">
+          <p className="font-normal text-[18px] leading-[28px] text-theme-secondary not-italic m-0">
             Your first report is ready. Open it to see how your chatbot is performing.
           </p>
         </div>
@@ -51,7 +54,7 @@ export function Welcome({ onAction }: WelcomeProps) {
             onClick={handleOpenFirstReport}
           />
           <Button
-            icon={<ListIcon stroke="#414651" />}
+            icon={<ListIcon className="text-theme-secondary" />}
             text="Explore Dashboard"
             variant="secondary"
             onClick={handleExploreDashboard}
