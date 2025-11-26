@@ -35,19 +35,19 @@ export function ReportsFilterBar({
         {/* Date Picker */}
         <button
           onClick={onDateRangeChange}
-          className="bg-white border border-[#e9eaeb] rounded-lg flex gap-2 items-center justify-center px-4 py-2.5 h-10 hover:opacity-80 transition-opacity"
+          className="bg-[var(--color-bg-card)] border border-[var(--color-border-primary)] rounded-lg flex gap-2 items-center justify-center px-4 py-2.5 h-10 hover:bg-[var(--color-bg-hover)] transition-colors"
         >
-          <CalendarIcon className="w-5 h-5" stroke="#414651" />
-          <p className="font-medium text-[14px] leading-[20px] text-[#414651]">{dateRange}</p>
+          <CalendarIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />
+          <p className="font-medium text-[14px] leading-[20px] text-[var(--color-badge-default-text)]">{dateRange}</p>
         </button>
 
         {/* Policy Tags */}
         {policies.map((policy, index) => (
           <div
             key={index}
-            className="bg-white border border-[#e9eaeb] rounded-lg flex gap-2 items-center justify-center px-4 py-2.5 h-10"
+            className="bg-[var(--color-bg-card)] border border-[var(--color-border-primary)] rounded-lg flex gap-2 items-center justify-center px-4 py-2.5 h-10"
           >
-            <p className="font-medium text-[14px] leading-[20px] text-[#414651]">{policy}</p>
+            <p className="font-medium text-[14px] leading-[20px] text-[var(--color-badge-default-text)]">{policy}</p>
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -55,7 +55,7 @@ export function ReportsFilterBar({
               }}
               className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
             >
-              <XIcon className="w-5 h-5" stroke="#414651" />
+              <XIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />
             </button>
           </div>
         ))}
@@ -63,23 +63,23 @@ export function ReportsFilterBar({
         {/* More Filters */}
         <button
           onClick={onMoreFiltersClick}
-          className="bg-white border border-[#e9eaeb] rounded-lg flex gap-2 items-center justify-center px-4 py-2.5 h-10 hover:opacity-80 transition-opacity"
+          className="bg-[var(--color-bg-card)] border border-[var(--color-border-primary)] rounded-lg flex gap-2 items-center justify-center px-4 py-2.5 h-10 hover:bg-[var(--color-bg-hover)] transition-colors"
         >
-          <FilterIcon className="w-5 h-5" stroke="#414651" />
-          <p className="font-medium text-[14px] leading-[20px] text-[#414651]">More filters</p>
+          <FilterIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />
+          <p className="font-medium text-[14px] leading-[20px] text-[var(--color-badge-default-text)]">More filters</p>
         </button>
       </div>
 
       {/* Search */}
       <div className="h-11 w-80">
-        <div className="bg-white border border-[#e9eaeb] rounded-lg flex gap-2 items-center px-3.5 py-2.5 h-full">
-          <SearchIcon className="w-5 h-5" stroke="#717680" />
+        <div className="bg-[var(--color-bg-input)] border border-[var(--color-border-primary)] rounded-lg flex gap-2 items-center px-3.5 py-2.5 h-full">
+          <SearchIcon className="w-5 h-5" stroke="var(--color-text-tertiary)" />
           <input
             type="text"
             placeholder="Search"
             value={searchValue}
             onChange={handleSearchChange}
-            className="flex-1 border-0 outline-0 font-normal text-[16px] leading-[24px] text-[#717680] placeholder:text-[#717680] bg-transparent"
+            className="flex-1 border-0 outline-0 font-normal text-[16px] leading-[24px] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] bg-transparent"
           />
         </div>
       </div>

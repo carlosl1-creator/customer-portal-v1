@@ -86,12 +86,12 @@ export default function PressureTest() {
             onClick: handleLinkToJira,
           },
           {
-            icon: <DownloadIcon className="w-5 h-5" stroke="#414651" />,
+            icon: <DownloadIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />,
             text: "Download Report",
             onClick: handleDownloadReport,
           },
           {
-            icon: <ClipboardIcon className="w-5 h-5" stroke="#414651" />,
+            icon: <ClipboardIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />,
             text: "Copy Permalink",
             onClick: handleCopyPermalink,
           },
@@ -109,7 +109,7 @@ export default function PressureTest() {
           title="Top Insights"
           cards={[
             {
-              icon: <CropIcon className="w-6 h-6" stroke="#181d27" />,
+              icon: <CropIcon className="w-6 h-6" stroke="var(--color-text-primary)" />,
               title: "Model Alignment & Guardrail Tuning",
               focusText: "Refining internal refusal logic, bias correction, and escalation behavior.",
               listTitle: "Critical Vulnerabilities:",
@@ -125,7 +125,7 @@ export default function PressureTest() {
               gradientVariant: "sunset",
             },
             {
-              icon: <FeatherIcon className="w-6 h-6" stroke="#181d27" />,
+              icon: <FeatherIcon className="w-6 h-6" stroke="var(--color-text-primary)" />,
               title: "Prompt Design & Input Framing",
               focusText: "How system or user prompts shape model responses.",
               listTitle: "Critical Vulnerabilities:",
@@ -176,7 +176,7 @@ export default function PressureTest() {
 
         {/* Pillar Score Section */}
         <div className="px-8 mt-8">
-          <h2 className="font-medium text-[24px] leading-[32px] text-[#181d27] mb-6">
+          <h2 className="font-medium text-[24px] leading-[32px] text-theme-primary mb-6">
             Pillar Scores
           </h2>
           <div className="grid grid-cols-3 gap-6 items-stretch">
@@ -219,7 +219,7 @@ export default function PressureTest() {
 
         {/* Found Vulnerabilities and Conversational Statistics Section */}
         <div className="px-8 mt-8">
-          <h2 className="font-medium text-[24px] leading-[32px] text-[#181d27] mb-6">
+          <h2 className="font-medium text-[24px] leading-[32px] text-theme-primary mb-6">
             Vulnerability Analysis
           </h2>
           <div className="grid grid-cols-2 gap-6 items-stretch">
@@ -298,7 +298,7 @@ export default function PressureTest() {
 
         {/* All Test Cases Section */}
         <div className="px-8 mt-8">
-          <h2 className="font-medium text-[24px] leading-[32px] text-[#181d27] mb-6">
+          <h2 className="font-medium text-[24px] leading-[32px] text-theme-primary mb-6">
             All Test Cases
           </h2>
           
@@ -381,7 +381,7 @@ export default function PressureTest() {
 
         {/* Top Risk Areas Section */}
         <div className="px-8 mt-8">
-          <h2 className="font-medium text-[24px] leading-[32px] text-[#181d27] mb-6">
+          <h2 className="font-medium text-[24px] leading-[32px] text-theme-primary mb-6">
             Top Risk Areas
           </h2>
 

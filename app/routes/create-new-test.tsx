@@ -219,15 +219,15 @@ export default function CreateNewTest() {
 
               {/* Info Text and Back Button */}
               <div className="flex flex-col gap-6 items-start">
-                <p className="font-normal leading-5 text-[#535862] text-sm">
+                <p className="font-normal leading-5 text-[var(--color-text-secondary)] text-sm">
                   You will be notified when the report has been generated.
                 </p>
                 <button
                   onClick={handleBackToHome}
-                  className="bg-white border border-[#d5d7da] rounded-lg flex gap-2 items-center justify-center px-5 py-3 hover:opacity-80 transition-opacity"
+                  className="bg-[var(--color-bg-card)] border border-[var(--color-border-secondary)] rounded-lg flex gap-2 items-center justify-center px-5 py-3 hover:bg-[var(--color-bg-hover)] transition-colors"
                 >
-                  <ChevronLeftIcon className="w-5 h-5" stroke="#414651" />
-                  <span className="font-semibold text-base leading-6 text-[#414651]">Back to Home Page</span>
+                  <ChevronLeftIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />
+                  <span className="font-semibold text-base leading-6 text-[var(--color-badge-default-text)]">Back to Home Page</span>
                 </button>
               </div>
             </div>
@@ -283,7 +283,7 @@ export default function CreateNewTest() {
 
               {/* Filter Categories */}
               <div className="flex flex-col gap-3 items-start relative shrink-0 w-full">
-                <p className="font-medium leading-6 text-[#535862] text-base">Filter Categories</p>
+                <p className="font-medium leading-6 text-[var(--color-text-secondary)] text-base">Filter Categories</p>
                 <CategoriesTable
                   categories={categories}
                   selectedIds={selectedCategories}
@@ -294,8 +294,8 @@ export default function CreateNewTest() {
             </div>
 
             {/* Mandatory Fields Text */}
-            <p className="font-normal leading-5 text-[#535862] text-sm">
-              Fields marked with <span className="text-[#d92d20]">*</span> are mandatory.
+            <p className="font-normal leading-5 text-[var(--color-text-secondary)] text-sm">
+              Fields marked with <span className="text-[var(--color-error)]">*</span> are mandatory.
             </p>
 
             {/* Create Test Button */}
@@ -305,11 +305,11 @@ export default function CreateNewTest() {
                 disabled={!canCreateTest}
                 className={`box-border flex gap-2 items-center justify-center px-5 py-3 rounded-lg transition-colors ${
                   canCreateTest
-                    ? "bg-black border border-[#535862] text-white hover:opacity-90 cursor-pointer"
-                    : "bg-gray-300 border border-gray-300 text-gray-500 cursor-not-allowed"
+                    ? "bg-[var(--color-text-primary)] border border-[var(--color-text-secondary)] text-[var(--color-text-inverted)] hover:opacity-90 cursor-pointer"
+                    : "bg-[var(--color-bg-muted)] border border-[var(--color-border-secondary)] text-[var(--color-text-muted)] cursor-not-allowed"
                 }`}
               >
-                <ArrowUpRightIcon className="w-5 h-5" stroke={canCreateTest ? "white" : "currentColor"} />
+                <ArrowUpRightIcon className="w-5 h-5" stroke={canCreateTest ? "var(--color-text-inverted)" : "currentColor"} />
                 <span className="font-semibold text-base leading-6">Create Test</span>
               </button>
             </div>

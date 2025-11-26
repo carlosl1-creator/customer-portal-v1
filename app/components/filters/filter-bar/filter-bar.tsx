@@ -37,47 +37,47 @@ export function FilterBar({
         {/* Turn Length Dropdown */}
         <button
           onClick={() => onTurnLengthChange?.("")}
-          className="bg-white border border-[#d5d7da] rounded-[8px] px-4 py-2.5 flex items-center gap-2 hover:bg-neutral-50 transition-colors"
+          className="bg-[var(--color-bg-card)] border border-[var(--color-border-secondary)] rounded-[8px] px-4 py-2.5 flex items-center gap-2 hover:bg-[var(--color-bg-hover)] transition-colors"
         >
-          <span className="font-semibold text-[14px] leading-[20px] text-[#414651]">
+          <span className="font-semibold text-[14px] leading-[20px] text-[var(--color-badge-default-text)]">
             {selectedTurnLength || "Turn Length"}
           </span>
-          <ChevronDownIcon className="w-5 h-5" stroke="#414651" />
+          <ChevronDownIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />
         </button>
 
         {/* Category Dropdown */}
         <button
           onClick={() => onCategoryChange?.("")}
-          className="bg-white border border-[#d5d7da] rounded-[8px] px-4 py-2.5 flex items-center gap-2 hover:bg-neutral-50 transition-colors"
+          className="bg-[var(--color-bg-card)] border border-[var(--color-border-secondary)] rounded-[8px] px-4 py-2.5 flex items-center gap-2 hover:bg-[var(--color-bg-hover)] transition-colors"
         >
-          <span className="font-semibold text-[14px] leading-[20px] text-[#414651]">
+          <span className="font-semibold text-[14px] leading-[20px] text-[var(--color-badge-default-text)]">
             {selectedCategory || "Category"}
           </span>
-          <ChevronDownIcon className="w-5 h-5" stroke="#414651" />
+          <ChevronDownIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />
         </button>
 
         {/* More Filters Button */}
         <button
           onClick={onMoreFiltersClick}
-          className="bg-white border border-[#d5d7da] rounded-[8px] px-4 py-2.5 flex items-center gap-2 hover:bg-neutral-50 transition-colors"
+          className="bg-[var(--color-bg-card)] border border-[var(--color-border-secondary)] rounded-[8px] px-4 py-2.5 flex items-center gap-2 hover:bg-[var(--color-bg-hover)] transition-colors"
         >
-          <span className="font-semibold text-[14px] leading-[20px] text-[#414651]">
+          <span className="font-semibold text-[14px] leading-[20px] text-[var(--color-badge-default-text)]">
             More Filters
           </span>
-          <ChevronDownIcon className="w-5 h-5" stroke="#414651" />
+          <ChevronDownIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />
         </button>
       </div>
 
       {/* Search Input */}
       <div className="relative w-[320px]">
-        <div className="bg-white border border-[#d5d7da] rounded-[8px] flex items-center gap-2 px-3.5 py-2.5">
-          <SearchIcon className="w-5 h-5" stroke="#717680" />
+        <div className="bg-[var(--color-bg-input)] border border-[var(--color-border-secondary)] rounded-[8px] flex items-center gap-2 px-3.5 py-2.5">
+          <SearchIcon className="w-5 h-5" stroke="var(--color-text-tertiary)" />
           <input
             type="text"
             placeholder="Search"
             value={searchValue}
             onChange={(e) => onSearchChange?.(e.target.value)}
-            className="flex-1 font-normal text-[16px] leading-[24px] text-[#717680] placeholder:text-[#717680] outline-none border-0 bg-transparent"
+            className="flex-1 font-normal text-[16px] leading-[24px] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] outline-none border-0 bg-transparent"
           />
         </div>
       </div>
