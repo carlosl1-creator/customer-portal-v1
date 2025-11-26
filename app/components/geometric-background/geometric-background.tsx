@@ -5,11 +5,10 @@ export function GeometricBackground() {
         <img
           src="/sine.svg"
           alt=""
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover dark:opacity-20 dark:invert"
           aria-hidden="true"
         />
       </div>
     </div>
   );
 }
-

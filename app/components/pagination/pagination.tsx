@@ -20,40 +20,39 @@ export function Pagination({
 
   return (
     <div
-      className={`flex items-center justify-between border-t border-[#e9eaeb] pt-3 pb-4 px-6 ${className}`}
+      className={`flex items-center justify-between border-t border-theme-primary pt-3 pb-4 px-6 ${className}`}
     >
       <div className="flex gap-3 items-start">
         <button
           onClick={onPrevious}
           disabled={isFirstPage}
-          className={`bg-white border border-[#d5d7da] rounded-[8px] px-3.5 py-2 flex items-center justify-center ${
+          className={`bg-theme-card border border-theme-secondary rounded-[8px] px-3.5 py-2 flex items-center justify-center ${
             isFirstPage
               ? "opacity-50 cursor-not-allowed"
-              : "hover:bg-neutral-50 transition-colors cursor-pointer"
+              : "hover:bg-theme-hover transition-colors cursor-pointer"
           }`}
         >
-          <p className="font-semibold text-[14px] leading-[20px] text-[#414651]">
+          <p className="font-semibold text-[14px] leading-[20px] text-theme-secondary">
             Previous
           </p>
         </button>
         <button
           onClick={onNext}
           disabled={isLastPage}
-          className={`bg-white border border-[#d5d7da] rounded-[8px] px-3.5 py-2 flex items-center justify-center ${
+          className={`bg-theme-card border border-theme-secondary rounded-[8px] px-3.5 py-2 flex items-center justify-center ${
             isLastPage
               ? "opacity-50 cursor-not-allowed"
-              : "hover:bg-neutral-50 transition-colors cursor-pointer"
+              : "hover:bg-theme-hover transition-colors cursor-pointer"
           }`}
         >
-          <p className="font-semibold text-[14px] leading-[20px] text-[#414651]">
+          <p className="font-semibold text-[14px] leading-[20px] text-theme-secondary">
             Next
           </p>
         </button>
       </div>
-      <p className="font-medium text-[14px] leading-[20px] text-[#414651]">
+      <p className="font-medium text-[14px] leading-[20px] text-theme-secondary">
         Page {currentPage} of {totalPages}
       </p>
     </div>
   );
 }
-

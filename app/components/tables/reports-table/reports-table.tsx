@@ -53,23 +53,23 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
   };
 
   return (
-    <div className={`bg-white border border-[#e9eaeb] rounded-[12px] overflow-hidden w-full ${className}`}>
+    <div className={`bg-theme-card border border-theme-primary rounded-[12px] overflow-hidden w-full ${className}`}>
       <div className="flex flex-col w-full">
         {/* Header */}
-        <div className="bg-white flex items-start border-b border-[#e9eaeb] w-full">
+        <div className="bg-theme-card flex items-start border-b border-theme-primary w-full">
           {/* Report ID */}
           <div className="flex flex-col w-[196px]">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
               <div className="flex gap-1 items-center">
-                <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Report ID</p>
+                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Report ID</p>
                 <button
                   onClick={() => handleSort("id")}
-                  className="p-0 border-0 bg-transparent cursor-pointer"
+                  className="p-0 border-0 bg-transparent cursor-pointer text-theme-secondary"
                 >
                   {sortColumn === "id" && sortDirection === "up" ? (
-                    <ChevronUpIcon className="w-2.5 h-2.5" stroke="#535862" />
+                    <ChevronUpIcon className="w-2.5 h-2.5" />
                   ) : (
-                    <ChevronDownIcon className="w-2.5 h-2.5" stroke="#535862" />
+                    <ChevronDownIcon className="w-2.5 h-2.5" />
                   )}
                 </button>
               </div>
@@ -78,88 +78,88 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
 
           {/* Bot and Policy Version */}
           <div className="flex flex-col w-[196px]">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Bot and Policy Version</p>
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Bot and Policy Version</p>
             </div>
           </div>
 
           {/* Created */}
           <div className="flex flex-col w-[116px]">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Created</p>
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Created</p>
             </div>
           </div>
 
           {/* Status */}
           <div className="flex flex-col">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-3 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Status</p>
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Status</p>
             </div>
           </div>
 
           {/* Overall Readiness */}
           <div className="flex flex-col flex-1">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-1 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Overall Readiness</p>
-              <HelpIcon className="w-4 h-4" stroke="#A4A7AE" />
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-1 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Overall Readiness</p>
+              <HelpIcon className="w-4 h-4 text-theme-muted" />
             </div>
           </div>
 
           {/* Pillar I */}
           <div className="flex flex-col">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-1 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Pillar I</p>
-              <HelpIcon className="w-4 h-4" stroke="#A4A7AE" />
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-1 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Pillar I</p>
+              <HelpIcon className="w-4 h-4 text-theme-muted" />
             </div>
           </div>
 
           {/* Pillar II */}
           <div className="flex flex-col">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-1 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">Pillar II</p>
-              <HelpIcon className="w-4 h-4" stroke="#A4A7AE" />
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-1 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Pillar II</p>
+              <HelpIcon className="w-4 h-4 text-theme-muted" />
             </div>
           </div>
 
           {/* ASR */}
           <div className="flex flex-col">
-            <div className="bg-white border-b border-[#e9eaeb] flex gap-1 h-11 items-center px-6 py-3">
-              <p className="font-medium text-[12px] leading-[18px] text-[#535862]">ASR</p>
-              <HelpIcon className="w-4 h-4" stroke="#A4A7AE" />
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-1 h-11 items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">ASR</p>
+              <HelpIcon className="w-4 h-4 text-theme-muted" />
             </div>
           </div>
 
           {/* Actions */}
           <div className="flex flex-col flex-1">
-            <div className="bg-white border-b border-[#e9eaeb] h-11 px-6 py-3" />
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary h-11 px-6 py-3" />
           </div>
         </div>
 
         {/* Rows */}
         {reports.map((report, index) => {
           const isEven = index % 2 === 0;
-          const bgColor = isEven ? "bg-neutral-50" : "bg-white";
+          const bgClass = isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card";
 
           return (
             <div
               key={report.id}
-              className={`${bgColor} flex items-start border-b border-[#e9eaeb] cursor-pointer hover:bg-gray-100 transition-colors w-full`}
+              className={`${bgClass} flex items-start border-b border-theme-primary cursor-pointer hover:bg-theme-hover transition-colors w-full`}
               onClick={() => onRowClick?.(report)}
             >
               {/* Report ID */}
               <div className="w-[196px] flex gap-3 h-18 items-center px-6 py-4">
-                <p className="font-medium text-[14px] leading-[20px] text-[#181d27]">{report.id}</p>
+                <p className="font-medium text-[14px] leading-[20px] text-theme-primary">{report.id}</p>
               </div>
 
               {/* Bot and Policy Version */}
               <div className="w-[196px] flex flex-col h-18 justify-center px-6 py-4">
-                <p className="font-normal text-[14px] leading-[20px] text-[#181d27]">{report.botVersion}</p>
-                <p className="font-normal text-[14px] leading-[20px] text-[#535862]">{report.policyVersion}</p>
+                <p className="font-normal text-[14px] leading-[20px] text-theme-primary">{report.botVersion}</p>
+                <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">{report.policyVersion}</p>
               </div>
 
               {/* Created */}
               <div className="w-[116px] flex h-18 items-center px-6 py-4">
-                <p className="font-normal text-[14px] leading-[20px] text-[#535862]">{report.created}</p>
+                <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">{report.created}</p>
               </div>
 
               {/* Status */}
@@ -173,18 +173,18 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
               <div className="flex-1 flex gap-3 h-18 items-center px-6 py-4">
                 {report.overallReadiness !== undefined ? (
                   <>
-                    <div className="flex-1 h-2 relative rounded-lg bg-neutral-100 border border-[#32d583]">
+                    <div className="flex-1 h-2 relative rounded-lg bg-theme-muted border border-[var(--color-success)]">
                       <div
-                        className="absolute h-2 bg-[#A6F4C5] border border-[#32d583] rounded-lg"
+                        className="absolute h-2 bg-[var(--color-success)] opacity-40 border border-[var(--color-success)] rounded-lg"
                         style={{ width: `${(report.overallReadiness / 5) * 100}%` }}
                       />
                     </div>
-                    <p className="font-normal text-[14px] leading-[20px] text-[#535862] whitespace-nowrap">
+                    <p className="font-normal text-[14px] leading-[20px] text-theme-secondary whitespace-nowrap">
                       {report.overallReadiness.toFixed(1)}
                     </p>
                   </>
                 ) : (
-                  <p className="font-normal text-[14px] leading-[20px] text-[#535862]">-</p>
+                  <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">-</p>
                 )}
               </div>
 
@@ -199,7 +199,7 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
                     </span>
                   </Badge>
                 ) : (
-                  <p className="font-normal text-[14px] leading-[20px] text-[#535862]">-</p>
+                  <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">-</p>
                 )}
               </div>
 
@@ -214,7 +214,7 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
                     </span>
                   </Badge>
                 ) : (
-                  <p className="font-normal text-[14px] leading-[20px] text-[#535862]">-</p>
+                  <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">-</p>
                 )}
               </div>
 
@@ -229,20 +229,20 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
                     </span>
                   </Badge>
                 ) : (
-                  <p className="font-normal text-[14px] leading-[20px] text-[#535862]">-</p>
+                  <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">-</p>
                 )}
               </div>
 
               {/* Actions */}
               <div className="flex-1 flex gap-1 h-18 items-center justify-end px-4 py-4">
                 <button
-                  className="p-2.5 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+                  className="p-2.5 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity text-theme-secondary"
                   onClick={(e) => {
                     e.stopPropagation();
                     // Handle action
                   }}
                 >
-                  <MoreVerticalIcon className="w-5 h-5" stroke="#535862" />
+                  <MoreVerticalIcon className="w-5 h-5" />
                 </button>
               </div>
             </div>
@@ -251,18 +251,17 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
       </div>
 
       {/* Pagination */}
-      <div className="border-t border-[#e9eaeb] flex items-center justify-between px-6 py-3 w-full">
+      <div className="border-t border-theme-primary flex items-center justify-between px-6 py-3 w-full">
         <div className="flex gap-3 items-start">
           <button className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
-            <p className="font-semibold text-[14px] leading-[20px] text-[#d5d7da]">Previous</p>
+            <p className="font-semibold text-[14px] leading-[20px] text-theme-muted">Previous</p>
           </button>
           <button className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
-            <p className="font-semibold text-[14px] leading-[20px] text-[#535862]">Next</p>
+            <p className="font-semibold text-[14px] leading-[20px] text-theme-secondary">Next</p>
           </button>
         </div>
-        <p className="font-medium text-[14px] leading-[20px] text-[#414651]">Page 1 of 10</p>
+        <p className="font-medium text-[14px] leading-[20px] text-theme-secondary">Page 1 of 10</p>
       </div>
     </div>
   );
 }
-

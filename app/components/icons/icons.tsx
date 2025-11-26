@@ -1,19 +1,15 @@
 // Simple SVG icon components for the navigation bar
-import { useTheme } from "~/utils/theme-context";
+// Icons now use "currentColor" by default, inheriting from parent text color
+// This allows them to automatically respond to theme changes
 
-export function HomeIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  // If stroke is provided and not "currentColor", use it; otherwise use theme-aware default
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
+export function HomeIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -24,19 +20,14 @@ export function HomeIcon({ className = "w-6 h-6", stroke }: { className?: string
   );
 }
 
-export function TestTubeIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function TestTubeIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -47,19 +38,14 @@ export function TestTubeIcon({ className = "w-6 h-6", stroke }: { className?: st
   );
 }
 
-export function CompareIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function CompareIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -70,19 +56,14 @@ export function CompareIcon({ className = "w-6 h-6", stroke }: { className?: str
   );
 }
 
-export function ServerIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-
+export function ServerIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -93,19 +74,14 @@ export function ServerIcon({ className = "w-6 h-6", stroke }: { className?: stri
   );
 }
 
-export function SettingsIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function SettingsIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -121,19 +97,14 @@ export function SettingsIcon({ className = "w-6 h-6", stroke }: { className?: st
   );
 }
 
-export function LogOutIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function LogOutIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -144,28 +115,22 @@ export function LogOutIcon({ className = "w-6 h-6", stroke }: { className?: stri
   );
 }
 
-export function LogoIcon({ className = "w-11 h-11", darkMode = false }: { className?: string; darkMode?: boolean }) {
-  const fill = darkMode ? "#FDFDFD" : "#181D27";
+export function LogoIcon({ className = "w-11 h-11" }: { className?: string }) {
   return (
-    <div className={className} >
+    <div className={className}>
       <img src="/rl_logo.svg" alt="Reinforce Labs Logo" />
     </div>
   );
 }
 
-export function ArrowUpRightIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function ArrowUpRightIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -176,19 +141,14 @@ export function ArrowUpRightIcon({ className = "w-5 h-5", stroke }: { className?
   );
 }
 
-export function ListIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function ListIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -199,19 +159,14 @@ export function ListIcon({ className = "w-5 h-5", stroke }: { className?: string
   );
 }
 
-export function ChevronLeftIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function ChevronLeftIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -222,19 +177,14 @@ export function ChevronLeftIcon({ className = "w-5 h-5", stroke }: { className?:
   );
 }
 
-export function DownloadIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function DownloadIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -245,19 +195,14 @@ export function DownloadIcon({ className = "w-5 h-5", stroke }: { className?: st
   );
 }
 
-export function ClipboardIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#414651";
-  
+export function ClipboardIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -292,35 +237,30 @@ export function JiraIcon({ className = "w-5 h-5" }: { className?: string }) {
       fill="currentColor"
     >
       <path d="M17.2905 8.2603L9.50469 0.729937L8.75 0L2.88918 5.66856L0.209538 8.2603C-0.0698458 8.53085 -0.0698458 8.96915 0.209538 9.2397L5.56404 14.4186L8.75 17.5L14.6108 11.8314L14.7016 11.7437L17.2905 9.2397C17.5698 8.96915 17.5698 8.53085 17.2905 8.2603ZM8.75 11.3371L6.07514 8.75L8.75 6.16288L11.4249 8.75L8.75 11.3371Z" fill="#2684FF" />
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M8.75008 6.1626C6.99878 4.46855 6.99025 1.72472 8.73098 0.0205078L2.87732 5.67983L6.06328 8.76127L8.75008 6.1626Z" fill="url(#paint0_linear_3376_1390)" />
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M11.432 8.74316L8.75 11.3372C9.5953 12.1543 10.0702 13.2628 10.0702 14.4187C10.0702 15.5745 9.5953 16.683 8.75 17.5001L14.618 11.8246L11.432 8.74316Z" fill="url(#paint1_linear_3376_1390)" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M8.75008 6.1626C6.99878 4.46855 6.99025 1.72472 8.73098 0.0205078L2.87732 5.67983L6.06328 8.76127L8.75008 6.1626Z" fill="url(#paint0_linear_3376_1390)" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M11.432 8.74316L8.75 11.3372C9.5953 12.1543 10.0702 13.2628 10.0702 14.4187C10.0702 15.5745 9.5953 16.683 8.75 17.5001L14.618 11.8246L11.432 8.74316Z" fill="url(#paint1_linear_3376_1390)" />
       <defs>
         <linearGradient id="paint0_linear_3376_1390" x1="8.27243" y1="3.54545" x2="3.81041" y2="5.49365" gradientUnits="userSpaceOnUse">
-          <stop offset="0.18" stop-color="#0052CC" />
-          <stop offset="1" stop-color="#2684FF" />
+          <stop offset="0.18" stopColor="#0052CC" />
+          <stop offset="1" stopColor="#2684FF" />
         </linearGradient>
         <linearGradient id="paint1_linear_3376_1390" x1="9.26109" y1="13.9243" x2="13.7151" y2="11.99" gradientUnits="userSpaceOnUse">
-          <stop offset="0.18" stop-color="#0052CC" />
-          <stop offset="1" stop-color="#2684FF" />
+          <stop offset="0.18" stopColor="#0052CC" />
+          <stop offset="1" stopColor="#2684FF" />
         </linearGradient>
       </defs>    
     </svg>
   );
 }
 
-export function ThumbsUpIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function ThumbsUpIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -331,19 +271,14 @@ export function ThumbsUpIcon({ className = "w-6 h-6", stroke }: { className?: st
   );
 }
 
-export function ThumbsDownIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function ThumbsDownIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -353,19 +288,14 @@ export function ThumbsDownIcon({ className = "w-6 h-6", stroke }: { className?: 
   );
 }
 
-export function CropIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function CropIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -376,19 +306,14 @@ export function CropIcon({ className = "w-6 h-6", stroke }: { className?: string
   );
 }
 
-export function FeatherIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function FeatherIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -399,19 +324,14 @@ export function FeatherIcon({ className = "w-6 h-6", stroke }: { className?: str
   );
 }
 
-export function HelpIcon({ className = "w-4 h-4", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#A4A7AE" : "#A4A7AE";
-  
+export function HelpIcon({ className = "w-4 h-4", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -422,19 +342,14 @@ export function HelpIcon({ className = "w-4 h-4", stroke }: { className?: string
   );
 }
 
-export function HashIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function HashIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 20 20"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -445,19 +360,14 @@ export function HashIcon({ className = "w-5 h-5", stroke }: { className?: string
   );
 }
 
-export function MaximizeIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#A4A7AE" : "#535862";
-  
+export function MaximizeIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -468,19 +378,14 @@ export function MaximizeIcon({ className = "w-5 h-5", stroke }: { className?: st
   );
 }
 
-export function LockIcon({ className = "w-4 h-4", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function LockIcon({ className = "w-4 h-4", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -491,19 +396,14 @@ export function LockIcon({ className = "w-4 h-4", stroke }: { className?: string
   );
 }
 
-export function ChevronDownIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function ChevronDownIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -514,19 +414,14 @@ export function ChevronDownIcon({ className = "w-5 h-5", stroke }: { className?:
   );
 }
 
-export function ChevronRightIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function ChevronRightIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -537,19 +432,14 @@ export function ChevronRightIcon({ className = "w-5 h-5", stroke }: { className?
   );
 }
 
-export function SearchIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function SearchIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -560,19 +450,14 @@ export function SearchIcon({ className = "w-5 h-5", stroke }: { className?: stri
   );
 }
 
-export function XIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function XIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -583,19 +468,14 @@ export function XIcon({ className = "w-6 h-6", stroke }: { className?: string; s
   );
 }
 
-export function PlusIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function PlusIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -606,19 +486,14 @@ export function PlusIcon({ className = "w-5 h-5", stroke }: { className?: string
   );
 }
 
-export function CalendarIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function CalendarIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -628,19 +503,14 @@ export function CalendarIcon({ className = "w-5 h-5", stroke }: { className?: st
   );
 }
 
-export function ChevronUpIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function ChevronUpIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -651,19 +521,14 @@ export function ChevronUpIcon({ className = "w-5 h-5", stroke }: { className?: s
   );
 }
 
-export function MoreVerticalIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function MoreVerticalIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -674,19 +539,14 @@ export function MoreVerticalIcon({ className = "w-5 h-5", stroke }: { className?
   );
 }
 
-export function FilterIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function FilterIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -721,18 +581,19 @@ export function ConfluenceIcon({ className = "w-5 h-5" }: { className?: string }
       viewBox="0 0 18 18"
       fill="currentColor"
     >
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M0.543947 11.4509C0.388811 11.7142 0.214581 12.0197 0.0666054 12.2631C-0.0658444 12.4961 0.00525992 12.7965 0.226515 12.9388L3.32923 14.9259C3.43814 14.9958 3.5695 15.0174 3.69381 14.9856C3.81811 14.9538 3.92496 14.8715 3.99035 14.757C4.11446 14.5409 4.27437 14.2602 4.4486 13.9596C5.67775 11.8483 6.91406 12.1067 9.14325 13.2145L12.2197 14.7371C12.3362 14.7948 12.4702 14.801 12.5912 14.7542C12.7121 14.7074 12.8097 14.6116 12.8617 14.4887L14.3391 11.0113C14.4435 10.7629 14.3373 10.4733 14.1004 10.3605C13.4513 10.0425 12.16 9.40916 10.9977 8.82545C6.81621 6.71167 3.2624 6.84828 0.543947 11.4509Z" fill="url(#paint0_linear_3376_4384)" />
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M14.4561 3.55969C14.6112 3.2964 14.7854 2.99088 14.9334 2.74746C15.0659 2.51453 14.9948 2.21411 14.7735 2.07185L11.6708 0.0847459C11.561 0.0077808 11.4254 -0.0182726 11.2964 0.0128102C11.1675 0.043893 11.0567 0.12932 10.9906 0.248682C10.8665 0.464779 10.7066 0.745457 10.5323 1.04601C9.30317 3.1573 8.06685 2.89898 5.83767 1.79117L2.77075 0.276004C2.65424 0.218288 2.52023 0.212125 2.39928 0.25892C2.27832 0.305715 2.18073 0.401481 2.12873 0.524392L0.651358 4.00182C0.54698 4.25018 0.653187 4.53978 0.890029 4.6526C1.53921 4.97054 2.83042 5.60392 3.99275 6.18764C8.1838 8.29893 11.7376 8.15735 14.4561 3.55969Z" fill="url(#paint1_linear_3376_4384)" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M0.543947 11.4509C0.388811 11.7142 0.214581 12.0197 0.0666054 12.2631C-0.0658444 12.4961 0.00525992 12.7965 0.226515 12.9388L3.32923 14.9259C3.43814 14.9958 3.5695 15.0174 3.69381 14.9856C3.81811 14.9538 3.92496 14.8715 3.99035 14.757C4.11446 14.5409 4.27437 14.2602 4.4486 13.9596C5.67775 11.8483 6.91406 12.1067 9.14325 13.2145L12.2197 14.7371C12.3362 14.7948 12.4702 14.801 12.5912 14.7542C12.7121 14.7074 12.8097 14.6116 12.8617 14.4887L14.3391 11.0113C14.4435 10.7629 14.3373 10.4733 14.1004 10.3605C13.4513 10.0425 12.16 9.40916 10.9977 8.82545C6.81621 6.71167 3.2624 6.84828 0.543947 11.4509Z" fill="url(#paint0_linear_3376_4384)" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M14.4561 3.55969C14.6112 3.2964 14.7854 2.99088 14.9334 2.74746C15.0659 2.51453 14.9948 2.21411 14.7735 2.07185L11.6708 0.0847459C11.561 0.0077808 11.4254 -0.0182726 11.2964 0.0128102C11.1675 0.043893 11.0567 0.12932 10.9906 0.248682C10.8665 0.464779 10.7066 0.745457 10.5323 1.04601C9.30317 3.1573 8.06685 2.89898 5.83767 1.79117L2.77075 0.276004C2.65424 0.218288 2.52023 0.212125 2.39928 0.25892C2.27832 0.305715 2.18073 0.401481 2.12873 0.524392L0.651358 4.00182C0.54698 4.25018 0.653187 4.53978 0.890029 4.6526C1.53921 4.97054 2.83042 5.60392 3.99275 6.18764C8.1838 8.29893 11.7376 8.15735 14.4561 3.55969Z" fill="url(#paint1_linear_3376_4384)" />
       <defs>
         <linearGradient id="paint0_linear_3376_4384" x1="14.2556" y1="15.9517" x2="10.5416" y2="7.76466" gradientUnits="userSpaceOnUse">
-          <stop offset="0.18" stop-color="#0052CC" />
-          <stop offset="1" stop-color="#2684FF" />
+          <stop offset="0.18" stopColor="#0052CC" />
+          <stop offset="1" stopColor="#2684FF" />
         </linearGradient>
         <linearGradient id="paint1_linear_3376_4384" x1="0.74444" y1="-0.94358" x2="4.46423" y2="7.24723" gradientUnits="userSpaceOnUse">
-          <stop offset="0.18" stop-color="#0052CC" />
-          <stop offset="1" stop-color="#2684FF" />
+          <stop offset="0.18" stopColor="#0052CC" />
+          <stop offset="1" stopColor="#2684FF" />
         </linearGradient>
-      </defs>    </svg>
+      </defs>    
+    </svg>
   );
 }
 
@@ -743,32 +604,28 @@ export function NotionIcon({ className = "w-5 h-5" }: { className?: string }) {
       viewBox="0 0 20 20"
       fill="currentColor"
     >
-      <g clip-path="url(#clip0_3376_8871)">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M3.5725 18.2611L1.4229 15.5832C0.905706 14.9389 0.625 14.1466 0.625 13.3312V3.63437C0.625 2.4129 1.60224 1.39936 2.86295 1.31328L12.8326 0.632614C13.5569 0.583164 14.2768 0.775682 14.8717 1.17794L18.3745 3.5462C19.0015 3.97012 19.375 4.66312 19.375 5.40266V16.427C19.375 17.6223 18.4141 18.6121 17.1798 18.688L6.11458 19.3692C5.12958 19.4298 4.17749 19.0148 3.5725 18.2611Z" fill="white" />
+      <g clipPath="url(#clip0_3376_8871)">
+        <path fillRule="evenodd" clipRule="evenodd" d="M3.5725 18.2611L1.4229 15.5832C0.905706 14.9389 0.625 14.1466 0.625 13.3312V3.63437C0.625 2.4129 1.60224 1.39936 2.86295 1.31328L12.8326 0.632614C13.5569 0.583164 14.2768 0.775682 14.8717 1.17794L18.3745 3.5462C19.0015 3.97012 19.375 4.66312 19.375 5.40266V16.427C19.375 17.6223 18.4141 18.6121 17.1798 18.688L6.11458 19.3692C5.12958 19.4298 4.17749 19.0148 3.5725 18.2611Z" fill="white" />
         <path d="M7.03009 8.48663V8.35968C7.03009 8.03787 7.28782 7.77098 7.62 7.7488L10.0396 7.58726L13.3857 12.5146V8.19003L12.5244 8.07522V8.01492C12.5244 7.68933 12.788 7.42068 13.1245 7.40344L15.326 7.29066V7.60749C15.326 7.75622 15.2154 7.88343 15.0638 7.90907L14.534 7.99868V15.0022L13.8691 15.2309C13.3137 15.4219 12.6953 15.2174 12.3773 14.7376L9.12882 9.83568V14.5143L10.1287 14.7056L10.1148 14.7984C10.0711 15.0889 9.82031 15.3086 9.5169 15.3221L7.03009 15.4328C6.99722 15.1204 7.23135 14.8409 7.55434 14.807L7.88146 14.7726V8.53447L7.03009 8.48663Z" fill="black" />
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.9218 1.85418L2.9522 2.53485C2.35502 2.57562 1.89212 3.05572 1.89212 3.63431V13.3311C1.89212 13.8748 2.07926 14.4029 2.42405 14.8325L4.57365 17.5104C4.9212 17.9433 5.46815 18.1817 6.034 18.1469L17.0992 17.4658C17.6663 17.4309 18.1078 16.9761 18.1078 16.4269V5.4026C18.1078 5.06281 17.9362 4.74441 17.6481 4.54963L14.1453 2.18137C13.7883 1.94002 13.3564 1.82451 12.9218 1.85418ZM3.44657 3.78556C3.30791 3.6829 3.3739 3.46903 3.54809 3.45654L12.9889 2.77938C13.2897 2.75781 13.5886 2.84064 13.8319 3.01299L15.7261 4.35502C15.798 4.40597 15.7643 4.51596 15.6752 4.5208L5.67745 5.06454C5.37488 5.081 5.07623 4.99211 4.83566 4.814L3.44657 3.78556ZM5.20851 6.76913C5.20851 6.44433 5.47091 6.17604 5.80645 6.15777L16.3769 5.5821C16.7039 5.56429 16.9792 5.81577 16.9792 6.13232V15.6782C16.9792 16.0024 16.7178 16.2705 16.3829 16.2895L5.87933 16.8871C5.5154 16.9079 5.20851 16.6282 5.20851 16.2759V6.76913Z" fill="black" />
+        <path fillRule="evenodd" clipRule="evenodd" d="M12.9218 1.85418L2.9522 2.53485C2.35502 2.57562 1.89212 3.05572 1.89212 3.63431V13.3311C1.89212 13.8748 2.07926 14.4029 2.42405 14.8325L4.57365 17.5104C4.9212 17.9433 5.46815 18.1817 6.034 18.1469L17.0992 17.4658C17.6663 17.4309 18.1078 16.9761 18.1078 16.4269V5.4026C18.1078 5.06281 17.9362 4.74441 17.6481 4.54963L14.1453 2.18137C13.7883 1.94002 13.3564 1.82451 12.9218 1.85418ZM3.44657 3.78556C3.30791 3.6829 3.3739 3.46903 3.54809 3.45654L12.9889 2.77938C13.2897 2.75781 13.5886 2.84064 13.8319 3.01299L15.7261 4.35502C15.798 4.40597 15.7643 4.51596 15.6752 4.5208L5.67745 5.06454C5.37488 5.081 5.07623 4.99211 4.83566 4.814L3.44657 3.78556ZM5.20851 6.76913C5.20851 6.44433 5.47091 6.17604 5.80645 6.15777L16.3769 5.5821C16.7039 5.56429 16.9792 5.81577 16.9792 6.13232V15.6782C16.9792 16.0024 16.7178 16.2705 16.3829 16.2895L5.87933 16.8871C5.5154 16.9079 5.20851 16.6282 5.20851 16.2759V6.76913Z" fill="black" />
       </g>
       <defs>
         <clipPath id="clip0_3376_8871">
           <rect width="20" height="20" fill="white" />
         </clipPath>
-      </defs>    </svg>
+      </defs>    
+    </svg>
   );
 }
 
-export function TrashIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function TrashIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -779,19 +636,14 @@ export function TrashIcon({ className = "w-5 h-5", stroke }: { className?: strin
   );
 }
 
-export function EditIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function EditIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -802,19 +654,14 @@ export function EditIcon({ className = "w-5 h-5", stroke }: { className?: string
   );
 }
 
-export function UploadIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function UploadIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -826,19 +673,14 @@ export function UploadIcon({ className = "w-5 h-5", stroke }: { className?: stri
 }
 
 // Icon components for settings
-export function UserIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function UserIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -849,19 +691,14 @@ export function UserIcon({ className = "w-6 h-6", stroke }: { className?: string
   );
 }
 
-export function BellIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function BellIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -871,19 +708,14 @@ export function BellIcon({ className = "w-6 h-6", stroke }: { className?: string
   );
 }
 
-export function SlidersIcon({ className = "w-6 h-6", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#FDFDFD" : "#181D27";
-  
+export function SlidersIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={2}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"
@@ -894,19 +726,14 @@ export function SlidersIcon({ className = "w-6 h-6", stroke }: { className?: str
   );
 }
 
-export function SunIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#A4A7AE" : "#717680";
-  
+export function SunIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <g clipPath="url(#clip0_3376_4577)">
         <path d="M10 0.833496V2.50016M10 17.5002V19.1668M3.51668 3.51683L4.70001 4.70016M15.3 15.3002L16.4833 16.4835M0.833344 10.0002H2.50001M17.5 10.0002H19.1667M3.51668 16.4835L4.70001 15.3002M15.3 4.70016L16.4833 3.51683M14.1667 10.0002C14.1667 12.3013 12.3012 14.1668 10 14.1668C7.69882 14.1668 5.83334 12.3013 5.83334 10.0002C5.83334 7.69898 7.69882 5.8335 10 5.8335C12.3012 5.8335 14.1667 7.69898 14.1667 10.0002Z" strokeLinecap="round" strokeLinejoin="round" />
@@ -920,19 +747,14 @@ export function SunIcon({ className = "w-5 h-5", stroke }: { className?: string;
   );
 }
 
-export function MoonIcon({ className = "w-5 h-5", stroke }: { className?: string; stroke?: string }) {
-  const { theme } = useTheme();
-  const finalStroke = stroke && stroke !== "currentColor" 
-    ? stroke 
-    : theme === "dark" ? "#A4A7AE" : "#717680";
-  
+export function MoonIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={finalStroke}
+      stroke={stroke}
     >
       <path
         strokeLinecap="round"

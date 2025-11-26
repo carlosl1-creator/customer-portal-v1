@@ -8,9 +8,9 @@ interface PageContainerProps {
 
 export function PageContainer({ children, className = "" }: PageContainerProps) {
   return (
-    <div className="flex flex-col min-h-screen w-full bg-neutral-100">
+    <div className="flex flex-col min-h-screen w-full bg-theme-sidebar">
       <div className="flex-1 w-full py-[18px] px-2">
-        <div className={`relative border border-[#e9eaeb] rounded-[12px] bg-white w-full min-h-[calc(100vh-36px)] overflow-hidden ${className}`}>
+        <div className={`relative border border-theme-primary rounded-[12px] bg-theme-card w-full min-h-[calc(100vh-36px)] overflow-hidden ${className}`}>
           {/* Geometric background positioned absolutely behind content */}
           <GeometricBackground />
           {/* Content rendered on top with full opacity */}
@@ -22,4 +22,3 @@ export function PageContainer({ children, className = "" }: PageContainerProps) 
     </div>
   );
 }
-

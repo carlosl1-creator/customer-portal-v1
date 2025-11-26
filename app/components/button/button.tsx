@@ -6,6 +6,8 @@ interface ButtonProps {
   variant?: "primary" | "secondary";
   onClick?: () => void;
   className?: string;
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 export function Button({
@@ -14,15 +16,17 @@ export function Button({
   variant = "primary",
   onClick,
   className = "",
+  disabled = false,
+  type = "button",
 }: ButtonProps) {
   const baseStyles =
-    "box-border flex gap-2 items-center justify-center px-5 py-3 rounded-lg transition-colors";
+    "box-border flex gap-2 items-center justify-center px-5 py-3 rounded-lg transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
   
   const primaryStyles =
-    "bg-[#1570EF] border border-[#1570EF] text-white hover:opacity-90";
+    "bg-[var(--color-primary)] border border-[var(--color-primary)] text-white hover:bg-[var(--color-primary-hover)] hover:border-[var(--color-primary-hover)]";
   
   const secondaryStyles =
-    "bg-white border border-[#e9eaeb] text-[#414651] hover:opacity-90";
+    "bg-theme-card border border-theme-primary text-theme-secondary hover:bg-theme-hover";
 
   const styles =
     variant === "primary"
@@ -30,7 +34,12 @@ export function Button({
       : `${baseStyles} ${secondaryStyles}`;
 
   return (
-    <button onClick={onClick} className={`${styles} ${className}`}>
+    <button 
+      onClick={onClick} 
+      className={`${styles} ${className}`}
+      disabled={disabled}
+      type={type}
+    >
       {icon && (
         <div className="shrink-0 w-5 h-5 flex items-center justify-center">
           {icon}
@@ -40,4 +49,3 @@ export function Button({
     </button>
   );
 }
-

@@ -8,28 +8,27 @@ export interface BadgeProps {
   className?: string;
 }
 
-const variantStyles: Record<BadgeVariant, { bg: string; text: string }> = {
-  success: { bg: "#ECFDF3", text: "#027A48" },
-  warning: { bg: "#FFFAEB", text: "#B54708" },
-  neutral: { bg: "#F5F5F5", text: "#414651" },
-  info: { bg: "#EFF8FF", text: "#1570EF" },
-  active: { bg: "#EFF8FF", text: "#175CD3" },
-  draft: { bg: "#F4F3FF", text: "#5925DC" },
-  archive: { bg: "#F5F5F5", text: "#414651" },
+// Theme-aware variant styles using CSS variables
+const variantClasses: Record<BadgeVariant, string> = {
+  success: "bg-status-success text-status-success",
+  warning: "bg-status-warning text-status-warning",
+  neutral: "bg-[var(--color-badge-default-bg)] text-[var(--color-badge-default-text)]",
+  info: "bg-status-info text-status-info",
+  active: "bg-status-info text-[var(--color-primary)]",
+  draft: "bg-[var(--color-primary-light)] text-[var(--color-primary)]",
+  archive: "bg-[var(--color-badge-default-bg)] text-[var(--color-badge-default-text)]",
 };
 
 export function Badge({ children, variant = "neutral", className = "" }: BadgeProps) {
-  const styles = variantStyles[variant];
+  const classes = variantClasses[variant];
 
   return (
     <div
-      className={`inline-flex items-center justify-center px-2 py-0.5 rounded-2xl ${className}`}
-      style={{ backgroundColor: styles.bg }}
+      className={`inline-flex items-center justify-center px-2 py-0.5 rounded-2xl ${classes} ${className}`}
     >
-      <p className="font-medium text-[12px] leading-[18px] text-center" style={{ color: styles.text }}>
+      <p className="font-medium text-[12px] leading-[18px] text-center">
         {children}
       </p>
     </div>
   );
 }
-

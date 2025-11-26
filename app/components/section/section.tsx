@@ -11,7 +11,7 @@ export function Section({ title, cards, className = "" }: SectionProps) {
   return (
     <div className={`flex flex-col gap-6 w-full ${className}`}>
       <div className="px-8">
-        <h2 className="font-medium text-[24px] leading-[32px] text-[#181d27]">
+        <h2 className="font-medium text-[24px] leading-[32px] text-theme-primary">
           {title}
         </h2>
       </div>
@@ -23,4 +23,3 @@ export function Section({ title, cards, className = "" }: SectionProps) {
     </div>
   );
 }
-
