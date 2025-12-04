@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Welcome } from "../welcome/welcome";
 import { Dashboard } from "~/components/dashboard/dashboard";
+import { hasVisited, markAsVisited } from "~/utils/storage";
+import { ROUTES } from "~/constants/routes";
+import { logger } from "~/utils/logger";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -17,19 +20,28 @@ export default function Home() {
 
   useEffect(() => {
     // Check if user has visited before
-    const hasVisited = localStorage.getItem("hasVisited");
-    setIsFirstLogin(hasVisited === null);
+    setIsFirstLogin(!hasVisited());
   }, []);
 
   const handleWelcomeAction = () => {
     // Mark as visited when user interacts with welcome screen
-    localStorage.setItem("hasVisited", "true");
+    markAsVisited();
     setIsFirstLogin(false);
+  };
+
+  const handleCreateReport = () => {
+    logger.debug("Create Report clicked");
+    // TODO: Implement create report functionality
+  };
+
+  const handleReportClick = (report: unknown) => {
+    logger.debug("Report clicked:", report);
+    // TODO: Implement report click navigation
   };
 
   // Show loading state while checking
   if (isFirstLogin === null) {
-    return null; // or a loading spinner
+    return null;
   }
 
   // Show Welcome component on first login
@@ -40,9 +52,9 @@ export default function Home() {
   // Show Dashboard for returning users
   return (
     <Dashboard
-      onCreateReport={() => console.log("Create Report clicked")}
-      onCompareReports={() => navigate("/compare-reports")}
-      onReportClick={(report) => console.log("Report clicked:", report)}
+      onCreateReport={handleCreateReport}
+      onCompareReports={() => navigate(ROUTES.COMPARE_REPORTS)}
+      onReportClick={handleReportClick}
     />
   );
 }

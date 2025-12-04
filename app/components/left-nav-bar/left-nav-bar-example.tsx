@@ -1,64 +1,31 @@
-// Example usage of LeftNavBar component
-import { LeftNavBar, type NavItem } from "./left-nav-bar";
-import {
-  HomeIcon,
-  TestTubeIcon,
-  CompareIcon,
-  ServerIcon,
-  SettingsIcon,
-  LogOutIcon,
-  LogoIcon,
-} from "../icons/icons";
+import { useNavigate } from "react-router";
+import { LeftNavBar } from "./left-nav-bar";
+import { LogOutIcon, LogoIcon } from "../icons/icons";
+import { getNavItems } from "~/constants/navigation";
+import { ROUTES } from "~/constants/routes";
+import { logger } from "~/utils/logger";
 
-// Single LeftNavBar example that automatically responds to theme changes
+/**
+ * LeftNavBar component with navigation configuration
+ * Automatically responds to theme changes
+ */
 export function LeftNavBarExample() {
-  const navItems: NavItem[] = [
-    {
-      id: "home",
-      label: "Home",
-      icon: <HomeIcon />,
-      path: "/",
-    },
-    {
-      id: "pressure-test",
-      label: "Pressure Test",
-      icon: <TestTubeIcon />,
-      path: "/pressure-test",
-    },
-    {
-      id: "report-comparison",
-      label: "Report Comparison",
-      icon: <CompareIcon />,
-      path: "/compare-reports",
-    },
-    {
-      id: "policy-manager",
-      label: "Policy Manager",
-      icon: <ServerIcon />,
-      path: "/policy-manager",
-    },
-    {
-      id: "settings",
-      label: "Settings",
-      icon: <SettingsIcon />,
-      path: "/settings",
-    },
-  ];
+  const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    // Navigate to home or perform logo action
-    console.log("Logo clicked");
+    navigate(ROUTES.HOME);
+    logger.debug("Logo clicked, navigating to home");
   };
 
   const handleLogOut = () => {
-    // Handle logout logic
-    console.log("Log out clicked");
+    // TODO: Implement logout functionality
+    logger.info("Log out clicked");
   };
 
   return (
     <LeftNavBar
       logoIcon={<LogoIcon />}
-      navItems={navItems}
+      navItems={getNavItems()}
       onLogoClick={handleLogoClick}
       logOutItem={{
         label: "Log Out",
@@ -69,5 +36,5 @@ export function LeftNavBarExample() {
   );
 }
 
-// Keep this export for backwards compatibility, but it's the same component now
+// Keep this export for backwards compatibility
 export const LeftNavBarDarkExample = LeftNavBarExample;
