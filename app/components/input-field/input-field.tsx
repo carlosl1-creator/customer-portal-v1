@@ -5,6 +5,7 @@ export interface InputFieldProps {
   value: string;
   placeholder?: string;
   disabled?: boolean;
+  required?: boolean;
   onChange?: (value: string) => void;
   className?: string;
   type?: string;
@@ -15,13 +16,17 @@ export function InputField({
   value,
   placeholder = "",
   disabled = false,
+  required = false,
   onChange,
   className = "",
   type = "text",
 }: InputFieldProps) {
   return (
     <div className={`flex flex-col gap-2 items-start relative ${className}`}>
-      <p className="font-medium leading-6 text-theme-secondary text-base">{label}</p>
+      <p className="font-medium leading-6 text-theme-secondary text-base">
+        {label}
+        {required && <span className="font-bold text-[#d92d20] ml-1">*</span>}
+      </p>
       <div className="flex flex-col gap-1.5 items-start relative w-[320px]">
         <input
           type={type}

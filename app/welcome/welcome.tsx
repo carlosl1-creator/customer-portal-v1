@@ -1,9 +1,12 @@
+import { useState, useEffect } from "react";
 import logoDark from "./logo-dark.svg";
-import logoLight from "./logo-light.svg";
 import darkLogo from "./dark-logo.png"
 import { Button } from "~/components/button/button";
+import { InputField } from "~/components/input-field/input-field";
 import { ArrowUpRightIcon, ListIcon } from "~/components/icons/icons";
 import { useTheme } from "~/utils/theme-context";
+import { useLocalStorage } from "~/hooks/use-local-storage";
+import { STORAGE_KEYS } from "~/constants/storage-keys";
 
 export interface WelcomeProps {
   onAction?: () => void;
@@ -11,14 +14,32 @@ export interface WelcomeProps {
 
 export function Welcome({ onAction }: WelcomeProps) {
   const { theme } = useTheme();
-  
+  const [name, setName] = useLocalStorage<string>(STORAGE_KEYS.USER_NAME, "");
+  const [nameValue, setNameValue] = useState(name);
+
+  // Update local state when name changes from storage
+  useEffect(() => {
+    setNameValue(name);
+  }, [name]);
+
+  const isNameEntered = nameValue.trim().length > 0;
+
+  const handleNameChange = (value: string) => {
+    setNameValue(value);
+    if (value.trim().length > 0) {
+      setName(value);
+    }
+  };
+
   const handleOpenFirstReport = () => {
+    if (!isNameEntered) return;
     // Handle open first report action
     console.log("Open First Report clicked");
     onAction?.();
   };
 
   const handleExploreDashboard = () => {
+    if (!isNameEntered) return;
     // Handle explore dashboard action
     console.log("Explore Dashboard clicked");
     onAction?.();
@@ -26,7 +47,7 @@ export function Welcome({ onAction }: WelcomeProps) {
 
   return (
     <div className="flex flex-col items-center justify-start w-full">
-      <div className="flex flex-col gap-[58px] items-start max-w-[1140px] w-full pt-24 pb-6">
+      <div className="flex flex-col gap-[48px] items-start max-w-[1140px] w-full pt-24 pb-6 px-16">
         {/* Logo */}
         <div className="w-[84px] h-[84px] relative shrink-0">
           <img
@@ -42,24 +63,43 @@ export function Welcome({ onAction }: WelcomeProps) {
             👋 Welcome to Reinforce Labs
           </h1>
           <p className="font-normal text-[18px] leading-[28px] text-theme-secondary not-italic m-0">
-            Your first report is ready. Open it to see how your chatbot is performing.
+            Your first report is ready. Tell us a bit about yourself and explore how your chatbot is performing.
           </p>
         </div>
 
-        {/* Buttons */}
-        <div className="flex gap-[24px] items-start">
-          <Button
-            icon={<ArrowUpRightIcon stroke="white" />}
-            text="Open First Report"
-            variant="primary"
-            onClick={handleOpenFirstReport}
+        {/* Name Input and Buttons */}
+        <div className="flex flex-col gap-8 items-start w-full">
+          <InputField
+            label="Name"
+            value={nameValue}
+            placeholder="Your Name"
+            required
+            onChange={handleNameChange}
           />
-          <Button
-            icon={<ListIcon className="text-theme-secondary" />}
-            text="Explore Dashboard"
-            variant="secondary"
-            onClick={handleExploreDashboard}
-          />
+
+          {/* Buttons */}
+          <div className="flex gap-[24px] items-start">
+            <Button
+              icon={<ArrowUpRightIcon stroke="white" />}
+              text="Open First Report"
+              variant="primary"
+              onClick={handleOpenFirstReport}
+              disabled={!isNameEntered}
+              className={!isNameEntered 
+                ? "!bg-[#717680] !border-[#717680] hover:!bg-[#717680] hover:!border-[#717680] !opacity-100" 
+                : "!bg-[#181d27] !border-[#181d27] hover:!bg-[#181d27] hover:!border-[#181d27]"}
+            />
+            <Button
+              icon={<ListIcon stroke={isNameEntered ? "#414651" : "#d5d7da"} />}
+              text="Explore Dashboard"
+              variant="secondary"
+              onClick={handleExploreDashboard}
+              disabled={!isNameEntered}
+              className={!isNameEntered 
+                ? "!border-[#e9eaeb] !text-[#d5d7da] hover:!bg-theme-card !opacity-100" 
+                : "!border-[#d5d7da] !text-[#414651]"}
+            />
+          </div>
         </div>
       </div>
     </div>
