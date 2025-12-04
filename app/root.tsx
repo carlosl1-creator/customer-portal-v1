@@ -11,8 +11,11 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { LeftNavBarExample } from "~/components/left-nav-bar/left-nav-bar-example";
 import { PageContainer } from "~/components/page-container/page-container";
-import { ThemeProvider, useTheme } from "~/utils/theme-context";
+import { ThemeProvider } from "~/utils/theme-context";
 
+/**
+ * External resource links (fonts, etc.)
+ */
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -26,10 +29,12 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+/**
+ * Main layout content with navigation and page container
+ */
 function LayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <>
-      {/* Single LeftNavBar that automatically responds to theme changes */}
       <LeftNavBarExample />
       <div className="flex-1 ml-[76px]">
         <PageContainer>
@@ -42,6 +47,9 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * Root layout component
+ */
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -62,10 +70,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * Main app component
+ */
 export default function App() {
   return <Outlet />;
 }
 
+/**
+ * Error boundary component for route errors
+ */
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let message = "Oops!";
   let details = "An unexpected error occurred.";

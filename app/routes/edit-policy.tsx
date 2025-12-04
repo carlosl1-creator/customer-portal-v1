@@ -3,10 +3,14 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
 import { ButtonGroup, type ButtonGroupOption } from "~/components/button-group/button-group";
-import { TestPrioritizationTable, type TestCategory, type Priority } from "~/components/tables/test-prioritization-table/test-prioritization-table";
+import { TestPrioritizationTable, type TestCategory } from "~/components/tables/test-prioritization-table/test-prioritization-table";
 import { ArrowUpRightIcon, UploadIcon, GoogleDriveIcon, ConfluenceIcon, NotionIcon } from "~/components/icons/icons";
 import type { Policy } from "~/components/tables/policies-table/policies-table";
 import { UploadLocalFileModal } from "~/components/upload-local-file-modal/upload-local-file-modal";
+import { usePolicyForm } from "~/hooks/use-policy-form";
+import { useFileReader } from "~/hooks/use-file-reader";
+import { ROUTES } from "~/constants/routes";
+import { logger } from "~/utils/logger";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -15,10 +19,13 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
+import { DEFAULT_TEST_CATEGORIES, DEFAULT_POLICY_CONTENT, POLICY_STATUS_OPTIONS } from "~/constants/policy";
+
 export default function EditPolicy() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const { readFile, content: fileContent, reset: resetFileReader } = useFileReader();
   
   // Get policy data from navigation state or use defaults
   const policy = (location.state as { policy?: Policy })?.policy;
@@ -28,51 +35,36 @@ export default function EditPolicy() {
   const [originalStatus] = useState<"active" | "draft" | "archive">(() =>
     policy?.status || "active"
   );
-  const [originalContent] = useState(() =>
-    policy?.content || "The following outlines the content policy pertaining to Acme Inc.'s customer-facing chatbot:\n1. The model must never encourage violent or aggressive behavior..."
-  );
+  const [originalContent] = useState(() => policy?.content || DEFAULT_POLICY_CONTENT);
+  const [originalCategories] = useState<TestCategory[]>(() => DEFAULT_TEST_CATEGORIES);
   
-  // Original categories - in a real app, this would come from the policy
-  // For now, using mock data that represents the original state
-  const [originalCategories] = useState<TestCategory[]>([
-    {
-      id: "1",
-      name: "Violence",
-      priority: "high",
-      description: "Blocks threats, depictions, or instructions for physical harm or weapon use. Enables safety compliance and protects brand integrity.",
+  const {
+    name,
+    setName,
+    status,
+    setStatus,
+    content,
+    setContent,
+    categories,
+    handlePriorityChange,
+    isValid,
+    formData,
+  } = usePolicyForm({
+    initialData: {
+      name: policy?.name || "Content Policy 2.1",
+      status: policy?.status || "active",
+      content: policy?.content || DEFAULT_POLICY_CONTENT,
     },
-    {
-      id: "2",
-      name: "Self-Harm",
-      priority: "high",
-      description: "Prevents encouragement or normalization of suicide and self-injury. Reduces user risk and regulatory exposure.",
-    },
-    {
-      id: "3",
-      name: "Illegal Activities",
-      priority: "critical",
-      description: "Restricts promotion or facilitation of crimes like hacking or drug trade. Safeguards legal standing and partner trust.",
-    },
-    {
-      id: "4",
-      name: "Hate & Harassment",
-      priority: "medium",
-      description: "Stops attacks or slurs targeting identity or group membership. Maintains inclusive environments and advertiser confidence.",
-    },
-  ]);
-  
-  const [name, setName] = useState(() => policy?.name || "Content Policy 2.1");
-  const [status, setStatus] = useState<"active" | "draft" | "archive">(() =>
-    policy?.status || "active"
-  );
-  const [content, setContent] = useState(() =>
-    policy?.content || "The following outlines the content policy pertaining to Acme Inc.'s customer-facing chatbot:\n1. The model must never encourage violent or aggressive behavior..."
-  );
+    originalCategories,
+  });
 
-  // Current categories - initialized with original values (copy to avoid reference issues)
-  const [categories, setCategories] = useState<TestCategory[]>(() => 
-    originalCategories.map(cat => ({ ...cat }))
-  );
+  // Update content when file is read
+  useEffect(() => {
+    if (fileContent) {
+      setContent(fileContent);
+      resetFileReader();
+    }
+  }, [fileContent, setContent, resetFileReader]);
 
   // Update form when policy data is available (only if policy comes in after mount)
   useEffect(() => {
@@ -81,61 +73,44 @@ export default function EditPolicy() {
       setStatus(policy.status);
       setContent(policy.content);
     }
-  }, [policy]);
+  }, [policy, setName, setStatus, setContent]);
 
   const handleUploadLocalFile = () => {
     setIsUploadModalOpen(true);
   };
 
-  const handleFileUpload = (file: File) => {
-    console.log("File uploaded:", file.name);
-    // Read file content and set it to the content field
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const text = e.target?.result as string;
-      if (text) {
-        setContent(text);
-      }
-    };
-    reader.readAsText(file);
+  const handleFileUpload = async (file: File) => {
+    logger.debug("File uploaded:", file.name);
+    await readFile(file);
   };
 
   const handleImportFromGoogleDrive = () => {
-    console.log("Import from Google Drive clicked");
+    logger.info("Import from Google Drive clicked");
     // TODO: Implement import from Google Drive functionality
   };
 
   const handleImportFromConfluence = () => {
-    console.log("Import from Confluence clicked");
+    logger.info("Import from Confluence clicked");
     // TODO: Implement import from Confluence functionality
   };
 
   const handleImportFromNotion = () => {
-    console.log("Import from Notion clicked");
+    logger.info("Import from Notion clicked");
     // TODO: Implement import from Notion functionality
   };
 
-  const handlePriorityChange = (id: string, priority: Priority) => {
-    setCategories((prev) =>
-      prev.map((cat) => (cat.id === id ? { ...cat, priority } : cat))
-    );
-  };
-
   const handleViewDetails = (category: TestCategory) => {
-    console.log("View details for category:", category);
+    logger.debug("View details for category:", category);
     // TODO: Implement view details functionality
   };
 
   const handleUpdatePolicy = () => {
-    console.log("Updating policy:", {
+    logger.debug("Updating policy:", {
       id: policy?.id,
-      name,
-      status,
-      content,
-      categories,
+      ...formData,
     });
     // Navigate to preview policy changes screen with both original and edited data
-    navigate("/preview-policy-changes", {
+    navigate(ROUTES.PREVIEW_POLICY_CHANGES, {
       state: {
         originalPolicy: {
           name: originalName,
@@ -143,31 +118,17 @@ export default function EditPolicy() {
           content: originalContent,
         },
         editedPolicy: {
-          name,
-          status,
-          content,
+          name: formData.name,
+          status: formData.status,
+          content: formData.content,
         },
         originalCategories,
-        editedCategories: categories,
+        editedCategories: formData.categories,
         policyId: policy?.id,
       },
     });
   };
 
-  const statusOptions: ButtonGroupOption[] = [
-    {
-      label: "Active",
-      value: "active",
-    },
-    {
-      label: "Draft",
-      value: "draft",
-    },
-    {
-      label: "Archive",
-      value: "archive",
-    },
-  ];
 
   const headerButtons: HeaderButton[] = [
     {
@@ -235,7 +196,7 @@ export default function EditPolicy() {
                   Status <span className="font-bold text-[var(--color-error)]">*</span>
                 </p>
                 <ButtonGroup
-                  options={statusOptions}
+                  options={POLICY_STATUS_OPTIONS}
                   value={status}
                   onChange={(value) => setStatus(value as "active" | "draft" | "archive")}
                 />
@@ -270,7 +231,7 @@ export default function EditPolicy() {
               </p>
             </div>
             <TestPrioritizationTable
-              categories={categories}
+              categories={formData.categories}
               onPriorityChange={handlePriorityChange}
               onViewDetails={handleViewDetails}
             />
@@ -284,15 +245,15 @@ export default function EditPolicy() {
           {/* Update Policy Button */}
           <div className="flex gap-6 items-start">
             <button
-              onClick={canUpdatePolicy ? handleUpdatePolicy : undefined}
-              disabled={!canUpdatePolicy}
+              onClick={isValid ? handleUpdatePolicy : undefined}
+              disabled={!isValid}
               className={`box-border flex gap-2 items-center justify-center px-5 py-3 rounded-lg transition-colors ${
-                canUpdatePolicy
+                isValid
                   ? "bg-[var(--color-text-primary)] border border-[var(--color-text-primary)] text-[var(--color-text-inverted)] hover:opacity-90 cursor-pointer"
                   : "bg-[var(--color-bg-muted)] border border-[var(--color-border-secondary)] text-[var(--color-text-muted)] cursor-not-allowed"
               }`}
             >
-              <ArrowUpRightIcon className="w-5 h-5" stroke={canUpdatePolicy ? "var(--color-text-inverted)" : "currentColor"} />
+              <ArrowUpRightIcon className="w-5 h-5" stroke={isValid ? "var(--color-text-inverted)" : "currentColor"} />
               <span className="font-semibold text-base leading-6">Update Policy</span>
             </button>
           </div>
