@@ -1,5 +1,6 @@
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
+import darkLogo from "./dark-logo.png"
 import { Button } from "~/components/button/button";
 import { ArrowUpRightIcon, ListIcon } from "~/components/icons/icons";
 import { useTheme } from "~/utils/theme-context";
@@ -29,7 +30,7 @@ export function Welcome({ onAction }: WelcomeProps) {
         {/* Logo */}
         <div className="w-[84px] h-[84px] relative shrink-0">
           <img
-            src={theme === "dark" ? logoLight : logoDark}
+            src={theme === "dark" ? darkLogo : logoDark}
             alt="Reinforce Labs Logo"
             className="w-full h-full object-contain"
           />

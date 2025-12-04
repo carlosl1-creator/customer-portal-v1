@@ -118,7 +118,7 @@ export function LogOutIcon({ className = "w-6 h-6", stroke = "currentColor" }: {
 export function LogoIcon({ className = "w-11 h-11" }: { className?: string }) {
   return (
     <div className={className}>
-      <img src="/rl_logo.svg" alt="Reinforce Labs Logo" />
+      <img src="/dark-logo.png" alt="Reinforce Labs Logo" />
     </div>
   );
 }
