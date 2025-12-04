@@ -10,37 +10,37 @@ import {
   LogoIcon,
 } from "../icons/icons";
 
-// Example: How to use the LeftNavBar component
+// Single LeftNavBar example that automatically responds to theme changes
 export function LeftNavBarExample() {
   const navItems: NavItem[] = [
     {
       id: "home",
       label: "Home",
-      icon: <HomeIcon stroke="currentColor" />,
+      icon: <HomeIcon />,
       path: "/",
     },
     {
       id: "pressure-test",
       label: "Pressure Test",
-      icon: <TestTubeIcon stroke="currentColor" />,
+      icon: <TestTubeIcon />,
       path: "/pressure-test",
     },
     {
       id: "report-comparison",
       label: "Report Comparison",
-      icon: <CompareIcon stroke="currentColor" />,
+      icon: <CompareIcon />,
       path: "/compare-reports",
     },
     {
       id: "policy-manager",
       label: "Policy Manager",
-      icon: <ServerIcon stroke="currentColor" />,
+      icon: <ServerIcon />,
       path: "/policy-manager",
     },
     {
       id: "settings",
       label: "Settings",
-      icon: <SettingsIcon stroke="currentColor" />,
+      icon: <SettingsIcon />,
       path: "/settings",
     },
   ];
@@ -57,48 +57,17 @@ export function LeftNavBarExample() {
 
   return (
     <LeftNavBar
-      logoIcon={<LogoIcon darkMode={false} />}
+      logoIcon={<LogoIcon />}
       navItems={navItems}
       onLogoClick={handleLogoClick}
-      darkMode={false}
       logOutItem={{
         label: "Log Out",
-        icon: <LogOutIcon stroke="currentColor" />,
+        icon: <LogOutIcon />,
         onClick: handleLogOut,
       }}
     />
   );
 }
 
-// Dark mode example
-export function LeftNavBarDarkExample() {
-  const navItems: NavItem[] = [
-    {
-      id: "home",
-      label: "Home",
-      icon: <HomeIcon stroke="currentColor" />,
-      path: "/",
-    },
-    {
-      id: "notifications",
-      label: "Notifications",
-      icon: <SettingsIcon stroke="currentColor" />,
-      path: "/notifications",
-    },
-    {
-      id: "settings",
-      label: "Settings",
-      icon: <SettingsIcon stroke="currentColor" />,
-      path: "/settings",
-    },
-  ];
-
-  return (
-    <LeftNavBar
-      logoIcon={<LogoIcon darkMode={true} />}
-      navItems={navItems}
-      darkMode={true}
-    />
-  );
-}
-
+// Keep this export for backwards compatibility, but it's the same component now
+export const LeftNavBarDarkExample = LeftNavBarExample;

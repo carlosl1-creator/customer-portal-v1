@@ -21,34 +21,34 @@ export function RatingCard({
   onHelpClick,
   className = "",
 }: RatingCardProps) {
-  const defaultIcon = <HashIcon className="w-5 h-5" stroke="#181d27" />;
+  const defaultIcon = <HashIcon className="w-5 h-5" />;
 
   return (
     <div
-      className={`bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 h-full ${className}`}
+      className={`bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 h-full ${className}`}
     >
       {/* Header section */}
       <div className="flex items-start justify-between w-full">
         <div className="flex flex-col gap-2 flex-1 min-w-0">
           {/* Title row with icon */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 text-theme-primary">
             {icon || defaultIcon}
-            <h3 className="font-medium text-[16px] leading-[24px] text-[#181d27]">
+            <h3 className="font-medium text-[16px] leading-[24px]">
               {title}
             </h3>
           </div>
           
           {/* Subtitle row with help icon */}
           <div className="flex items-start gap-2 w-full">
-            <p className="font-normal text-[12px] leading-[18px] text-[#535862] flex-1">
+            <p className="font-normal text-[12px] leading-[18px] text-theme-secondary flex-1">
               {subtitle}
             </p>
             <button
               onClick={onHelpClick}
-              className="flex-shrink-0 p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+              className="flex-shrink-0 p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity text-theme-muted"
               aria-label="Help"
             >
-              <HelpIcon className="w-4 h-4" stroke="#A4A7AE" />
+              <HelpIcon className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -62,11 +62,10 @@ export function RatingCard({
         </div>
         
         {/* Description text */}
-        <p className="flex-1 font-normal text-[14px] leading-[20px] text-[#535862] whitespace-pre-wrap">
+        <p className="flex-1 font-normal text-[14px] leading-[20px] text-theme-secondary whitespace-pre-wrap">
           {description}
         </p>
       </div>
     </div>
   );
 }
-

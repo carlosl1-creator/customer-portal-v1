@@ -31,19 +31,19 @@ export function HeaderSection({
         {/* Title Section */}
         <div className="flex flex-col gap-6 items-start justify-center w-full">
           {/* Page Name */}
-          <p className="font-normal leading-6 text-[#1570ef] text-base uppercase">
+          <p className="font-normal leading-6 text-[var(--color-primary)] text-base uppercase">
             {pageName}
           </p>
 
           {/* Text and supporting texts */}
           <div className="flex flex-col gap-4 items-start w-full">
             {/* Title */}
-            <p className="font-semibold leading-[38px] text-[#181d27] text-[30px] w-full">
+            <p className="font-semibold leading-[38px] text-theme-primary text-[30px] w-full">
               {title}
             </p>
 
             {/* Supporting Texts */}
-            <div className="flex flex-col gap-1 items-start text-[#535862] w-full">
+            <div className="flex flex-col gap-1 items-start text-theme-secondary w-full">
               {infoText.map((text, index) => (
                 <p key={index} className="font-normal leading-6 text-base w-full">
                   {text}
@@ -59,27 +59,12 @@ export function HeaderSection({
             <button
               key={index}
               onClick={button.onClick}
-              className="border border-[#d5d7da] border-solid rounded-[8px] flex gap-[8px] items-center justify-center px-[18px] py-[10px] transition-colors duration-200 relative isolate"
-              style={{ 
-                backgroundColor: '#FFFFFF',
-                opacity: 1,
-              } as React.CSSProperties}
-              ref={(el) => {
-                if (el) {
-                  el.style.setProperty('background-color', '#FFFFFF', 'important');
-                }
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.setProperty('background-color', '#F5F5F5', 'important');
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.setProperty('background-color', '#FFFFFF', 'important');
-              }}
+              className="bg-theme-card border border-theme-secondary rounded-[8px] flex gap-[8px] items-center justify-center px-[18px] py-[10px] transition-colors duration-200 hover:bg-theme-hover cursor-pointer"
             >
-              <div className="shrink-0 w-6 h-6 flex items-center justify-center relative z-10">
+              <div className="shrink-0 w-6 h-6 flex items-center justify-center text-theme-secondary">
                 {button.icon}
               </div>
-              <span className="font-medium leading-[24px] text-[#414651] text-[16px] relative z-10">
+              <span className="font-medium leading-[24px] text-theme-secondary text-[16px]">
                 {button.text}
               </span>
             </button>
@@ -90,12 +75,12 @@ export function HeaderSection({
         {viewAllReportsButton && (
           <button
             onClick={viewAllReportsButton.onClick}
-            className="absolute right-10 top-8 flex gap-2 items-center justify-center hover:opacity-70 transition-opacity"
+            className="absolute right-10 top-8 flex gap-2 items-center justify-center hover:opacity-70 transition-opacity bg-transparent border-0 cursor-pointer"
           >
-            <div className="shrink-0 w-5 h-5 flex items-center justify-center">
+            <div className="shrink-0 w-5 h-5 flex items-center justify-center text-theme-secondary">
               {viewAllReportsButton.icon}
             </div>
-            <span className="font-semibold leading-6 text-[#535862] text-base">
+            <span className="font-semibold leading-6 text-theme-secondary text-base">
               {viewAllReportsButton.text}
             </span>
           </button>
@@ -104,4 +89,3 @@ export function HeaderSection({
     </div>
   );
 }
-

@@ -5,64 +5,9 @@ import { HeaderSection, type HeaderButton } from "~/components/header-section/he
 import { ButtonGroup, type ButtonGroupOption } from "~/components/button-group/button-group";
 import { ContentDiffView } from "~/components/content-diff-view/content-diff-view";
 import { TestPrioritizationDiffTable, type TestCategoryDiff } from "~/components/tables/test-prioritization-diff-table/test-prioritization-diff-table";
-import { EditIcon } from "~/components/icons/icons";
+import { EditIcon, UploadIcon, GoogleDriveIcon, ConfluenceIcon, NotionIcon } from "~/components/icons/icons";
 import type { Policy } from "~/components/tables/policies-table/policies-table";
 import type { TestCategory } from "~/components/tables/test-prioritization-table/test-prioritization-table";
-
-// Icon components for import buttons
-function UploadIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
-  return (
-    <svg
-      className={className}
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke={stroke}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-      />
-    </svg>
-  );
-}
-
-function GoogleDriveIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-    >
-      <path d="M7.71 2.5 1.15 15l3.43 6 6.55-12.5zM12.85 2.5 6.3 15l3.43 6 6.56-12.5zM22.29 8.5 15.73 21l-3.43-6 6.56-12.5z"/>
-    </svg>
-  );
-}
-
-function ConfluenceIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-    >
-      <path d="M0 12.75V24h11.25v-2.625H2.625V12.75H0zm21.375 0V24H24V12.75h-2.625zm-11.25-12V12H24V9.375H12.75V.75H10.125zm-10.5 0v8.625H2.625V2.625h8.625V0H0z"/>
-    </svg>
-  );
-}
-
-function NotionIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="currentColor"
-    >
-      <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466l1.823 1.447zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.748.327-.748.933zm14.337.606c.093.42 0 .841-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .841-1.168.841l-3.222.186c-.093-.186 0-.653.327-.746l.841-.233V9.3L7.822 9.07c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933l3.178-.186z"/>
-    </svg>
-  );
-}
 
 export function meta({ }: Route.MetaArgs) {
   return [

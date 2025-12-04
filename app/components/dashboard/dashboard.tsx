@@ -72,10 +72,10 @@ export function Dashboard({
           <div className="flex gap-4 items-start w-full">
             {/* Text Content */}
             <div className="flex flex-1 flex-col gap-1 items-start">
-              <h1 className="font-semibold text-[30px] leading-[38px] text-[#181d27]">
+              <h1 className="font-semibold text-[30px] leading-[38px] text-theme-primary">
                 Welcome back, {userName}
               </h1>
-              <p className="font-normal text-[16px] leading-[24px] text-[#535862]">
+              <p className="font-normal text-[16px] leading-[24px] text-theme-secondary">
                 Track, manage and create new tests and reports for your models.
               </p>
             </div>
@@ -89,7 +89,7 @@ export function Dashboard({
                 onClick={onCreateReport}
               />
               <Button
-                icon={<CompareIcon stroke="#181d27" />}
+                icon={<CompareIcon className="text-theme-primary" />}
                 text="Compare Reports"
                 variant="secondary"
                 onClick={onCompareReports}
@@ -100,13 +100,13 @@ export function Dashboard({
       </div>
 
       {/* Divider */}
-      <div className="h-px w-full bg-[#e9eaeb]" />
+      <div className="h-px w-full bg-theme-primary border-theme-primary" style={{ backgroundColor: 'var(--color-border-primary)' }} />
 
       {/* Your Last Report Section */}
       <div className="flex flex-col gap-6 items-start w-full px-8">
         <div className="flex flex-col gap-2 items-start">
-          <h2 className="font-medium text-[20px] leading-[30px] text-[#181d27]">Your Last Report</h2>
-          <div className="flex flex-col font-normal items-start leading-[24px] text-[#535862] text-[16px]">
+          <h2 className="font-medium text-[20px] leading-[30px] text-theme-primary">Your Last Report</h2>
+          <div className="flex flex-col font-normal items-start leading-[24px] text-theme-secondary text-[16px]">
             <p>Created {lastReportDate}</p>
             <p>
               {lastReportBot} — {lastReportPolicy}
@@ -162,12 +162,12 @@ export function Dashboard({
       </div>
 
       {/* Divider */}
-      <div className="h-px w-full bg-[#e9eaeb]" />
+      <div className="h-px w-full" style={{ backgroundColor: 'var(--color-border-primary)' }} />
 
       {/* All Past Reports Section */}
       <div className="flex flex-col gap-6 items-start w-full px-8">
         <div className="flex flex-col gap-1 items-start">
-          <h2 className="font-medium text-[20px] leading-[30px] text-[#181d27]">All Past Reports</h2>
+          <h2 className="font-medium text-[20px] leading-[30px] text-theme-primary">All Past Reports</h2>
         </div>
 
         {/* Filter Bar */}
@@ -186,4 +186,3 @@ export function Dashboard({
     </div>
   );
 }
-

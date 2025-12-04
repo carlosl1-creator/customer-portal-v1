@@ -217,19 +217,19 @@ export default function ShowComparison() {
             onClick: handleLinkToJira,
           },
           {
-            icon: <DownloadIcon className="w-5 h-5" stroke="#414651" />,
+            icon: <DownloadIcon className="w-5 h-5 text-theme-secondary" />,
             text: "Download Report",
             onClick: handleDownloadReport,
           },
           {
-            icon: <ClipboardIcon className="w-5 h-5" stroke="#414651" />,
+            icon: <ClipboardIcon className="w-5 h-5 text-theme-secondary" />,
             text: "Copy Permalink",
             onClick: handleCopyPermalink,
           },
         ]}
         viewAllReportsButton={{
           text: "View All Reports",
-          icon: <ChevronLeftIcon className="w-5 h-5" stroke="#535862" />,
+          icon: <ChevronLeftIcon className="w-5 h-5 text-theme-secondary" />,
           onClick: handleViewAllReports,
         }}
       />
@@ -240,16 +240,16 @@ export default function ShowComparison() {
         <div className="grid grid-cols-3 gap-6 mb-8">
           {/* Overall Readiness - 2 columns */}
           <div className="col-span-2">
-            <div className="bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6">
+            <div className="bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6">
               <div className="flex items-start justify-between">
                 <div className="flex flex-1 flex-col gap-2">
                   <div className="flex gap-2.5 items-center">
-                    <HashIcon className="w-5 h-5" stroke="#181d27" />
-                    <p className="font-medium text-[16px] leading-[24px] text-[#181d27]">
+                    <HashIcon className="w-5 h-5 text-theme-primary" />
+                    <p className="font-medium text-[16px] leading-[24px] text-theme-primary">
                       Overall Readiness
                     </p>
                   </div>
-                  <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                  <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                     Overall rating based on model safety, security, and fraud and bias mitigation.
                   </p>
                 </div>
@@ -257,17 +257,17 @@ export default function ShowComparison() {
               <div className="flex gap-12 items-center justify-center">
                 <div className="flex flex-col gap-2.5 items-center">
                   <RadialChart rating={4.1} size={90} />
-                  <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                  <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                     Acme Inc.
                   </p>
                 </div>
                 <div className="flex flex-col gap-2.5 items-center">
                   <RadialChart rating={3.2} size={90} />
-                  <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                  <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                     SomeAI
                   </p>
                 </div>
-                <p className="flex-1 font-normal text-[14px] leading-[20px] text-[#535862] whitespace-pre-wrap">
+                <p className="flex-1 font-normal text-[14px] leading-[20px] text-theme-secondary whitespace-pre-wrap">
                   Acme Inc.'s Content Model demonstrates higher overall readiness especially against violent content and illegal activities. In contrast, SomeAI consistently struggles to identify obscure, coded language and fail to block unsafe content on the platform. Guidelines for SomeAI Model-5 should be revised to guard against this.
                 </p>
               </div>
@@ -276,27 +276,27 @@ export default function ShowComparison() {
 
           {/* Total Cases - 1 column */}
           <div className="col-span-1">
-            <div className="bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 relative">
+            <div className="bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 relative">
               <button
                 onClick={() => setOpenModal("totalCases")}
-                className="absolute right-4 top-4 p-2 rounded-lg hover:opacity-80 transition-opacity"
+                className="absolute right-4 top-4 p-2 rounded-lg hover:opacity-80 transition-opacity text-theme-secondary"
               >
-                <MaximizeIcon className="w-5 h-5" stroke="#535862" />
+                <MaximizeIcon className="w-5 h-5" />
               </button>
               <div className="flex flex-col gap-1">
-                <p className="font-medium text-[16px] leading-[24px] text-[#181d27]">
+                <p className="font-medium text-[16px] leading-[24px] text-theme-primary">
                   Total Cases
                 </p>
-                <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                   Number of total generated cases
                 </p>
               </div>
               <div className="flex gap-4 items-center justify-center">
                 <div className="flex flex-col gap-2">
-                  <p className="font-medium text-[36px] leading-[44px] text-[#181d27] tracking-[-0.72px]">
+                  <p className="font-medium text-[36px] leading-[44px] text-theme-primary tracking-[-0.72px]">
                     {totalCasesData.totalCases.toLocaleString()}
                   </p>
-                  <p className="font-normal text-[14px] leading-[20px] text-[#535862]">
+                  <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">
                     Generated
                   </p>
                 </div>
@@ -308,7 +308,7 @@ export default function ShowComparison() {
                     {totalCasesData.scenarios.map((scenario) => (
                       <div key={scenario.label} className="flex gap-1 items-center">
                         <div className="w-4 h-4 rounded-full" style={{ backgroundColor: scenario.color }} />
-                        <p className="font-normal text-[12px] leading-[18px] text-[#535862]">{scenario.label}</p>
+                        <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">{scenario.label}</p>
                       </div>
                     ))}
                   </div>
@@ -321,18 +321,18 @@ export default function ShowComparison() {
         {/* Pillar Scores Row */}
         <div className="grid grid-cols-2 gap-6 mb-8">
           {/* Pillar I Score with Comparison */}
-          <div className="bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 relative">
+          <div className="bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 relative">
             <button
               onClick={() => setOpenModal("pillarI")}
-              className="absolute right-4 top-4 p-2 rounded-lg hover:opacity-80 transition-opacity"
+              className="absolute right-4 top-4 p-2 rounded-lg hover:opacity-80 transition-opacity text-theme-secondary"
             >
-              <MaximizeIcon className="w-5 h-5" stroke="#535862" />
+              <MaximizeIcon className="w-5 h-5" />
             </button>
             <div className="flex flex-col gap-1">
-              <p className="font-medium text-[16px] leading-[24px] text-[#181d27]">
+              <p className="font-medium text-[16px] leading-[24px] text-theme-primary">
                 Pillar I Score
               </p>
-              <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+              <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                 Aggregated score across safety, security, and fraud.
               </p>
             </div>
@@ -340,13 +340,13 @@ export default function ShowComparison() {
               {/* Model 1 Score */}
               <div className="flex flex-col gap-2.5 items-start">
                 <div className="flex gap-4 items-end">
-                  <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                  <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
                     {pillarIData.model1Score}
                   </p>
-                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
-                    pillarIData.model1Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
-                  }`}>
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIData.model1Status === "success" ? "#039855" : "#dc6803"}>
+                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2`}
+                    style={{ backgroundColor: pillarIData.model1Status === "success" ? "var(--color-success-bg)" : "var(--color-warning-bg)" }}>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} 
+                      stroke={pillarIData.model1Status === "success" ? "var(--color-success-text)" : "var(--color-warning-text)"}>
                       {pillarIData.model1Status === "success" ? (
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       ) : (
@@ -355,20 +355,20 @@ export default function ShowComparison() {
                     </svg>
                   </div>
                 </div>
-                <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                   {model1Name}
                 </p>
               </div>
               {/* Model 2 Score */}
               <div className="flex flex-col gap-2.5 items-start">
                 <div className="flex gap-4 items-end">
-                  <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                  <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
                     {pillarIData.model2Score}
                   </p>
-                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
-                    pillarIData.model2Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
-                  }`}>
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIData.model2Status === "success" ? "#039855" : "#dc6803"}>
+                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2`}
+                    style={{ backgroundColor: pillarIData.model2Status === "success" ? "var(--color-success-bg)" : "var(--color-warning-bg)" }}>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5}
+                      stroke={pillarIData.model2Status === "success" ? "var(--color-success-text)" : "var(--color-warning-text)"}>
                       {pillarIData.model2Status === "success" ? (
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       ) : (
@@ -377,7 +377,7 @@ export default function ShowComparison() {
                     </svg>
                   </div>
                 </div>
-                <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                   {model2Name}
                 </p>
               </div>
@@ -385,7 +385,7 @@ export default function ShowComparison() {
               <div className="flex flex-1 gap-4 items-end relative">
                 <div className="flex flex-col gap-2.5 justify-center">
                   {pillarIData.barData.map((bar) => (
-                    <p key={bar.label} className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                    <p key={bar.label} className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                       {bar.label}
                     </p>
                   ))}
@@ -404,9 +404,9 @@ export default function ShowComparison() {
                     />
                   ))}
                   {/* X-axis line */}
-                  <div className="absolute -bottom-5 left-0 right-0 h-px bg-[#e9eaeb]" />
+                  <div className="absolute -bottom-5 left-0 right-0 h-px" style={{ backgroundColor: 'var(--color-border-primary)' }} />
                   {/* X-axis labels */}
-                  <div className="absolute -bottom-[18px] left-0 right-0 flex items-center justify-between text-[4px] leading-[4px] text-[#535862] font-normal text-center">
+                  <div className="absolute -bottom-[18px] left-0 right-0 flex items-center justify-between text-[4px] leading-[4px] text-theme-secondary font-normal text-center">
                     <span>0</span>
                     <span>50</span>
                     <span>100</span>
@@ -417,18 +417,18 @@ export default function ShowComparison() {
           </div>
 
           {/* Pillar II Score with Comparison */}
-          <div className="bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 relative">
+          <div className="bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 relative">
             <button
               onClick={() => setOpenModal("pillarII")}
-              className="absolute right-4 top-4 p-2 rounded-lg hover:opacity-80 transition-opacity"
+              className="absolute right-4 top-4 p-2 rounded-lg hover:opacity-80 transition-opacity text-theme-secondary"
             >
-              <MaximizeIcon className="w-5 h-5" stroke="#535862" />
+              <MaximizeIcon className="w-5 h-5" />
             </button>
             <div className="flex flex-col gap-1">
-              <p className="font-medium text-[16px] leading-[24px] text-[#181d27]">
+              <p className="font-medium text-[16px] leading-[24px] text-theme-primary">
                 Pillar II Score
               </p>
-              <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+              <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                 Focused score on brand value and correctness
               </p>
             </div>
@@ -436,13 +436,13 @@ export default function ShowComparison() {
               {/* Model 1 Score */}
               <div className="flex flex-col gap-2.5 items-start">
                 <div className="flex gap-4 items-end">
-                  <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                  <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
                     {pillarIIData.model1Score}
                   </p>
-                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
-                    pillarIIData.model1Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
-                  }`}>
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIIData.model1Status === "success" ? "#039855" : "#dc6803"}>
+                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2`}
+                    style={{ backgroundColor: pillarIIData.model1Status === "success" ? "var(--color-success-bg)" : "var(--color-warning-bg)" }}>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5}
+                      stroke={pillarIIData.model1Status === "success" ? "var(--color-success-text)" : "var(--color-warning-text)"}>
                       {pillarIIData.model1Status === "success" ? (
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       ) : (
@@ -451,20 +451,20 @@ export default function ShowComparison() {
                     </svg>
                   </div>
                 </div>
-                <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                   {model1Name}
                 </p>
               </div>
               {/* Model 2 Score */}
               <div className="flex flex-col gap-2.5 items-start">
                 <div className="flex gap-4 items-end">
-                  <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                  <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
                     {pillarIIData.model2Score}
                   </p>
-                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
-                    pillarIIData.model2Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
-                  }`}>
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIIData.model2Status === "success" ? "#039855" : "#dc6803"}>
+                  <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2`}
+                    style={{ backgroundColor: pillarIIData.model2Status === "success" ? "var(--color-success-bg)" : "var(--color-warning-bg)" }}>
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5}
+                      stroke={pillarIIData.model2Status === "success" ? "var(--color-success-text)" : "var(--color-warning-text)"}>
                       {pillarIIData.model2Status === "success" ? (
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                       ) : (
@@ -473,7 +473,7 @@ export default function ShowComparison() {
                     </svg>
                   </div>
                 </div>
-                <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                   {model2Name}
                 </p>
               </div>
@@ -481,7 +481,7 @@ export default function ShowComparison() {
               <div className="flex flex-1 gap-4 items-end relative">
                 <div className="flex flex-col gap-2.5 justify-center">
                   {pillarIIData.barData.map((bar) => (
-                    <p key={bar.label} className="font-normal text-[12px] leading-[18px] text-[#535862]">
+                    <p key={bar.label} className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                       {bar.label}
                     </p>
                   ))}
@@ -500,9 +500,9 @@ export default function ShowComparison() {
                     />
                   ))}
                   {/* X-axis line */}
-                  <div className="absolute -bottom-5 left-0 right-0 h-px bg-[#e9eaeb]" />
+                  <div className="absolute -bottom-5 left-0 right-0 h-px" style={{ backgroundColor: 'var(--color-border-primary)' }} />
                   {/* X-axis labels */}
-                  <div className="absolute -bottom-[18px] left-0 right-0 flex items-center justify-between text-[4px] leading-[4px] text-[#535862] font-normal text-center">
+                  <div className="absolute -bottom-[18px] left-0 right-0 flex items-center justify-between text-[4px] leading-[4px] text-theme-secondary font-normal text-center">
                     <span>0</span>
                     <span>50</span>
                     <span>100</span>
@@ -567,13 +567,13 @@ export default function ShowComparison() {
             {/* Model 1 Score */}
             <div className="flex flex-col gap-2.5 items-start">
               <div className="flex gap-4 items-end">
-                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
                   {pillarIData.model1Score}
                 </p>
-                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
-                  pillarIData.model1Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
-                }`}>
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIData.model1Status === "success" ? "#039855" : "#dc6803"}>
+                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2`}
+                  style={{ backgroundColor: pillarIData.model1Status === "success" ? "var(--color-success-bg)" : "var(--color-warning-bg)" }}>
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5}
+                    stroke={pillarIData.model1Status === "success" ? "var(--color-success-text)" : "var(--color-warning-text)"}>
                     {pillarIData.model1Status === "success" ? (
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     ) : (
@@ -582,20 +582,20 @@ export default function ShowComparison() {
                   </svg>
                 </div>
               </div>
-              <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+              <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                 {model1Name}
               </p>
             </div>
             {/* Model 2 Score */}
             <div className="flex flex-col gap-2.5 items-start">
               <div className="flex gap-4 items-end">
-                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
                   {pillarIData.model2Score}
                 </p>
-                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
-                  pillarIData.model2Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
-                }`}>
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIData.model2Status === "success" ? "#039855" : "#dc6803"}>
+                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2`}
+                  style={{ backgroundColor: pillarIData.model2Status === "success" ? "var(--color-success-bg)" : "var(--color-warning-bg)" }}>
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5}
+                    stroke={pillarIData.model2Status === "success" ? "var(--color-success-text)" : "var(--color-warning-text)"}>
                     {pillarIData.model2Status === "success" ? (
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     ) : (
@@ -604,7 +604,7 @@ export default function ShowComparison() {
                   </svg>
                 </div>
               </div>
-              <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+              <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                 {model2Name}
               </p>
             </div>
@@ -631,13 +631,13 @@ export default function ShowComparison() {
             {/* Model 1 Score */}
             <div className="flex flex-col gap-2.5 items-start">
               <div className="flex gap-4 items-end">
-                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
                   {pillarIIData.model1Score}
                 </p>
-                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
-                  pillarIIData.model1Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
-                }`}>
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIIData.model1Status === "success" ? "#039855" : "#dc6803"}>
+                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2`}
+                  style={{ backgroundColor: pillarIIData.model1Status === "success" ? "var(--color-success-bg)" : "var(--color-warning-bg)" }}>
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5}
+                    stroke={pillarIIData.model1Status === "success" ? "var(--color-success-text)" : "var(--color-warning-text)"}>
                     {pillarIIData.model1Status === "success" ? (
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     ) : (
@@ -646,20 +646,20 @@ export default function ShowComparison() {
                   </svg>
                 </div>
               </div>
-              <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+              <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                 {model1Name}
               </p>
             </div>
             {/* Model 2 Score */}
             <div className="flex flex-col gap-2.5 items-start">
               <div className="flex gap-4 items-end">
-                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+                <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
                   {pillarIIData.model2Score}
                 </p>
-                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2 ${
-                  pillarIIData.model2Status === "success" ? "bg-[#d1fadf]" : "bg-[#fef0c7]"
-                }`}>
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke={pillarIIData.model2Status === "success" ? "#039855" : "#dc6803"}>
+                <div className={`rounded-[12px] w-6 h-6 flex items-center justify-center mb-2`}
+                  style={{ backgroundColor: pillarIIData.model2Status === "success" ? "var(--color-success-bg)" : "var(--color-warning-bg)" }}>
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" strokeWidth={2.5}
+                    stroke={pillarIIData.model2Status === "success" ? "var(--color-success-text)" : "var(--color-warning-text)"}>
                     {pillarIIData.model2Status === "success" ? (
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     ) : (
@@ -668,7 +668,7 @@ export default function ShowComparison() {
                   </svg>
                 </div>
               </div>
-              <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+              <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
                 {model2Name}
               </p>
             </div>
@@ -724,14 +724,14 @@ export default function ShowComparison() {
 }
 
 // Hash icon component
-function HashIcon({ className, stroke }: { className?: string; stroke?: string }) {
+function HashIcon({ className }: { className?: string }) {
   return (
     <svg
       className={className}
       fill="none"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke={stroke}
+      stroke="currentColor"
     >
       <path
         strokeLinecap="round"
@@ -741,4 +741,3 @@ function HashIcon({ className, stroke }: { className?: string; stroke?: string }
     </svg>
   );
 }
-

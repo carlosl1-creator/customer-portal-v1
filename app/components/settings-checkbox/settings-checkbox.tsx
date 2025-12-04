@@ -18,13 +18,13 @@ export function SettingsCheckbox({
       <button
         type="button"
         onClick={() => onChange(!checked)}
-        className="flex items-center justify-center relative shrink-0 cursor-pointer"
+        className="flex items-center justify-center relative shrink-0 cursor-pointer border-0 bg-transparent p-0"
       >
         <div
           className={`border rounded-[4px] shrink-0 size-4 transition-colors ${
             checked
-              ? "bg-[#eff8ff] border-[#2e90fa]"
-              : "bg-white border-[#d5d7da]"
+              ? "bg-[var(--color-primary-light)] border-[var(--color-primary)]"
+              : "bg-theme-card border-theme-secondary"
           }`}
         >
           {checked && (
@@ -35,7 +35,7 @@ export function SettingsCheckbox({
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={2.5}
-                  stroke="#2e90fa"
+                  stroke="var(--color-primary)"
                 >
                   <path
                     strokeLinecap="round"
@@ -48,8 +48,7 @@ export function SettingsCheckbox({
           )}
         </div>
       </button>
-      <p className="font-medium leading-6 text-[#535862] text-base">{label}</p>
+      <p className="font-medium leading-6 text-theme-secondary text-base">{label}</p>
     </div>
   );
 }
-

@@ -32,8 +32,8 @@ export function ConversationalStatisticsCard({
   className = "",
 }: ConversationalStatisticsCardProps) {
   const statusColors = {
-    success: { bg: "#d1fadf", icon: "✓" },
-    warning: { bg: "#fef0c7", icon: "⚠" },
+    success: { bg: "var(--color-success-bg)", stroke: "var(--color-success-text)" },
+    warning: { bg: "var(--color-warning-bg)", stroke: "var(--color-warning-text)" },
   };
 
   const chatStatusColor = statusColors[chatLengthStatus];
@@ -72,7 +72,7 @@ export function ConversationalStatisticsCard({
               y1={8 + (i * (height - 16)) / 5}
               x2={width - 8}
               y2={8 + (i * (height - 16)) / 5}
-              stroke="#E9EAEB"
+              stroke="var(--color-border-primary)"
               strokeWidth="0.5"
             />
           ))}
@@ -83,7 +83,7 @@ export function ConversationalStatisticsCard({
               y1="8"
               x2={8 + (i * (width - 16)) / 6}
               y2={height - 8}
-              stroke="#E9EAEB"
+              stroke="var(--color-border-primary)"
               strokeWidth="0.5"
             />
           ))}
@@ -92,7 +92,7 @@ export function ConversationalStatisticsCard({
           <path
             d={pathData}
             fill="none"
-            stroke="#1570EF"
+            stroke="var(--color-primary)"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -101,7 +101,7 @@ export function ConversationalStatisticsCard({
           {/* Area under curve */}
           <path
             d={`${pathData} L ${points[points.length - 1].x} ${height - 8} L 8 ${height - 8} Z`}
-            fill="#1570EF"
+            fill="var(--color-primary)"
             fillOpacity="0.1"
           />
         </svg>
@@ -111,7 +111,7 @@ export function ConversationalStatisticsCard({
           {Array.from({ length: 6 }).map((_, i) => (
             <span
               key={i}
-              className="text-[6px] leading-[normal] text-[#535862] font-normal text-center"
+              className="text-[6px] leading-[normal] text-theme-secondary font-normal text-center"
             >
               {i}
             </span>
@@ -123,25 +123,25 @@ export function ConversationalStatisticsCard({
 
   return (
     <div
-      className={`bg-white border border-[#e9eaeb] rounded-[8px] flex flex-col gap-6 p-6 h-full relative ${className}`}
+      className={`bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 h-full relative ${className}`}
     >
       {/* Maximize button */}
       {onMaximizeClick && (
         <button
           onClick={onMaximizeClick}
-          className="absolute top-4 right-4 p-2 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+          className="absolute top-4 right-4 p-2 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity text-theme-secondary"
           aria-label="Maximize"
         >
-          <MaximizeIcon className="w-5 h-5" stroke="#535862" />
+          <MaximizeIcon className="w-5 h-5" />
         </button>
       )}
 
       {/* Header */}
       <div className="flex flex-col gap-1">
-        <h3 className="font-medium text-[16px] leading-[24px] text-[#181d27]">
+        <h3 className="font-medium text-[16px] leading-[24px] text-theme-primary">
           {title}
         </h3>
-        <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+        <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
           {subtitle}
         </p>
       </div>
@@ -152,7 +152,7 @@ export function ConversationalStatisticsCard({
         <div className="flex flex-1 flex-col gap-2">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2.5">
-              <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-[#181d27]">
+              <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
                 {avgChatLength.toFixed(2)}
               </p>
               <div
@@ -165,7 +165,7 @@ export function ConversationalStatisticsCard({
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={2.5}
-                    stroke="#039855"
+                    stroke={chatStatusColor.stroke}
                   >
                     <path
                       strokeLinecap="round"
@@ -180,7 +180,7 @@ export function ConversationalStatisticsCard({
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={2.5}
-                    stroke="#dc6803"
+                    stroke={chatStatusColor.stroke}
                   >
                     <path
                       strokeLinecap="round"
@@ -192,7 +192,7 @@ export function ConversationalStatisticsCard({
               </div>
             </div>
             <div className="flex items-center gap-2.5">
-              <p className="font-normal text-[14px] leading-[20px] text-[#535862]">
+              <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">
                 {avgMessageLength.toFixed(1)}
               </p>
               <div
@@ -205,7 +205,7 @@ export function ConversationalStatisticsCard({
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={3}
-                    stroke="#039855"
+                    stroke={messageStatusColor.stroke}
                   >
                     <path
                       strokeLinecap="round"
@@ -220,7 +220,7 @@ export function ConversationalStatisticsCard({
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={3}
-                    stroke="#dc6803"
+                    stroke={messageStatusColor.stroke}
                   >
                     <path
                       strokeLinecap="round"
@@ -232,7 +232,7 @@ export function ConversationalStatisticsCard({
               </div>
             </div>
           </div>
-          <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+          <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
             Avg. Chat and Message Length
             <br />
             per Successful Attack
@@ -243,13 +243,13 @@ export function ConversationalStatisticsCard({
         <div className="flex gap-12 items-center">
           <div className="flex flex-col gap-2.5 items-center">
             <SimpleLineChart data={chatLengthChartData} />
-            <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+            <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
               Chat Len. Distribution
             </p>
           </div>
           <div className="flex flex-col gap-2.5 items-center">
             <SimpleLineChart data={messageLengthChartData} />
-            <p className="font-normal text-[12px] leading-[18px] text-[#535862]">
+            <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
               Message Len. Distribution
             </p>
           </div>
@@ -258,4 +258,3 @@ export function ConversationalStatisticsCard({
     </div>
   );
 }
-

@@ -15,9 +15,9 @@ export interface SuggestionsCardProps {
 export function SuggestionsCard({ suggestions, className = "" }: SuggestionsCardProps) {
   return (
     <div
-      className={`backdrop-blur backdrop-filter bg-[rgba(255,255,255,0.2)] border border-[#e9eaeb] box-border flex flex-col gap-6 items-start px-12 py-9 relative rounded-[12px] shrink-0 ${className}`}
+      className={`backdrop-blur backdrop-filter bg-theme-card/20 border border-theme-primary box-border flex flex-col gap-6 items-start px-12 py-9 relative rounded-[12px] shrink-0 ${className}`}
     >
-      <p className="font-medium leading-6 text-[#535862] text-base">Suggestions</p>
+      <p className="font-medium leading-6 text-theme-secondary text-base">Suggestions</p>
       <div className="flex flex-col gap-8 items-start relative shrink-0 w-full">
         {suggestions.map((suggestion, index) => (
           <div
@@ -26,10 +26,10 @@ export function SuggestionsCard({ suggestions, className = "" }: SuggestionsCard
             onClick={suggestion.onClick}
           >
             <div className="flex gap-2 items-center justify-center relative shrink-0">
-              <p className="font-medium leading-5 text-[#181d27] text-sm">{suggestion.title}</p>
-              <ArrowUpRightIcon className="w-[18px] h-[18px]" stroke="#181d27" />
+              <p className="font-medium leading-5 text-theme-primary text-sm">{suggestion.title}</p>
+              <ArrowUpRightIcon className="w-[18px] h-[18px] text-theme-primary" />
             </div>
-            <p className="font-normal leading-[18px] text-[#535862] text-[12px]">
+            <p className="font-normal leading-[18px] text-theme-secondary text-[12px]">
               {suggestion.description}
             </p>
           </div>
@@ -38,4 +38,3 @@ export function SuggestionsCard({ suggestions, className = "" }: SuggestionsCard
     </div>
   );
 }
-

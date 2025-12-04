@@ -10,9 +10,8 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { LeftNavBarExample } from "~/components/left-nav-bar/left-nav-bar-example";
-import { LeftNavBarDarkExample } from "~/components/left-nav-bar/left-nav-bar-example";
 import { PageContainer } from "~/components/page-container/page-container";
-import { ThemeProvider } from "~/utils/theme-context";
+import { ThemeProvider, useTheme } from "~/utils/theme-context";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -27,6 +26,22 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+function LayoutContent({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      {/* Single LeftNavBar that automatically responds to theme changes */}
+      <LeftNavBarExample />
+      <div className="flex-1 ml-[76px]">
+        <PageContainer>
+          <div className="flex-1">
+            {children}
+          </div>
+        </PageContainer>
+      </div>
+    </>
+  );
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -38,14 +53,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="flex">
         <ThemeProvider>
-          <LeftNavBarExample />
-          <div className="flex-1 ml-[76px]">
-            <PageContainer>
-              <div className="flex-1">
-                {children}
-              </div>
-            </PageContainer>
-          </div>
+          <LayoutContent>{children}</LayoutContent>
         </ThemeProvider>
         <ScrollRestoration />
         <Scripts />
@@ -76,10 +84,10 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
+      <h1 className="text-theme-primary">{message}</h1>
+      <p className="text-theme-secondary">{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+        <pre className="w-full p-4 overflow-x-auto bg-theme-muted text-theme-primary rounded-lg">
           <code>{stack}</code>
         </pre>
       )}

@@ -165,14 +165,14 @@ export default function CompareReports() {
       {/* Header Section */}
       <div className="flex flex-col gap-8 items-start w-full px-16 pt-18 pb-12">
         <div className="flex flex-col gap-3 items-start w-full">
-          <p className="font-normal leading-6 text-[#1570ef] text-base uppercase">
+          <p className="font-normal leading-6 text-[var(--color-primary)] text-base uppercase">
             COMPARE REPORTS
           </p>
           <div className="flex flex-col gap-3 items-start w-full">
-            <p className="font-semibold leading-[38px] text-[#181d27] text-[30px] w-full">
+            <p className="font-semibold leading-[38px] text-theme-primary text-[30px] w-full">
               Compare Reports
             </p>
-            <p className="font-normal leading-6 text-[#535862] text-base w-full">
+            <p className="font-normal leading-6 text-theme-secondary text-base w-full">
               Compare the performance of two models across test cases, content categories, and business impact.
               <br />
               Select two to get started.
@@ -229,11 +229,16 @@ export default function CompareReports() {
             disabled={!canShowComparison}
             className={`box-border flex gap-2 items-center justify-center px-5 py-3 rounded-lg transition-colors ${
               canShowComparison
-                ? "bg-[#181d27] border border-[#181d27] text-white hover:opacity-90 cursor-pointer"
-                : "bg-gray-300 border border-gray-300 text-gray-500 cursor-not-allowed"
+                ? "bg-theme-primary border border-theme-primary text-theme-inverted hover:opacity-90 cursor-pointer"
+                : "bg-theme-muted border border-theme-muted text-theme-tertiary cursor-not-allowed"
             }`}
+            style={{
+              backgroundColor: canShowComparison ? 'var(--color-text-primary)' : 'var(--color-bg-muted)',
+              borderColor: canShowComparison ? 'var(--color-text-primary)' : 'var(--color-bg-muted)',
+              color: canShowComparison ? 'var(--color-text-inverted)' : 'var(--color-text-tertiary)',
+            }}
           >
-            <ArrowUpRightIcon className="w-5 h-5" stroke={canShowComparison ? "white" : "currentColor"} />
+            <ArrowUpRightIcon className="w-5 h-5" stroke={canShowComparison ? "var(--color-text-inverted)" : "currentColor"} />
             <span className="font-semibold text-base leading-6">Show Comparison</span>
           </button>
         </div>
@@ -241,4 +246,3 @@ export default function CompareReports() {
     </div>
   );
 }
-

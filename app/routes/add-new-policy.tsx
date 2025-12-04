@@ -2,7 +2,6 @@ import type { Route } from "./+types/add-new-policy";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
-import { InputField } from "~/components/input-field/input-field";
 import { ButtonGroup, type ButtonGroupOption } from "~/components/button-group/button-group";
 import { TestPrioritizationTable, type TestCategory, type Priority } from "~/components/tables/test-prioritization-table/test-prioritization-table";
 import { ArrowUpRightIcon, UploadIcon, GoogleDriveIcon, ConfluenceIcon, NotionIcon } from "~/components/icons/icons";
@@ -124,7 +123,7 @@ export default function AddNewPolicy() {
 
   const headerButtons: HeaderButton[] = [
     {
-      icon: <UploadIcon className="w-5 h-5" stroke="#414651" />,
+      icon: <UploadIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />,
       text: "Upload Local File",
       onClick: handleUploadLocalFile,
     },
@@ -168,15 +167,15 @@ export default function AddNewPolicy() {
           <div className="flex gap-8 items-start relative shrink-0 w-full">
             <div className="flex-1 min-w-0">
               <div className="flex flex-col gap-2 items-start relative shrink-0 w-full">
-                <p className="font-medium leading-6 text-[#535862] text-base">
-                  Name <span className="font-bold text-[#d92d20]">*</span>
+                <p className="font-medium leading-6 text-[var(--color-text-secondary)] text-base">
+                  Name <span className="font-bold text-[var(--color-error)]">*</span>
                 </p>
                 <div className="flex flex-col gap-1.5 items-start relative w-full max-w-[320px]">
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="bg-neutral-50 border border-[#d5d7da] rounded-[8px] w-full px-[14px] py-[10px] font-normal leading-6 text-base tracking-[-0.32px] text-[#181d27] outline-none hover:border-[#1570ef] focus:border-[#1570ef] transition-colors"
+                    className="bg-[var(--color-bg-input)] border border-[var(--color-border-secondary)] rounded-[8px] w-full px-[14px] py-[10px] font-normal leading-6 text-base tracking-[-0.32px] text-[var(--color-text-primary)] outline-none hover:border-[var(--color-border-focus)] focus:border-[var(--color-border-focus)] transition-colors"
                     placeholder="Content Policy 2.1"
                   />
                 </div>
@@ -184,8 +183,8 @@ export default function AddNewPolicy() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex flex-col gap-2 items-start relative shrink-0 w-full">
-                <p className="font-medium leading-6 text-[#535862] text-base">
-                  Status <span className="font-bold text-[#d92d20]">*</span>
+                <p className="font-medium leading-6 text-[var(--color-text-secondary)] text-base">
+                  Status <span className="font-bold text-[var(--color-error)]">*</span>
                 </p>
                 <ButtonGroup
                   options={statusOptions}
@@ -198,14 +197,14 @@ export default function AddNewPolicy() {
 
           {/* Content Field */}
           <div className="flex flex-col gap-2 items-start relative shrink-0 w-full">
-            <p className="font-medium leading-6 text-[#535862] text-base">
-              Content <span className="font-bold text-[#d92d20]">*</span>
+            <p className="font-medium leading-6 text-[var(--color-text-secondary)] text-base">
+              Content <span className="font-bold text-[var(--color-error)]">*</span>
             </p>
             <div className="flex flex-col gap-1.5 items-start relative w-full">
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="bg-white border border-[#d5d7da] rounded-[8px] w-full px-[14px] py-[10px] font-normal leading-6 text-base tracking-[-0.32px] text-[#181d27] outline-none hover:border-[#1570ef] focus:border-[#1570ef] transition-colors resize-none"
+                className="bg-[var(--color-bg-input)] border border-[var(--color-border-secondary)] rounded-[8px] w-full px-[14px] py-[10px] font-normal leading-6 text-base tracking-[-0.32px] text-[var(--color-text-primary)] outline-none hover:border-[var(--color-border-focus)] focus:border-[var(--color-border-focus)] transition-colors resize-none"
                 rows={8}
                 placeholder="Enter policy content..."
               />
@@ -215,10 +214,10 @@ export default function AddNewPolicy() {
           {/* Test Prioritization Section */}
           <div className="flex flex-col gap-3 items-start relative shrink-0 w-full">
             <div className="flex flex-col gap-1 items-start relative shrink-0">
-              <p className="font-medium leading-6 text-[#535862] text-base">
+              <p className="font-medium leading-6 text-[var(--color-text-secondary)] text-base">
                 Test Prioritization
               </p>
-              <p className="font-normal leading-5 text-[#535862] text-sm">
+              <p className="font-normal leading-5 text-[var(--color-text-secondary)] text-sm">
                 Category priorities have been preset for you. Customize to your top areas of concern.
               </p>
             </div>
@@ -230,8 +229,8 @@ export default function AddNewPolicy() {
           </div>
 
           {/* Mandatory Fields Note */}
-          <p className="font-normal leading-5 text-[#535862] text-sm">
-            Fields marked with <span className="text-[#d92d20]">*</span> are mandatory.
+          <p className="font-normal leading-5 text-[var(--color-text-secondary)] text-sm">
+            Fields marked with <span className="text-[var(--color-error)]">*</span> are mandatory.
           </p>
 
           {/* Create Policy Button */}
@@ -241,11 +240,11 @@ export default function AddNewPolicy() {
               disabled={!canCreatePolicy}
               className={`box-border flex gap-2 items-center justify-center px-5 py-3 rounded-lg transition-colors ${
                 canCreatePolicy
-                  ? "bg-[#181d27] border border-[#181d27] text-white hover:opacity-90 cursor-pointer"
-                  : "bg-gray-300 border border-gray-300 text-gray-500 cursor-not-allowed"
+                  ? "bg-[var(--color-text-primary)] border border-[var(--color-text-primary)] text-[var(--color-text-inverted)] hover:opacity-90 cursor-pointer"
+                  : "bg-[var(--color-bg-muted)] border border-[var(--color-border-secondary)] text-[var(--color-text-muted)] cursor-not-allowed"
               }`}
             >
-              <ArrowUpRightIcon className="w-5 h-5" stroke={canCreatePolicy ? "white" : "currentColor"} />
+              <ArrowUpRightIcon className="w-5 h-5" stroke={canCreatePolicy ? "var(--color-text-inverted)" : "currentColor"} />
               <span className="font-semibold text-base leading-6">Create Policy</span>
             </button>
           </div>

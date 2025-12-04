@@ -12,7 +12,6 @@ interface LeftNavBarProps {
   logoIcon?: React.ReactNode;
   navItems: NavItem[];
   onLogoClick?: () => void;
-  darkMode?: boolean;
   logOutItem?: {
     label: string;
     icon: React.ReactNode;
@@ -24,7 +23,6 @@ export function LeftNavBar({
   logoIcon,
   navItems,
   onLogoClick,
-  darkMode = false,
   logOutItem,
 }: LeftNavBarProps) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -59,28 +57,23 @@ export function LeftNavBar({
     return location.pathname === path;
   };
 
-  const bgColor = darkMode ? "bg-[#131313]" : "bg-neutral-100";
-  const surfaceColor = darkMode ? "bg-[#303030]" : "bg-[#dfdfdf]";
-  const textColor = darkMode ? "text-[#FDFDFD]" : "text-[#181D27]";
-  const inactiveTextColor = darkMode ? "text-[#FDFDFD]" : "text-[#535862]";
-
   return (
     <div
       ref={navRef}
-      className={`box-border flex flex-col h-screen items-center justify-between px-4 py-6 transition-all duration-300 fixed left-0 top-0 z-50 ${isExpanded ? "w-[240px]" : "w-[76px]"
-        } ${bgColor}`}
+      className={`box-border flex flex-col h-screen items-center justify-between px-4 py-6 transition-all duration-300 fixed left-0 top-0 z-50 bg-theme-sidebar ${
+        isExpanded ? "w-[240px]" : "w-[76px]"
+      }`}
     >
       {/* Top Section */}
       <div className="flex flex-col gap-8 items-start w-full">
         {/* Logo */}
         <div
-          className={`flex ${isExpanded ? "flex-col gap-3 w-full" : "w-full"
-            }`}
+          className={`flex ${isExpanded ? "flex-col gap-3 w-full" : "w-full"}`}
         >
           {logoIcon && (
             <button
               onClick={handleLogoClick}
-              className="cursor-pointer flex items-center"
+              className="cursor-pointer flex items-center bg-transparent border-0 p-0"
               aria-label="Toggle navigation"
             >
               {logoIcon}
@@ -96,18 +89,20 @@ export function LeftNavBar({
               <Link
                 key={item.id}
                 to={item.path}
-                className={`box-border flex gap-2.5 items-center p-3.5 rounded-md w-full transition-colors ${active
-                    ? surfaceColor
-                    : "hover:opacity-70"
-                  }`}
+                className={`box-border flex gap-2.5 items-center p-3.5 rounded-md w-full transition-colors ${
+                  active
+                    ? "bg-theme-sidebar-active"
+                    : "hover:bg-theme-hover"
+                }`}
               >
-                <div className="shrink-0 w-6 h-6 flex items-center justify-center">
+                <div className="shrink-0 w-6 h-6 flex items-center justify-center text-theme-primary">
                   {item.icon}
                 </div>
                 {isExpanded && (
                   <span
-                    className={`text-base font-normal leading-6 whitespace-nowrap ${active ? textColor : inactiveTextColor
-                      }`}
+                    className={`text-base font-normal leading-6 whitespace-nowrap ${
+                      active ? "text-theme-primary" : "text-theme-secondary"
+                    }`}
                   >
                     {item.label}
                   </span>
@@ -124,22 +119,22 @@ export function LeftNavBar({
           {isExpanded ? (
             <button
               onClick={logOutItem.onClick}
-              className="flex items-center gap-2 p-2 rounded-lg hover:opacity-70 transition-colors"
+              className="flex items-center gap-2 p-2 rounded-lg hover:bg-theme-hover transition-colors bg-transparent border-0 cursor-pointer"
             >
-              <span className={`text-sm font-medium ${inactiveTextColor}`}>
+              <span className="text-sm font-medium text-theme-secondary">
                 {logOutItem.label}
               </span>
-              <div className="shrink-0 w-5 h-5 flex items-center justify-center">
+              <div className="shrink-0 w-5 h-5 flex items-center justify-center text-theme-primary">
                 {logOutItem.icon}
               </div>
             </button>
           ) : (
             <button
               onClick={logOutItem.onClick}
-              className="flex items-center justify-center p-3.5 rounded-md w-full hover:opacity-70 transition-colors"
+              className="flex items-center justify-center p-3.5 rounded-md w-full hover:bg-theme-hover transition-colors bg-transparent border-0 cursor-pointer"
               aria-label={logOutItem.label}
             >
-              <div className="shrink-0 w-6 h-6 flex items-center justify-center">
+              <div className="shrink-0 w-6 h-6 flex items-center justify-center text-theme-primary">
                 {logOutItem.icon}
               </div>
             </button>
@@ -149,4 +144,3 @@ export function LeftNavBar({
     </div>
   );
 }
-

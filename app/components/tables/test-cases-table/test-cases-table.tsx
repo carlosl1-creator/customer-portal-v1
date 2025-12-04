@@ -22,46 +22,46 @@ export function TestCasesTable({
   className = "",
 }: TestCasesTableProps) {
   const getLikelihoodColor = (value: number) => {
-    if (value >= 80) return { bg: "#B2DDFF", border: "#1570EF" };
-    if (value >= 60) return { bg: "#FEDF89", border: "#DC6803" };
-    return { bg: "#FECDD6", border: "#F04438" };
+    if (value >= 80) return { bg: "var(--color-info-bg)", border: "var(--color-primary)" };
+    if (value >= 60) return { bg: "var(--color-warning-bg)", border: "var(--color-warning)" };
+    return { bg: "var(--color-error-bg)", border: "var(--color-error)" };
   };
 
   return (
     <div
-      className={`bg-white border border-[#e9eaeb] rounded-[12px] overflow-hidden ${className}`}
+      className={`bg-theme-card border border-theme-primary rounded-[12px] overflow-hidden ${className}`}
     >
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
-            <tr className="bg-white border-b border-[#e9eaeb]">
+            <tr className="bg-[var(--color-table-header-bg)] border-b border-theme-primary">
               <th className="px-6 py-3 text-left">
-                <p className="font-medium text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">
                   Case ID
                 </p>
               </th>
               <th className="px-6 py-3 text-left">
-                <p className="font-medium text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">
                   Category
                 </p>
               </th>
               <th className="px-6 py-3 text-left w-[132px]">
-                <p className="font-medium text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">
                   Likelihood
                 </p>
               </th>
               <th className="px-6 py-3 text-left w-[258px]">
-                <p className="font-medium text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">
                   Model Reasoning
                 </p>
               </th>
               <th className="px-6 py-3 text-left">
-                <p className="font-medium text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">
                   Content
                 </p>
               </th>
               <th className="px-6 py-3 text-left">
-                <p className="font-medium text-[12px] leading-[18px] text-[#535862]">
+                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">
                   Chat and Turn Length
                 </p>
               </th>
@@ -76,23 +76,23 @@ export function TestCasesTable({
                 <tr
                   key={testCase.caseId}
                   className={`${
-                    isEven ? "bg-neutral-50" : "bg-white"
-                  } border-b border-[#e9eaeb] hover:bg-neutral-100 transition-colors cursor-pointer`}
+                    isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
+                  } border-b border-theme-primary hover:bg-theme-hover transition-colors cursor-pointer`}
                   onClick={() => onRowClick?.(testCase)}
                 >
                   <td className="px-6 py-4">
-                    <p className="font-medium text-[14px] leading-[20px] text-[#181d27]">
+                    <p className="font-medium text-[14px] leading-[20px] text-theme-primary">
                       {testCase.caseId}
                     </p>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="font-normal text-[14px] leading-[20px] text-[#535862]">
+                    <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">
                       {testCase.category}
                     </p>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex gap-3 items-center">
-                      <div className="flex-1 h-2 bg-neutral-100 rounded-[4px] relative overflow-hidden">
+                      <div className="flex-1 h-2 bg-theme-muted rounded-[4px] relative overflow-hidden">
                         <div
                           className="h-full rounded-[4px]"
                           style={{
@@ -102,29 +102,28 @@ export function TestCasesTable({
                           }}
                         />
                       </div>
-                      <p className="font-medium text-[14px] leading-[20px] text-[#414651] whitespace-nowrap">
+                      <p className="font-medium text-[14px] leading-[20px] text-theme-secondary whitespace-nowrap">
                         {testCase.likelihood}%
                       </p>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="font-normal text-[14px] leading-[20px] text-[#535862]">
+                    <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">
                       {testCase.modelReasoning}
                     </p>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="font-normal text-[14px] leading-[20px] text-[#535862]">
+                    <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">
                       {testCase.content}
                     </p>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-between w-full">
-                      <p className="font-normal text-[14px] leading-[20px] text-[#535862]">
+                      <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">
                         {testCase.chatAndTurnLength}
                       </p>
                       <ChevronRightIcon
-                        className="w-5 h-5 flex-shrink-0"
-                        stroke="#535862"
+                        className="w-5 h-5 flex-shrink-0 text-theme-secondary"
                       />
                     </div>
                   </td>
@@ -137,4 +136,3 @@ export function TestCasesTable({
     </div>
   );
 }
-

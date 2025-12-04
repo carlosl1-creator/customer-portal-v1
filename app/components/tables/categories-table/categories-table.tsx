@@ -17,10 +17,10 @@ export interface CategoriesTableProps {
   className?: string;
 }
 
-const priorityStyles: Record<Priority, { bg: string; text: string; dot: string }> = {
-  high: { bg: "#FEF3F2", text: "#B42318", dot: "#B42318" },
-  medium: { bg: "#FFFAEB", text: "#B54708", dot: "#B54708" },
-  low: { bg: "#ECFDF3", text: "#027A48", dot: "#027A48" },
+const priorityVariants: Record<Priority, "warning" | "success" | "neutral"> = {
+  high: "warning",
+  medium: "warning", 
+  low: "success",
 };
 
 export function CategoriesTable({
@@ -57,22 +57,22 @@ export function CategoriesTable({
   };
 
   return (
-    <div className={`bg-white border border-[#e9eaeb] rounded-[12px] ${className}`}>
+    <div className={`bg-theme-card border border-theme-primary rounded-[12px] ${className}`}>
       <div className="flex flex-col items-start overflow-hidden rounded-[inherit]">
-        <div className="bg-white flex items-start relative w-full">
+        <div className="bg-theme-card flex items-start relative w-full">
           {/* Category Column */}
           <div className="flex flex-col items-start relative shrink-0">
             {/* Header */}
-            <div className="bg-white border-b border-[#e9eaeb] box-border flex gap-3 h-[44px] items-center px-6 py-3 relative shrink-0 w-[240px]">
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary box-border flex gap-3 h-[44px] items-center px-6 py-3 relative shrink-0 w-[240px]">
               <button
                 onClick={handleSelectAll}
-                className="flex items-center justify-center relative shrink-0"
+                className="flex items-center justify-center relative shrink-0 bg-transparent border-0 cursor-pointer p-0"
               >
                 <div
                   className={`border rounded-[6px] shrink-0 size-5 ${
                     allSelected
-                      ? "bg-[#eff8ff] border-[#1570ef]"
-                      : "bg-white border-[#d5d7da]"
+                      ? "bg-[var(--color-primary-light)] border-[var(--color-primary)]"
+                      : "bg-theme-card border-theme-secondary"
                   }`}
                 >
                   {allSelected && (
@@ -83,7 +83,7 @@ export function CategoriesTable({
                           fill="none"
                           viewBox="0 0 24 24"
                           strokeWidth={2.5}
-                          stroke="#1570EF"
+                          stroke="var(--color-primary)"
                         >
                           <path
                             strokeLinecap="round"
@@ -97,14 +97,15 @@ export function CategoriesTable({
                 </div>
               </button>
               <div className="flex gap-1 items-center relative shrink-0">
-                <p className="font-medium leading-[18px] text-[#535862] text-[12px]">Category</p>
+                <p className="font-medium leading-[18px] text-theme-secondary text-[12px]">Category</p>
                 <svg className="w-[10.667px] h-[10.667px]" fill="none" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    stroke="#535862"
+                    stroke="currentColor"
                     strokeWidth={1.5}
                     d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                    className="text-theme-secondary"
                   />
                 </svg>
               </div>
@@ -116,19 +117,19 @@ export function CategoriesTable({
               return (
                 <div
                   key={category.id}
-                  className={`border-b border-[#e9eaeb] box-border flex gap-3 h-16 items-center px-6 py-4 relative shrink-0 w-[240px] ${
-                    isEvenRow ? "bg-[#fafafa]" : "bg-white"
+                  className={`border-b border-theme-primary box-border flex gap-3 h-16 items-center px-6 py-4 relative shrink-0 w-[240px] ${
+                    isEvenRow ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
                   }`}
                 >
                   <button
                     onClick={() => onSelectionChange(category.id, !isSelected)}
-                    className="flex items-center justify-center relative shrink-0"
+                    className="flex items-center justify-center relative shrink-0 bg-transparent border-0 cursor-pointer p-0"
                   >
                     <div
                       className={`border rounded-[6px] shrink-0 size-5 ${
                         isSelected
-                          ? "bg-[#eff8ff] border-[#1570ef]"
-                          : "bg-white border-[#d5d7da]"
+                          ? "bg-[var(--color-primary-light)] border-[var(--color-primary)]"
+                          : "bg-theme-card border-theme-secondary"
                       }`}
                     >
                       {isSelected && (
@@ -139,7 +140,7 @@ export function CategoriesTable({
                               fill="none"
                               viewBox="0 0 24 24"
                               strokeWidth={2.5}
-                              stroke="#1570EF"
+                              stroke="var(--color-primary)"
                             >
                               <path
                                 strokeLinecap="round"
@@ -152,7 +153,7 @@ export function CategoriesTable({
                       )}
                     </div>
                   </button>
-                  <p className="font-normal leading-5 text-[#181d27] text-sm">{category.name}</p>
+                  <p className="font-normal leading-5 text-theme-primary text-sm">{category.name}</p>
                 </div>
               );
             })}
@@ -161,14 +162,14 @@ export function CategoriesTable({
           {/* Priority Column */}
           <div className="flex flex-col items-start relative shrink-0">
             {/* Header */}
-            <div className="bg-white border-b border-[#e9eaeb] box-border flex gap-1 h-[44px] items-center px-6 py-3 relative shrink-0 w-[120px]">
-              <p className="font-medium leading-[18px] text-[#535862] text-[12px]">Priority</p>
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary box-border flex gap-1 h-[44px] items-center px-6 py-3 relative shrink-0 w-[120px]">
+              <p className="font-medium leading-[18px] text-theme-secondary text-[12px]">Priority</p>
               <svg
-                className="w-4 h-4"
+                className="w-4 h-4 text-theme-muted"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
-                stroke="#a4a7ae"
+                stroke="currentColor"
               >
                 <circle cx="12" cy="12" r="10" />
                 <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
@@ -178,29 +179,16 @@ export function CategoriesTable({
             {/* Rows */}
             {currentCategories.map((category, index) => {
               const isEvenRow = (startIndex + index) % 2 === 0;
-              const priorityStyle = priorityStyles[category.priority];
               return (
                 <div
                   key={category.id}
-                  className={`border-b border-[#e9eaeb] box-border flex h-16 items-center px-6 py-4 relative shrink-0 w-[120px] ${
-                    isEvenRow ? "bg-[#fafafa]" : "bg-white"
+                  className={`border-b border-theme-primary box-border flex h-16 items-center px-6 py-4 relative shrink-0 w-[120px] ${
+                    isEvenRow ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
                   }`}
                 >
-                  <div
-                    className="box-border flex gap-1.5 items-center justify-center pl-1.5 pr-2 py-0.5 rounded-2xl shrink-0"
-                    style={{ backgroundColor: priorityStyle.bg }}
-                  >
-                    <div
-                      className="w-2 h-2 rounded-full shrink-0"
-                      style={{ backgroundColor: priorityStyle.dot }}
-                    />
-                    <p
-                      className="font-medium leading-[18px] text-[12px] text-center"
-                      style={{ color: priorityStyle.text }}
-                    >
-                      {category.priority.charAt(0).toUpperCase() + category.priority.slice(1)}
-                    </p>
-                  </div>
+                  <Badge variant={priorityVariants[category.priority]}>
+                    {category.priority.charAt(0).toUpperCase() + category.priority.slice(1)}
+                  </Badge>
                 </div>
               );
             })}
@@ -209,25 +197,25 @@ export function CategoriesTable({
           {/* Actions Column */}
           <div className="flex flex-col items-start relative shrink-0">
             {/* Header */}
-            <div className="bg-white border-b border-[#e9eaeb] h-[44px] shrink-0 w-[80px]" />
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary h-[44px] shrink-0 w-[80px]" />
             {/* Rows */}
             {currentCategories.map((category, index) => {
               const isEvenRow = (startIndex + index) % 2 === 0;
               return (
                 <div
                   key={category.id}
-                  className={`border-b border-[#e9eaeb] box-border flex gap-1 h-16 items-center p-4 relative shrink-0 w-[80px] ${
-                    isEvenRow ? "bg-[#fafafa]" : "bg-white"
+                  className={`border-b border-theme-primary box-border flex gap-1 h-16 items-center p-4 relative shrink-0 w-[80px] ${
+                    isEvenRow ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
                   }`}
                 >
-                  <button className="box-border cursor-pointer flex items-start p-0 relative rounded-[8px] shrink-0 hover:opacity-80 transition-opacity">
+                  <button className="box-border cursor-pointer flex items-start p-0 relative rounded-[8px] shrink-0 hover:opacity-80 transition-opacity bg-transparent border-0">
                     <div className="box-border flex gap-2 items-center justify-center overflow-hidden p-2.5 relative rounded-[8px] shrink-0">
                       <svg
-                        className="w-5 h-5"
+                        className="w-5 h-5 text-theme-secondary"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
-                        stroke="#535862"
+                        stroke="currentColor"
                       >
                         <path
                           strokeLinecap="round"
@@ -244,18 +232,18 @@ export function CategoriesTable({
         </div>
 
         {/* Pagination */}
-        <div className="border-t border-[#e9eaeb] box-border flex items-center justify-between pb-4 pt-3 px-6 relative shrink-0 w-full">
+        <div className="border-t border-theme-primary box-border flex items-center justify-between pb-4 pt-3 px-6 relative shrink-0 w-full">
           <div className="flex gap-3 items-start relative shrink-0">
             <button
               onClick={handlePrevious}
               disabled={currentPage === 1}
-              className={`flex items-start relative shrink-0 ${
+              className={`flex items-start relative shrink-0 bg-transparent border-0 p-0 ${
                 currentPage === 1 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
               }`}
             >
               <p
                 className={`font-medium leading-[18px] text-[12px] ${
-                  currentPage === 1 ? "text-[#d5d7da]" : "text-[#535862]"
+                  currentPage === 1 ? "text-theme-muted" : "text-theme-secondary"
                 }`}
               >
                 Previous
@@ -264,20 +252,20 @@ export function CategoriesTable({
             <button
               onClick={handleNext}
               disabled={currentPage === totalPages}
-              className={`flex items-start relative shrink-0 ${
+              className={`flex items-start relative shrink-0 bg-transparent border-0 p-0 ${
                 currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
               }`}
             >
               <p
                 className={`font-medium leading-[18px] text-[12px] ${
-                  currentPage === totalPages ? "text-[#d5d7da]" : "text-[#535862]"
+                  currentPage === totalPages ? "text-theme-muted" : "text-theme-secondary"
                 }`}
               >
                 Next
               </p>
             </button>
           </div>
-          <p className="font-normal leading-[18px] text-[#535862] text-[12px]">
+          <p className="font-normal leading-[18px] text-theme-secondary text-[12px]">
             All {selectedIds.size} Selected Page {currentPage} of {totalPages}
           </p>
         </div>
@@ -285,4 +273,3 @@ export function CategoriesTable({
     </div>
   );
 }
-

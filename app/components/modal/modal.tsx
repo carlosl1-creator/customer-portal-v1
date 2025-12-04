@@ -44,10 +44,13 @@ export function Modal({
     <>
       {/* Backdrop with blur - covers entire screen including navbar */}
       <div
-        className="fixed inset-0 z-[9998] bg-[rgba(0,0,0,0.24)] backdrop-blur-lg backdrop-filter"
+        className="fixed inset-0 z-[9998] backdrop-blur-lg backdrop-filter"
+        style={{ 
+          backgroundColor: "var(--color-bg-overlay)",
+          WebkitBackdropFilter: "blur(16px)" 
+        }}
         onClick={onClose}
         aria-hidden="true"
-        style={{ WebkitBackdropFilter: "blur(16px)" }}
       />
       
       {/* Modal Container */}
@@ -55,7 +58,7 @@ export function Modal({
 
         {/* Modal Content */}
         <div
-          className={`relative bg-white rounded-[14px] flex flex-col max-h-[90vh] w-full max-w-[90vw] overflow-hidden pointer-events-auto ${className}`}
+          className={`relative bg-theme-card rounded-[14px] flex flex-col max-h-[90vh] w-full max-w-[90vw] overflow-hidden pointer-events-auto border border-theme-primary ${className}`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
@@ -67,21 +70,21 @@ export function Modal({
           className="absolute top-12 right-12 p-2 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity z-10"
           aria-label="Close modal"
         >
-          <XIcon className="w-6 h-6" stroke="#181d27" />
+          <XIcon className="w-6 h-6" />
         </button>
 
         {/* Header */}
         <div className="flex flex-col gap-[18px] items-start p-12 pb-0">
           <h2
             id="modal-title"
-            className="font-semibold text-[30px] leading-[38px] text-[#181d27] w-full"
+            className="font-semibold text-[30px] leading-[38px] text-theme-primary w-full"
           >
             {title}
           </h2>
           {description && (
             <p
               id="modal-description"
-              className="font-normal text-[18px] leading-[28px] text-[#535862] tracking-[-0.36px] w-full"
+              className="font-normal text-[18px] leading-[28px] text-theme-secondary tracking-[-0.36px] w-full"
             >
               {description}
             </p>
@@ -89,7 +92,7 @@ export function Modal({
         </div>
 
           {/* Scrollable Content */}
-          <div className="flex-1 overflow-y-auto px-12 py-6">
+          <div className="flex-1 overflow-y-auto px-12 py-6 scrollbar-theme">
             {children}
           </div>
         </div>
@@ -97,4 +100,3 @@ export function Modal({
     </>
   );
 }
-

@@ -26,17 +26,27 @@ export function Card({
   onThumbsDownClick,
   gradientVariant = "sunset",
 }: CardProps) {
-  const thumbsUpColor = thumbsUpActive ? "#32D583" : "#A4A7AE";
-  const thumbsDownColor = thumbsDownActive ? "#F97066" : "#A4A7AE";
+  const thumbsUpColor = thumbsUpActive ? "var(--color-success)" : "var(--color-text-muted)";
+  const thumbsDownColor = thumbsDownActive ? "var(--color-error)" : "var(--color-text-muted)";
 
   return (
-    <div className="relative border border-[#e9eaeb] rounded-[12px] flex-1 min-h-0 overflow-hidden">
-      {/* Gradient background */}
+    <div className="relative border border-theme-primary rounded-[12px] flex-1 min-h-0 overflow-hidden">
+      {/* Gradient background - theme aware */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[12px]">
         {gradientVariant === "sunset" ? (
-          <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-[#f5f5f5]" />
+          <div 
+            className="absolute inset-0" 
+            style={{ 
+              background: `linear-gradient(to bottom, var(--color-bg-card), var(--color-bg-card), var(--color-bg-card-gradient-end))` 
+            }} 
+          />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-[#f0f4ff]" />
+          <div 
+            className="absolute inset-0"
+            style={{ 
+              background: `linear-gradient(to bottom, var(--color-bg-card), var(--color-bg-card), var(--color-primary-light))` 
+            }}
+          />
         )}
       </div>
 
@@ -45,10 +55,10 @@ export function Card({
         {/* Header with icon, title, and thumbs buttons */}
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-4 flex-1 min-w-0">
-            <div className="flex-shrink-0 w-6 h-6 text-[#181d27]">
+            <div className="flex-shrink-0 w-6 h-6 text-theme-primary">
               {icon}
             </div>
-            <h3 className="font-normal text-[20px] leading-[30px] text-[#181d27] truncate">
+            <h3 className="font-normal text-[20px] leading-[30px] text-theme-primary truncate">
               {title}
             </h3>
           </div>
@@ -72,14 +82,14 @@ export function Card({
 
         {/* Focus text */}
         <div className="flex gap-3 w-full">
-          <p className="text-[16px] leading-[24px] text-[#181d27]">
+          <p className="text-[16px] leading-[24px] text-theme-primary">
             <span className="font-medium">Focus:</span>
             <span> {focusText}</span>
           </p>
         </div>
 
         {/* List section */}
-        <div className="flex flex-col gap-1.5 text-[#535862] text-[16px] w-full">
+        <div className="flex flex-col gap-1.5 text-theme-secondary text-[16px] w-full">
           <p className="font-medium leading-[24px]">{listTitle}</p>
           <ul className="block min-w-full w-full">
             {listItems.map((item, index) => (
@@ -98,4 +108,3 @@ export function Card({
     </div>
   );
 }
-
