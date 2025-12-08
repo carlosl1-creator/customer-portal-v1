@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import logoDark from "./logo-dark.svg";
-import darkLogo from "./dark-logo.png"
+import purpleLogo from "./purple-logo.png";
+import lightLogo from "./light-logo.png";
 import { Button } from "~/components/button/button";
 import { InputField } from "~/components/input-field/input-field";
 import { ArrowUpRightIcon, ListIcon } from "~/components/icons/icons";
@@ -51,7 +51,7 @@ export function Welcome({ onAction }: WelcomeProps) {
         {/* Logo */}
         <div className="w-[84px] h-[84px] relative shrink-0">
           <img
-            src={theme === "dark" ? darkLogo : logoDark}
+            src={theme === "dark" ? purpleLogo : lightLogo}
             alt="Reinforce Labs Logo"
             className="w-full h-full object-contain"
           />

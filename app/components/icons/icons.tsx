@@ -2,6 +2,8 @@
 // Icons now use "currentColor" by default, inheriting from parent text color
 // This allows them to automatically respond to theme changes
 
+import { useTheme } from "~/utils/theme-context";
+
 export function HomeIcon({ className = "w-6 h-6", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg
@@ -116,9 +118,10 @@ export function LogOutIcon({ className = "w-6 h-6", stroke = "currentColor" }: {
 }
 
 export function LogoIcon({ className = "w-11 h-11" }: { className?: string }) {
+  const { theme } = useTheme();
   return (
     <div className={className}>
-      <img src="/dark-logo.png" alt="Reinforce Labs Logo" />
+      <img src={theme === "dark" ? "/purple-logo.png" : "/light-logo.png"} alt="Reinforce Labs Logo" />
     </div>
   );
 }
