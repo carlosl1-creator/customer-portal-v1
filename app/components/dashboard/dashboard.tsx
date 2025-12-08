@@ -6,6 +6,15 @@ import { PillarScoreCard } from "~/components/cards/pillar-score-card/pillar-sco
 import { ReportsFilterBar } from "~/components/filters/reports-filter-bar/reports-filter-bar";
 import { ReportsTable } from "~/components/tables/reports-table/reports-table";
 import type { Report } from "~/components/tables/reports-table/reports-table";
+import {
+  MOCK_REPORTS,
+  MOCK_OVERALL_READINESS,
+  MOCK_PILLAR_I_CARD,
+  MOCK_PILLAR_II_CARD,
+  MOCK_PILLAR_I_BAR_DATA,
+  MOCK_PILLAR_II_BAR_DATA,
+} from "~/mocks";
+import { logger } from "~/utils/logger";
 
 export interface DashboardProps {
   userName?: string;
@@ -26,43 +35,8 @@ export function Dashboard({
   onCompareReports,
   onReportClick,
 }: DashboardProps) {
-  const mockReports: Report[] = [
-    {
-      id: "5321",
-      botVersion: "Content Model 2.1",
-      policyVersion: "Policy 4.2",
-      created: "8/18/2025",
-      status: "completed",
-      overallReadiness: 4.1,
-      pillarI: 4.3,
-      pillarII: 3.5,
-      asr: 9.1,
-      asrTrend: "up",
-    },
-    {
-      id: "5243",
-      botVersion: "Content Model 2.0",
-      policyVersion: "Policy 3.1",
-      created: "7/16/2025",
-      status: "processing",
-      overallReadiness: undefined,
-      pillarI: undefined,
-      pillarII: undefined,
-      asr: undefined,
-    },
-    {
-      id: "1427",
-      botVersion: "Content Model 1.0",
-      policyVersion: "Policy 3.0",
-      created: "7/1/2025",
-      status: "churned",
-      overallReadiness: 3.4,
-      pillarI: 3.7,
-      pillarII: 4.0,
-      asr: 16.3,
-      asrTrend: "down",
-    },
-  ];
+  // In production, this would come from props or a data fetching hook
+  const reports = MOCK_REPORTS;
 
   return (
     <div className="flex flex-col gap-8 items-start w-full pb-12 pt-8 px-0">
@@ -119,10 +93,10 @@ export function Dashboard({
           {/* Overall Readiness */}
           <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
             <RatingCard
-              title="Overall Readiness"
-              subtitle=""
-              rating={4.1}
-              description="Effectively enforces policies against direct violations but consistently struggles with nuanced evasion and obfuscation tactics."
+              title={MOCK_OVERALL_READINESS.title}
+              subtitle={MOCK_OVERALL_READINESS.subtitle}
+              rating={MOCK_OVERALL_READINESS.rating}
+              description={MOCK_OVERALL_READINESS.description}
               className="flex-1 w-full h-full"
             />
           </div>
@@ -130,15 +104,11 @@ export function Dashboard({
           {/* Pillar I Score */}
           <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
             <PillarScoreCard
-              title="Pillar I Score"
-              subtitle="Aggregated score across safety, security, and fraud."
-              score={4.3}
-              status="success"
-              barData={[
-                { label: "Your Model", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
-                { label: "SomeAI Model-5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
-                { label: "Other Model 4.5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
-              ]}
+              title={MOCK_PILLAR_I_CARD.title}
+              subtitle={MOCK_PILLAR_I_CARD.subtitle}
+              score={MOCK_PILLAR_I_CARD.score}
+              status={MOCK_PILLAR_I_CARD.status}
+              barData={MOCK_PILLAR_I_BAR_DATA}
               className="flex-1 w-full h-full"
             />
           </div>
@@ -146,15 +116,11 @@ export function Dashboard({
           {/* Pillar II Score */}
           <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
             <PillarScoreCard
-              title="Pillar II Score"
-              subtitle="Focused score on brand value and correctness"
-              score={3.5}
-              status="warning"
-              barData={[
-                { label: "Your Model", value: 72, color: "#FEDF89", borderColor: "#DC6803" },
-                { label: "SomeAI Model-5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
-                { label: "Other Model 4.5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
-              ]}
+              title={MOCK_PILLAR_II_CARD.title}
+              subtitle={MOCK_PILLAR_II_CARD.subtitle}
+              score={MOCK_PILLAR_II_CARD.score}
+              status={MOCK_PILLAR_II_CARD.status}
+              barData={MOCK_PILLAR_II_BAR_DATA}
               className="flex-1 w-full h-full"
             />
           </div>
@@ -174,14 +140,14 @@ export function Dashboard({
         <ReportsFilterBar
           dateRange="Jan 6, 2022 – Jan 13, 2022"
           policies={["Policy 3.0", "Policy 3.1"]}
-          onDateRangeChange={() => console.log("Date range changed")}
-          onPolicyRemove={(policy) => console.log("Policy removed:", policy)}
-          onMoreFiltersClick={() => console.log("More filters clicked")}
-          onSearchChange={(value) => console.log("Search changed:", value)}
+          onDateRangeChange={() => logger.debug("Date range changed")}
+          onPolicyRemove={(policy) => logger.debug("Policy removed:", policy)}
+          onMoreFiltersClick={() => logger.debug("More filters clicked")}
+          onSearchChange={(value) => logger.debug("Search changed:", value)}
         />
 
         {/* Reports Table */}
-        <ReportsTable reports={mockReports} onRowClick={onReportClick} />
+        <ReportsTable reports={reports} onRowClick={onReportClick} />
       </div>
     </div>
   );

@@ -1,13 +1,22 @@
 import type { Route } from "./+types/create-new-test";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { HeaderSection } from "~/components/header-section/header-section";
-import { Select, type SelectOption } from "~/components/select/select";
-import { CategoriesTable, type Category, type Priority } from "~/components/tables/categories-table/categories-table";
+import { Select } from "~/components/select/select";
+import { CategoriesTable } from "~/components/tables/categories-table/categories-table";
 import { SuggestionsCard, type Suggestion } from "~/components/cards/suggestions-card/suggestions-card";
 import { LoadingHeader } from "~/components/loading/loading-header/loading-header";
 import { LoadingStepCard, type LoadingStep, type StepStatus } from "~/components/cards/loading-step-card/loading-step-card";
 import { ArrowUpRightIcon, ChevronLeftIcon } from "~/components/icons/icons";
+import {
+  MOCK_CHATBOT_OPTIONS,
+  MOCK_POLICY_OPTIONS,
+  MOCK_CATEGORIES,
+  MOCK_SUGGESTION_CONFIGS,
+  getHighPriorityCategoryIds,
+} from "~/mocks";
+import { ROUTES } from "~/constants/routes";
+import { logger } from "~/utils/logger";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -25,81 +34,26 @@ export default function CreateNewTest() {
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set());
   const [loadingState, setLoadingState] = useState<LoadingState>("idle");
 
-  // Mock data for dropdowns
-  const chatbotOptions: SelectOption[] = [
-    { label: "Retail Chatbot 1.5", value: "retail-1.5" },
-    { label: "Content Model 2.1", value: "content-2.1" },
-    { label: "Account Model 1.0", value: "account-1.0" },
-    { label: "Audio Model 1.0", value: "audio-1.0" },
-  ];
+  // In production, these would come from API calls or state management
+  const chatbotOptions = MOCK_CHATBOT_OPTIONS;
+  const policyOptions = MOCK_POLICY_OPTIONS;
+  const categories = MOCK_CATEGORIES;
 
-  const policyOptions: SelectOption[] = [
-    { label: "Gap Analysis", value: "gap-analysis" },
-    { label: "Content Safety", value: "content-safety" },
-    { label: "Policy 3.1", value: "policy-3.1" },
-    { label: "Policy 2.0", value: "policy-2.0" },
-  ];
-
-  // Mock categories data
-  const categories: Category[] = [
-    { id: "1", name: "Violence", priority: "high" as Priority },
-    { id: "2", name: "Self-Harm", priority: "medium" as Priority },
-    { id: "3", name: "Illegal Activities", priority: "low" as Priority },
-    { id: "4", name: "Self-Harm", priority: "medium" as Priority },
-    { id: "5", name: "Hate Speech", priority: "high" as Priority },
-    { id: "6", name: "Violence", priority: "medium" as Priority },
-    { id: "7", name: "Illegal Activities", priority: "high" as Priority },
-    { id: "8", name: "Others", priority: "low" as Priority },
-    { id: "9", name: "Violence", priority: "low" as Priority },
-    { id: "10", name: "Self-Harm", priority: "high" as Priority },
-    { id: "11", name: "Hate Speech", priority: "medium" as Priority },
-    { id: "12", name: "Illegal Activities", priority: "low" as Priority },
-    { id: "13", name: "Others", priority: "medium" as Priority },
-    { id: "14", name: "Violence", priority: "high" as Priority },
-    { id: "15", name: "Self-Harm", priority: "low" as Priority },
-    { id: "16", name: "Hate Speech", priority: "high" as Priority },
-    { id: "17", name: "Illegal Activities", priority: "medium" as Priority },
-    { id: "18", name: "Others", priority: "low" as Priority },
-    { id: "19", name: "Violence", priority: "medium" as Priority },
-    { id: "20", name: "Self-Harm", priority: "high" as Priority },
-  ];
-
-  const suggestions: Suggestion[] = [
-    {
-      title: "Latest Model and Policy",
-      description: "Content Model 1.5 — Policy 3.1",
+  // Build suggestions with click handlers
+  const suggestions: Suggestion[] = useMemo(() => {
+    return MOCK_SUGGESTION_CONFIGS.map((config) => ({
+      title: config.title,
+      description: config.description,
       onClick: () => {
-        setChatbotVersion("content-1.5");
-        setPolicyVersion("policy-3.1");
+        if (config.selectHighPriority) {
+          setSelectedCategories(new Set(getHighPriorityCategoryIds()));
+        } else {
+          if (config.chatbotVersion) setChatbotVersion(config.chatbotVersion);
+          if (config.policyVersion) setPolicyVersion(config.policyVersion);
+        }
       },
-    },
-    {
-      title: "Latest Model and Past Policy Version",
-      description: "Content Model 1.5 — Policy 2.0",
-      onClick: () => {
-        setChatbotVersion("content-1.5");
-        setPolicyVersion("policy-2.0");
-      },
-    },
-    {
-      title: "Last Used Model and Latest Policy",
-      description: "Content Model 1.0 — Policy 3.1",
-      onClick: () => {
-        setChatbotVersion("content-1.0");
-        setPolicyVersion("policy-3.1");
-      },
-    },
-    {
-      title: "High Priority Categories Only",
-      description: "Violence, Self-Harm, 7+",
-      onClick: () => {
-        const highPriorityIds = categories
-          .filter((cat) => cat.priority === "high")
-          .map((cat) => cat.id);
-        setSelectedCategories(new Set(highPriorityIds));
-      },
-    },
-  ];
+    }));
+  }, []);
 
   const handleCategorySelection = (id: string, selected: boolean) => {
     const newSet = new Set(selectedCategories);
@@ -120,7 +74,7 @@ export default function CreateNewTest() {
   };
 
   const handleCreateTest = () => {
-    console.log("Creating test with:", {
+    logger.debug("Creating test with:", {
       chatbotVersion,
       policyVersion,
       selectedCategories: Array.from(selectedCategories),
@@ -129,7 +83,7 @@ export default function CreateNewTest() {
   };
 
   const handleBackToHome = () => {
-    navigate("/");
+    navigate(ROUTES.HOME);
   };
 
   // Handle loading state transitions

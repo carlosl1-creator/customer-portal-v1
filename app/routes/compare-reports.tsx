@@ -5,6 +5,9 @@ import { ReportsFilterBar } from "~/components/filters/reports-filter-bar/report
 import { SelectableReportsTable, type SelectableReport } from "~/components/tables/selectable-reports-table/selectable-reports-table";
 import { BenchmarksTable, type Benchmark } from "~/components/tables/benchmarks-table/benchmarks-table";
 import { ArrowUpRightIcon } from "~/components/icons/icons";
+import { MOCK_SELECTABLE_REPORTS, MOCK_BENCHMARKS } from "~/mocks";
+import { ROUTES } from "~/constants/routes";
+import { logger } from "~/utils/logger";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -18,73 +21,9 @@ export default function CompareReports() {
   const [selectedReports, setSelectedReports] = useState<Set<string>>(new Set());
   const [selectedBenchmarks, setSelectedBenchmarks] = useState<Set<string>>(new Set());
 
-  const mockReports: SelectableReport[] = [
-    {
-      id: "5321",
-      botVersion: "Content Model 2.1",
-      policyVersion: "Gap Analysis",
-      created: "8/18/2025",
-      status: "completed",
-      overallReadiness: 4.1,
-      pillarI: 4.3,
-      pillarII: 3.5,
-      asr: 9.1,
-      asrTrend: "up",
-    },
-    {
-      id: "5243",
-      botVersion: "Account Model 1.0",
-      policyVersion: "Gap Analysis",
-      created: "7/16/2025",
-      status: "completed",
-      overallReadiness: 3.8,
-      pillarI: 4.0,
-      pillarII: 3.2,
-      asr: 8.5,
-      asrTrend: "down",
-    },
-    {
-      id: "1427",
-      botVersion: "Audio Model 1.0",
-      policyVersion: "Content Safety",
-      created: "7/1/2025",
-      status: "churned",
-      overallReadiness: 3.4,
-      pillarI: 3.7,
-      pillarII: 4.0,
-      asr: 16.3,
-      asrTrend: "down",
-    },
-    {
-      id: "5243",
-      botVersion: "Account Model 1.0",
-      policyVersion: "Gap Analysis",
-      created: "7/16/2025",
-      status: "processing",
-      overallReadiness: undefined,
-      pillarI: undefined,
-      pillarII: undefined,
-      asr: undefined,
-    },
-  ];
-
-  const mockBenchmarks: Benchmark[] = [
-    {
-      id: "B104",
-      bot: "Reinforce Labs Model 2.1",
-      description: "Excels at identifying fraud, deception, and abuse",
-    },
-    {
-      id: "B128",
-      bot: "SomeAI Model 1.2",
-      description: "Focuses on identifying hate speech, violence, and CSAM-related material",
-    },
-    {
-      id: "B140",
-      bot: "Another Model 2.0",
-      description: "Adheres strictly to given content and branding guidelines",
-    },
-  ];
+  // In production, this would come from API calls or state management
+  const reports = MOCK_SELECTABLE_REPORTS;
+  const benchmarks = MOCK_BENCHMARKS;
 
   const handleReportSelection = (id: string, selected: boolean) => {
     const newSet = new Set(selectedReports);
@@ -125,18 +64,17 @@ export default function CompareReports() {
       (selectedReports.size === 1 && selectedBenchmarks.size === 1);
     
     if (isValid) {
-      // Find the selected reports and benchmarks from the mock data
-      // If there are duplicate IDs, find() will return the first match
+      // Find the selected reports and benchmarks from the data
       const selectedReportObjects = Array.from(selectedReports)
-        .map(id => mockReports.find(report => report.id === id))
+        .map(id => reports.find(report => report.id === id))
         .filter((report): report is SelectableReport => report !== undefined);
       
       const selectedBenchmarkObjects = Array.from(selectedBenchmarks)
-        .map(id => mockBenchmarks.find(benchmark => benchmark.id === id))
+        .map(id => benchmarks.find(benchmark => benchmark.id === id))
         .filter((benchmark): benchmark is Benchmark => benchmark !== undefined);
       
       // Navigate to comparison view with selected items as state
-      navigate("/show-comparison", {
+      navigate(ROUTES.SHOW_COMPARISON, {
         state: {
           selectedReports: selectedReportObjects,
           selectedBenchmarks: selectedBenchmarkObjects,
@@ -188,10 +126,10 @@ export default function CompareReports() {
           <ReportsFilterBar
             dateRange="Jan 6, 2022 – Jan 13, 2022"
             policies={["Completed", "Processing"]}
-            onDateRangeChange={() => console.log("Date range changed")}
-            onPolicyRemove={(policy) => console.log("Policy removed:", policy)}
-            onMoreFiltersClick={() => console.log("More filters clicked")}
-            onSearchChange={(value) => console.log("Search changed:", value)}
+            onDateRangeChange={() => logger.debug("Date range changed")}
+            onPolicyRemove={(policy) => logger.debug("Policy removed:", policy)}
+            onMoreFiltersClick={() => logger.debug("More filters clicked")}
+            onSearchChange={(value) => logger.debug("Search changed:", value)}
           />
         </div>
 
@@ -200,7 +138,7 @@ export default function CompareReports() {
           {/* Your Reports Table */}
           <div className="flex-1 min-w-0">
             <SelectableReportsTable
-              reports={mockReports}
+              reports={reports}
               selectedIds={selectedReports}
               onSelectionChange={handleReportSelection}
               maxSelections={2}
@@ -211,7 +149,7 @@ export default function CompareReports() {
           {/* Benchmarks Table */}
           <div className="flex-1 min-w-0">
             <BenchmarksTable
-              benchmarks={mockBenchmarks}
+              benchmarks={benchmarks}
               selectedIds={selectedBenchmarks}
               onSelectionChange={handleBenchmarkSelection}
               maxSelections={1}

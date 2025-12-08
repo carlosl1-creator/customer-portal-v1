@@ -1,9 +1,11 @@
 import type { Route } from "./+types/policy-manager";
-import { useState } from "react";
 import { useNavigate } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
 import { PoliciesTable, type Policy } from "~/components/tables/policies-table/policies-table";
 import { PlusIcon, GoogleDriveIcon, ConfluenceIcon, NotionIcon } from "~/components/icons/icons";
+import { MOCK_POLICIES } from "~/mocks";
+import { ROUTES } from "~/constants/routes";
+import { logger } from "~/utils/logger";
 
 
 export function meta({ }: Route.MetaArgs) {
@@ -16,82 +18,36 @@ export function meta({ }: Route.MetaArgs) {
 export default function PolicyManager() {
   const navigate = useNavigate();
 
-  // Mock data for policies
-  const [policies] = useState<Policy[]>([
-    {
-      id: "1",
-      name: "Content Policy",
-      version: "2.1",
-      created: "8/14/2025",
-      status: "active",
-      reports: 2,
-      content: "The following outlines the content policy pertaining to Acme Inc.'s customer-facing chatbot:....",
-    },
-    {
-      id: "2",
-      name: "Content Policy",
-      version: "2.0",
-      created: "7/10/2025",
-      status: "draft",
-      reports: 0,
-      content: "The following outlines the content policy pertaining to Acme Inc.'s customer-facing chatbot:....",
-    },
-    {
-      id: "3",
-      name: "Content Policy",
-      version: "1.2",
-      created: "6/30/2025",
-      status: "archive",
-      reports: 1,
-      content: "The following outlines the content policy pertaining to Acme Inc.'s customer-facing chatbot:....",
-    },
-    {
-      id: "4",
-      name: "Content Policy",
-      version: "1.1",
-      created: "6/28/2025",
-      status: "archive",
-      reports: 1,
-      content: "The following outlines the content policy pertaining to Acme Inc.'s customer-facing chatbot:....",
-    },
-    {
-      id: "5",
-      name: "Content Policy",
-      version: "1.0",
-      created: "6/5/2025",
-      status: "archive",
-      reports: 1,
-      content: "The following outlines the content policy pertaining to Acme Inc.'s customer-facing chatbot:....",
-    },
-  ]);
+  // In production, this would come from API calls or state management
+  const policies = MOCK_POLICIES;
 
   const handleAddNewPolicy = () => {
-    navigate("/add-new-policy");
+    navigate(ROUTES.ADD_NEW_POLICY);
   };
 
   const handleImportFromGoogleDrive = () => {
-    console.log("Import from Google Drive clicked");
+    logger.info("Import from Google Drive clicked");
     // TODO: Implement import from Google Drive functionality
   };
 
   const handleImportFromConfluence = () => {
-    console.log("Import from Confluence clicked");
+    logger.info("Import from Confluence clicked");
     // TODO: Implement import from Confluence functionality
   };
 
   const handleImportFromNotion = () => {
-    console.log("Import from Notion clicked");
+    logger.info("Import from Notion clicked");
     // TODO: Implement import from Notion functionality
   };
 
   const handleEdit = (policy: Policy) => {
-    navigate("/edit-policy", {
+    navigate(ROUTES.EDIT_POLICY, {
       state: { policy },
     });
   };
 
   const handleDelete = (policy: Policy) => {
-    console.log("Delete policy:", policy);
+    logger.debug("Delete policy:", policy);
     // TODO: Implement delete policy functionality
   };
 
