@@ -1,16 +1,24 @@
 import type { Route } from "./+types/add-new-policy";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
 import { ButtonGroup } from "~/components/button-group/button-group";
-import { TestPrioritizationTable, type TestCategory } from "~/components/tables/test-prioritization-table/test-prioritization-table";
+import { TestPrioritizationTable, type TestCategory, type Priority } from "~/components/tables/test-prioritization-table/test-prioritization-table";
 import { ArrowUpRightIcon, UploadIcon, GoogleDriveIcon, ConfluenceIcon, NotionIcon } from "~/components/icons/icons";
 import { UploadLocalFileModal } from "~/components/upload-local-file-modal/upload-local-file-modal";
 import { usePolicyForm } from "~/hooks/use-policy-form";
 import { useFileReader } from "~/hooks/use-file-reader";
-import { DEFAULT_TEST_CATEGORIES, DEFAULT_POLICY_CONTENT, POLICY_STATUS_OPTIONS } from "~/constants/policy";
+import { DEFAULT_POLICY_CONTENT, POLICY_STATUS_OPTIONS } from "~/constants/policy";
 import { ROUTES } from "~/constants/routes";
 import { logger } from "~/utils/logger";
+import {
+  useAppSelector,
+  useAppDispatch,
+  selectAllReports,
+  addPolicy,
+  type Report,
+  type Policy,
+} from "~/store";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -19,10 +27,103 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
+/**
+ * Aggregated category data for deriving test categories
+ */
+interface AggregatedCategory {
+  priority: Priority;
+  totalAsr: number;
+  count: number;
+  avgTurns: number;
+  avgTurnsLength: number;
+}
+
+/**
+ * Derive test categories from all reports
+ * Aggregates categories from all completed reports' attack_success_rate.categories
+ */
+function deriveTestCategoriesFromReports(reports: Report[]): TestCategory[] {
+  // Only use completed reports with categories
+  const completedReports = reports.filter(
+    (r) => r.status === "completed" && Object.keys(r.attack_success_rate.categories).length > 0
+  );
+  
+  // Aggregate categories across all reports
+  const categoryMap = new Map<string, AggregatedCategory>();
+  
+  completedReports.forEach((report) => {
+    Object.entries(report.attack_success_rate.categories).forEach(([categoryName, data]) => {
+      const existing = categoryMap.get(categoryName);
+      
+      if (existing) {
+        // Aggregate: keep highest priority, average the metrics
+        const priorityOrder: Record<string, number> = { high: 3, medium: 2, low: 1 };
+        const newPriority = priorityOrder[data.priority] > priorityOrder[existing.priority] 
+          ? data.priority 
+          : existing.priority;
+        
+        categoryMap.set(categoryName, {
+          priority: newPriority as Priority,
+          totalAsr: existing.totalAsr + data.asr,
+          count: existing.count + 1,
+          avgTurns: (existing.avgTurns * existing.count + data.avg_turns) / (existing.count + 1),
+          avgTurnsLength: (existing.avgTurnsLength * existing.count + data.avg_turns_length) / (existing.count + 1),
+        });
+      } else {
+        categoryMap.set(categoryName, {
+          priority: data.priority as Priority,
+          totalAsr: data.asr,
+          count: 1,
+          avgTurns: data.avg_turns,
+          avgTurnsLength: data.avg_turns_length,
+        });
+      }
+    });
+  });
+  
+  // Convert to TestCategory format
+  const categories: TestCategory[] = [];
+  let index = 0;
+  
+  categoryMap.forEach((data, categoryName) => {
+    const avgAsr = data.totalAsr / data.count;
+    
+    // Create description based on aggregated metrics
+    const description = `${categoryName} testing category with ${data.priority} priority. Average ASR: ${avgAsr.toFixed(1)}%, Avg turns: ${data.avgTurns.toFixed(1)}, tested across ${data.count} report(s).`;
+    
+    categories.push({
+      id: `cat-${index + 1}`,
+      name: categoryName,
+      priority: data.priority,
+      description,
+    });
+    
+    index++;
+  });
+  
+  // Sort by priority (high first)
+  const priorityOrder: Record<Priority, number> = {
+    critical: 4,
+    high: 3,
+    medium: 2,
+    low: 1,
+  };
+  
+  return categories.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]);
+}
+
 export default function AddNewPolicy() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const { readFile, content: fileContent, reset: resetFileReader } = useFileReader();
+
+  // Get all reports and derive test categories from all of them
+  const allReports = useAppSelector(selectAllReports);
+  const allCategories = useMemo(() => 
+    deriveTestCategoriesFromReports(allReports),
+    [allReports]
+  );
 
   const {
     name,
@@ -40,7 +141,7 @@ export default function AddNewPolicy() {
       status: "active",
       content: DEFAULT_POLICY_CONTENT,
     },
-    originalCategories: DEFAULT_TEST_CATEGORIES,
+    originalCategories: allCategories,
   });
 
   // Update content when file is read
@@ -81,9 +182,28 @@ export default function AddNewPolicy() {
   };
 
   const handleCreatePolicy = () => {
-    logger.debug("Creating policy:", formData);
-    // TODO: Implement create policy functionality
-    // After creation, navigate back to policy manager
+    // Generate a unique ID for the new policy
+    const newId = `policy-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const now = new Date().toISOString();
+    
+    // Create the new policy object
+    const newPolicy: Policy = {
+      id: newId,
+      name: formData.name,
+      version: "1.0.0", // New policies start at version 1.0.0
+      policy_text_md: formData.content,
+      reports: 0, // New policy has no reports yet
+      created_at: now,
+      updated_at: now,
+      policy_categories: formData.categories.map(c => c.name).join(","),
+    };
+    
+    logger.debug("Creating policy:", newPolicy);
+    
+    // Dispatch the addPolicy action to Redux store
+    dispatch(addPolicy(newPolicy));
+    
+    // Navigate back to policy manager after creation
     navigate(ROUTES.POLICY_MANAGER);
   };
 

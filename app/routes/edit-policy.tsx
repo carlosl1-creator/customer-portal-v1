@@ -1,16 +1,24 @@
 import type { Route } from "./+types/edit-policy";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
 import { ButtonGroup, type ButtonGroupOption } from "~/components/button-group/button-group";
-import { TestPrioritizationTable, type TestCategory } from "~/components/tables/test-prioritization-table/test-prioritization-table";
+import { TestPrioritizationTable } from "~/components/tables/test-prioritization-table/test-prioritization-table";
 import { ArrowUpRightIcon, UploadIcon, GoogleDriveIcon, ConfluenceIcon, NotionIcon } from "~/components/icons/icons";
-import type { Policy } from "~/components/tables/policies-table/policies-table";
 import { UploadLocalFileModal } from "~/components/upload-local-file-modal/upload-local-file-modal";
 import { usePolicyForm } from "~/hooks/use-policy-form";
 import { useFileReader } from "~/hooks/use-file-reader";
 import { ROUTES } from "~/constants/routes";
 import { logger } from "~/utils/logger";
+import {
+  useAppSelector,
+  selectAllPolicies,
+  selectAllReports,
+  type Policy as ReduxPolicy,
+  type Report,
+  type CategoryData,
+} from "~/store";
+import type { TestCategory, Priority } from "~/components/tables/test-prioritization-table/test-prioritization-table";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -19,7 +27,92 @@ export function meta({ }: Route.MetaArgs) {
   ];
 }
 
-import { DEFAULT_TEST_CATEGORIES, DEFAULT_POLICY_CONTENT, POLICY_STATUS_OPTIONS } from "~/constants/policy";
+import { DEFAULT_POLICY_CONTENT, POLICY_STATUS_OPTIONS } from "~/constants/policy";
+
+/**
+ * Aggregated category data for deriving test categories
+ */
+interface AggregatedCategory {
+  priority: Priority;
+  totalAsr: number;
+  count: number;
+  avgTurns: number;
+  avgTurnsLength: number;
+}
+
+/**
+ * Derive test categories from reports
+ * Aggregates categories from all completed reports' attack_success_rate.categories
+ */
+function deriveTestCategoriesFromReports(reports: Report[]): TestCategory[] {
+  // Only use completed reports with categories
+  const completedReports = reports.filter(
+    (r) => r.status === "completed" && Object.keys(r.attack_success_rate.categories).length > 0
+  );
+  
+  // Aggregate categories across all reports
+  const categoryMap = new Map<string, AggregatedCategory>();
+  
+  completedReports.forEach((report) => {
+    Object.entries(report.attack_success_rate.categories).forEach(([categoryName, data]) => {
+      const existing = categoryMap.get(categoryName);
+      
+      if (existing) {
+        // Aggregate: keep highest priority, average the metrics
+        const priorityOrder: Record<string, number> = { high: 3, medium: 2, low: 1 };
+        const newPriority = priorityOrder[data.priority] > priorityOrder[existing.priority] 
+          ? data.priority 
+          : existing.priority;
+        
+        categoryMap.set(categoryName, {
+          priority: newPriority as Priority,
+          totalAsr: existing.totalAsr + data.asr,
+          count: existing.count + 1,
+          avgTurns: (existing.avgTurns * existing.count + data.avg_turns) / (existing.count + 1),
+          avgTurnsLength: (existing.avgTurnsLength * existing.count + data.avg_turns_length) / (existing.count + 1),
+        });
+      } else {
+        categoryMap.set(categoryName, {
+          priority: data.priority as Priority,
+          totalAsr: data.asr,
+          count: 1,
+          avgTurns: data.avg_turns,
+          avgTurnsLength: data.avg_turns_length,
+        });
+      }
+    });
+  });
+  
+  // Convert to TestCategory format
+  const categories: TestCategory[] = [];
+  let index = 0;
+  
+  categoryMap.forEach((data, categoryName) => {
+    const avgAsr = data.totalAsr / data.count;
+    
+    // Create description based on aggregated metrics
+    const description = `${categoryName} testing category with ${data.priority} priority. Average ASR: ${avgAsr.toFixed(1)}%, Avg turns: ${data.avgTurns.toFixed(1)}, tested across ${data.count} report(s).`;
+    
+    categories.push({
+      id: `cat-${index + 1}`,
+      name: categoryName,
+      priority: data.priority,
+      description,
+    });
+    
+    index++;
+  });
+  
+  // Sort by priority (high first)
+  const priorityOrder: Record<Priority, number> = {
+    critical: 4,
+    high: 3,
+    medium: 2,
+    low: 1,
+  };
+  
+  return categories.sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority]);
+}
 
 export default function EditPolicy() {
   const navigate = useNavigate();
@@ -27,16 +120,61 @@ export default function EditPolicy() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const { readFile, content: fileContent, reset: resetFileReader } = useFileReader();
   
-  // Get policy data from navigation state or use defaults
-  const policy = (location.state as { policy?: Policy })?.policy;
+  // Get policy ID from navigation state
+  const policyId = (location.state as { policy?: { id: string } })?.policy?.id;
+  
+  // Get the full Redux policy using the ID
+  const reduxPolicies = useAppSelector(selectAllPolicies);
+  const reduxPolicy = useMemo(() => 
+    reduxPolicies.find(p => p.id === policyId) || null,
+    [reduxPolicies, policyId]
+  );
+  
+  // Get reports and derive test categories from only this policy's reports
+  const allReports = useAppSelector(selectAllReports);
+  const derivedCategories = useMemo(() => {
+    // Filter reports to only those belonging to this policy
+    const policyReports = reduxPolicy 
+      ? allReports.filter(r => r.policy_name === reduxPolicy.name)
+      : [];
+    return deriveTestCategoriesFromReports(policyReports);
+  }, [allReports, reduxPolicy]);
+  
+  // Derive status from Redux policy data
+  const deriveStatus = (policy: ReduxPolicy | null, allPolicies: ReduxPolicy[]): "active" | "draft" | "archive" => {
+    if (!policy) return "draft";
+    
+    // Sort by updated_at to find the most recent
+    const sortedByDate = [...allPolicies].sort(
+      (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+    );
+    
+    // Most recently updated policy is "active"
+    if (sortedByDate[0]?.id === policy.id) return "active";
+    
+    // Policies with 0 reports are "draft"
+    if (policy.reports === 0) return "draft";
+    
+    // All others are "archive"
+    return "archive";
+  };
   
   // Store original values for comparison - these should never change after initial load
-  const [originalName] = useState(() => policy?.name || "Content Policy 2.1");
+  const [originalName] = useState(() => reduxPolicy?.name || "Content Policy 2.1");
   const [originalStatus] = useState<"active" | "draft" | "archive">(() =>
-    policy?.status || "active"
+    deriveStatus(reduxPolicy, reduxPolicies)
   );
-  const [originalContent] = useState(() => policy?.content || DEFAULT_POLICY_CONTENT);
-  const [originalCategories] = useState<TestCategory[]>(() => DEFAULT_TEST_CATEGORIES);
+  const [originalContent] = useState(() => reduxPolicy?.policy_text_md || DEFAULT_POLICY_CONTENT);
+  const [originalCategories, setOriginalCategories] = useState<TestCategory[]>(derivedCategories);
+  
+  // Update original categories when derived categories change (e.g., simulations loaded)
+  useEffect(() => {
+    if (derivedCategories.length > 0 && originalCategories.length === 0) {
+      setOriginalCategories(derivedCategories);
+    }
+  }, [derivedCategories, originalCategories.length]);
+  
+  const initialStatus = deriveStatus(reduxPolicy, reduxPolicies);
   
   const {
     name,
@@ -51,11 +189,11 @@ export default function EditPolicy() {
     formData,
   } = usePolicyForm({
     initialData: {
-      name: policy?.name || "Content Policy 2.1",
-      status: policy?.status || "active",
-      content: policy?.content || DEFAULT_POLICY_CONTENT,
+      name: reduxPolicy?.name || "Content Policy 2.1",
+      status: initialStatus,
+      content: reduxPolicy?.policy_text_md || DEFAULT_POLICY_CONTENT,
     },
-    originalCategories,
+    originalCategories: derivedCategories,
   });
 
   // Update content when file is read
@@ -66,14 +204,14 @@ export default function EditPolicy() {
     }
   }, [fileContent, setContent, resetFileReader]);
 
-  // Update form when policy data is available (only if policy comes in after mount)
+  // Update form when Redux policy data is available
   useEffect(() => {
-    if (policy) {
-      setName(policy.name);
-      setStatus(policy.status);
-      setContent(policy.content);
+    if (reduxPolicy) {
+      setName(reduxPolicy.name);
+      setStatus(deriveStatus(reduxPolicy, reduxPolicies));
+      setContent(reduxPolicy.policy_text_md);
     }
-  }, [policy, setName, setStatus, setContent]);
+  }, [reduxPolicy, reduxPolicies, setName, setStatus, setContent]);
 
   const handleUploadLocalFile = () => {
     setIsUploadModalOpen(true);
@@ -106,10 +244,11 @@ export default function EditPolicy() {
 
   const handleUpdatePolicy = () => {
     logger.debug("Updating policy:", {
-      id: policy?.id,
+      id: policyId,
       ...formData,
     });
     // Navigate to preview policy changes screen with both original and edited data
+    // Also pass the full Redux policy for updating
     navigate(ROUTES.PREVIEW_POLICY_CHANGES, {
       state: {
         originalPolicy: {
@@ -124,7 +263,9 @@ export default function EditPolicy() {
         },
         originalCategories,
         editedCategories: formData.categories,
-        policyId: policy?.id,
+        policyId,
+        // Pass the full Redux policy for reference when updating
+        reduxPolicy,
       },
     });
   };

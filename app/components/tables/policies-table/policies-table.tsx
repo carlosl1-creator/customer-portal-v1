@@ -53,7 +53,7 @@ export function PoliciesTable({ policies, onEdit, onDelete, className = "", item
         <div className="bg-theme-card flex items-start w-full">
           {/* Name */}
           <div className="flex flex-col shrink-0">
-            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex h-[44px] items-center px-6 py-3 w-[140px]">
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex h-[44px] items-center px-6 py-3 w-[240px]">
               <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Name</p>
             </div>
           </div>
@@ -96,8 +96,13 @@ export function PoliciesTable({ policies, onEdit, onDelete, className = "", item
               className={`${bgClass} flex items-center border-b border-theme-primary w-full`}
             >
               {/* Name */}
-              <div className="shrink-0 w-[140px] flex h-[92px] items-center px-6 py-4">
-                <p className="font-normal text-[14px] leading-[20px] text-theme-primary">{policy.name}</p>
+              <div className="shrink-0 w-[240px] flex h-[92px] items-center px-6 py-4 overflow-hidden">
+                <p 
+                  className="font-normal text-[14px] leading-[20px] text-theme-primary truncate"
+                  title={policy.name}
+                >
+                  {policy.name}
+                </p>
               </div>
 
               {/* Created */}

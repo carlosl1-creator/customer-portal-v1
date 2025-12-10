@@ -2,12 +2,19 @@ import type { Route } from "./+types/preview-policy-changes";
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
-import { ButtonGroup, type ButtonGroupOption } from "~/components/button-group/button-group";
+import { ButtonGroup } from "~/components/button-group/button-group";
 import { ContentDiffView } from "~/components/content-diff-view/content-diff-view";
 import { TestPrioritizationDiffTable, type TestCategoryDiff } from "~/components/tables/test-prioritization-diff-table/test-prioritization-diff-table";
 import { EditIcon, UploadIcon, GoogleDriveIcon, ConfluenceIcon, NotionIcon } from "~/components/icons/icons";
-import type { Policy } from "~/components/tables/policies-table/policies-table";
 import type { TestCategory } from "~/components/tables/test-prioritization-table/test-prioritization-table";
+import { ROUTES } from "~/constants/routes";
+import { logger } from "~/utils/logger";
+import { POLICY_STATUS_OPTIONS } from "~/constants/policy";
+import {
+  useAppDispatch,
+  updatePolicy,
+  type Policy as ReduxPolicy,
+} from "~/store";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -19,6 +26,7 @@ export function meta({ }: Route.MetaArgs) {
 export default function PreviewPolicyChanges() {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useAppDispatch();
   
   // Get original and edited data from navigation state
   const state = location.state as {
@@ -27,12 +35,15 @@ export default function PreviewPolicyChanges() {
     originalCategories?: TestCategory[];
     editedCategories?: TestCategory[];
     policyId?: string;
+    reduxPolicy?: ReduxPolicy;
   } | null;
 
   const originalPolicy = state?.originalPolicy;
   const editedPolicy = state?.editedPolicy;
   const originalCategories = state?.originalCategories || [];
   const editedCategories = state?.editedCategories || [];
+  const policyId = state?.policyId;
+  const reduxPolicy = state?.reduxPolicy;
   
   // Use edited values for display (these are the new values)
   const [name, setName] = useState(editedPolicy?.name || originalPolicy?.name || "Content Policy 2.1");
@@ -96,36 +107,42 @@ export default function PreviewPolicyChanges() {
   };
 
   const handleCommitChanges = () => {
-    console.log("Committing policy changes:", {
-      id: state?.policyId,
+    if (!policyId || !reduxPolicy) {
+      logger.error("Cannot commit changes: missing policy ID or Redux policy data");
+      navigate(ROUTES.POLICY_MANAGER);
+      return;
+    }
+
+    // Create the updated policy object preserving all original fields
+    // and updating only the changed ones
+    const updatedPolicy: ReduxPolicy = {
+      ...reduxPolicy,
+      name: name,
+      policy_text_md: contentAfter,
+      // Update the updated_at timestamp to now
+      updated_at: new Date().toISOString(),
+      // Note: version could be incremented here if needed
+      // For now, we keep the same version
+    };
+
+    logger.debug("Committing policy changes:", {
+      id: policyId,
       name,
       status,
       contentAfter,
       categoryDiffs,
     });
-    // TODO: Implement commit changes functionality
-    // After commit, navigate back to policy manager
-    navigate("/policy-manager");
-  };
 
-  const statusOptions: ButtonGroupOption[] = [
-    {
-      label: "Active",
-      value: "active",
-    },
-    {
-      label: "Draft",
-      value: "draft",
-    },
-    {
-      label: "Archive",
-      value: "archive",
-    },
-  ];
+    // Dispatch the updatePolicy action to Redux store
+    dispatch(updatePolicy(updatedPolicy));
+
+    // Navigate back to policy manager after commit
+    navigate(ROUTES.POLICY_MANAGER);
+  };
 
   const headerButtons: HeaderButton[] = [
     {
-      icon: <UploadIcon className="w-5 h-5" stroke="#414651" />,
+      icon: <UploadIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />,
       text: "Upload Local File",
       onClick: handleUploadLocalFile,
     },
@@ -169,15 +186,15 @@ export default function PreviewPolicyChanges() {
           <div className="flex gap-8 items-start relative shrink-0 w-full">
             <div className="flex-1 min-w-0">
               <div className="flex flex-col gap-2 items-start relative shrink-0 w-full">
-                <p className="font-medium leading-6 text-[#535862] text-base">
-                  Name <span className="font-bold text-[#d92d20]">*</span>
+                <p className="font-medium leading-6 text-[var(--color-text-secondary)] text-base">
+                  Name <span className="font-bold text-[var(--color-error)]">*</span>
                 </p>
                 <div className="flex flex-col gap-1.5 items-start relative w-full max-w-[320px]">
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="bg-neutral-50 border border-[#d5d7da] rounded-[8px] w-full px-[14px] py-[10px] font-normal leading-6 text-base tracking-[-0.32px] text-[#181d27] outline-none hover:border-[#1570ef] focus:border-[#1570ef] transition-colors"
+                    className="bg-[var(--color-bg-input)] border border-[var(--color-border-secondary)] rounded-[8px] w-full px-[14px] py-[10px] font-normal leading-6 text-base tracking-[-0.32px] text-[var(--color-text-primary)] outline-none hover:border-[var(--color-border-focus)] focus:border-[var(--color-border-focus)] transition-colors"
                     placeholder="Content Policy 2.1"
                   />
                 </div>
@@ -185,11 +202,11 @@ export default function PreviewPolicyChanges() {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex flex-col gap-2 items-start relative shrink-0 w-full">
-                <p className="font-medium leading-6 text-[#535862] text-base">
-                  Status <span className="font-bold text-[#d92d20]">*</span>
+                <p className="font-medium leading-6 text-[var(--color-text-secondary)] text-base">
+                  Status <span className="font-bold text-[var(--color-error)]">*</span>
                 </p>
                 <ButtonGroup
-                  options={statusOptions}
+                  options={POLICY_STATUS_OPTIONS}
                   value={status}
                   onChange={(value) => setStatus(value as "active" | "draft" | "archive")}
                 />
@@ -199,8 +216,8 @@ export default function PreviewPolicyChanges() {
 
           {/* Content Diff Field */}
           <div className="flex flex-col gap-2 items-start relative shrink-0 w-full">
-            <p className="font-medium leading-6 text-[#535862] text-base">
-              Content <span className="font-bold text-[#d92d20]">*</span>
+            <p className="font-medium leading-6 text-[var(--color-text-secondary)] text-base">
+              Content <span className="font-bold text-[var(--color-error)]">*</span>
             </p>
             <ContentDiffView before={contentBefore} after={contentAfter} />
           </div>
@@ -208,7 +225,7 @@ export default function PreviewPolicyChanges() {
           {/* Test Prioritization Section */}
           <div className="flex flex-col gap-3 items-start relative shrink-0 w-full">
             <div className="flex flex-col gap-1 items-start relative shrink-0">
-              <p className="font-medium leading-6 text-[#535862] text-base">
+              <p className="font-medium leading-6 text-[var(--color-text-secondary)] text-base">
                 Test Prioritization
               </p>
             </div>
@@ -225,11 +242,11 @@ export default function PreviewPolicyChanges() {
               disabled={!canCommitChanges}
               className={`box-border flex gap-2 items-center justify-center px-5 py-3 rounded-lg transition-colors ${
                 canCommitChanges
-                  ? "bg-[#181d27] border border-[#181d27] text-white hover:opacity-90 cursor-pointer"
-                  : "bg-gray-300 border border-gray-300 text-gray-500 cursor-not-allowed"
+                  ? "bg-[var(--color-text-primary)] border border-[var(--color-text-primary)] text-[var(--color-text-inverted)] hover:opacity-90 cursor-pointer"
+                  : "bg-[var(--color-bg-muted)] border border-[var(--color-border-secondary)] text-[var(--color-text-muted)] cursor-not-allowed"
               }`}
             >
-              <EditIcon className="w-5 h-5" stroke={canCommitChanges ? "white" : "currentColor"} />
+              <EditIcon className="w-5 h-5" stroke={canCommitChanges ? "var(--color-text-inverted)" : "currentColor"} />
               <span className="font-semibold text-base leading-6">Commit Changes</span>
             </button>
           </div>
