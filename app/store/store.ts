@@ -4,6 +4,7 @@ import {
   policiesReducer,
   chatbotsReducer,
   reportsReducer,
+  simulationsReducer,
 } from "./slices";
 
 /**
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   policies: policiesReducer,
   chatbots: chatbotsReducer,
   reports: reportsReducer,
+  simulations: simulationsReducer,
 });
 
 /**
