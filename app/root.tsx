@@ -11,6 +11,7 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { LeftNavBarExample } from "~/components/left-nav-bar/left-nav-bar-example";
 import { PageContainer } from "~/components/page-container/page-container";
+import { StoreProvider } from "~/store";
 import { ThemeProvider } from "~/utils/theme-context";
 
 /**
@@ -60,9 +61,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="flex">
-        <ThemeProvider>
-          <LayoutContent>{children}</LayoutContent>
-        </ThemeProvider>
+        <StoreProvider>
+          <ThemeProvider>
+            <LayoutContent>{children}</LayoutContent>
+          </ThemeProvider>
+        </StoreProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
