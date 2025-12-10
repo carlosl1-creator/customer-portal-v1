@@ -1,13 +1,65 @@
 import type { Route } from "./+types/compare-reports";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router";
 import { ReportsFilterBar } from "~/components/filters/reports-filter-bar/reports-filter-bar";
 import { SelectableReportsTable, type SelectableReport } from "~/components/tables/selectable-reports-table/selectable-reports-table";
 import { BenchmarksTable, type Benchmark } from "~/components/tables/benchmarks-table/benchmarks-table";
 import { ArrowUpRightIcon } from "~/components/icons/icons";
-import { MOCK_SELECTABLE_REPORTS, MOCK_BENCHMARKS } from "~/mocks";
+import {
+  useAppSelector,
+  selectAllReports,
+  selectAllChatbots,
+  type Report as ReduxReport,
+} from "~/store";
 import { ROUTES } from "~/constants/routes";
 import { logger } from "~/utils/logger";
+
+/**
+ * Transform Redux Report to SelectableReport format
+ */
+function transformReportForTable(report: ReduxReport): SelectableReport {
+  // Format date from ISO to readable format
+  const formatDate = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  };
+
+  // Map Redux status to table status
+  const mapStatus = (status: string): "completed" | "processing" | "churned" => {
+    switch (status) {
+      case "completed":
+        return "completed";
+      case "running":
+      case "pending":
+        return "processing";
+      case "failed":
+        return "churned";
+      default:
+        return "churned";
+    }
+  };
+
+  // Convert 0-100 score to 0-5 scale
+  const convertScore = (score: number): number => {
+    return Number(((score / 100) * 5).toFixed(1));
+  };
+
+  const isCompleted = report.status === "completed";
+
+  return {
+    id: report.id.split("-")[0], // Shorter ID for display
+    botVersion: `${report.chatbot_name} ${report.chatbot_version}`,
+    policyVersion: `${report.policy_name} ${report.policy_version}`,
+    created: formatDate(report.created_at),
+    status: mapStatus(report.status),
+    overallReadiness: isCompleted ? convertScore(report.readiness_score) : undefined,
+    pillarI: isCompleted ? convertScore(report.p1.p1_score) : undefined,
+    pillarII: isCompleted ? convertScore(report.p2.p2_score) : undefined,
+    asr: isCompleted ? report.attack_success_rate.weighted_asr : undefined,
+    asrTrend: isCompleted ? "neutral" : undefined,
+    disabled: report.status !== "completed", // Disable non-completed reports
+  };
+}
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -21,9 +73,25 @@ export default function CompareReports() {
   const [selectedReports, setSelectedReports] = useState<Set<string>>(new Set());
   const [selectedBenchmarks, setSelectedBenchmarks] = useState<Set<string>>(new Set());
 
-  // In production, this would come from API calls or state management
-  const reports = MOCK_SELECTABLE_REPORTS;
-  const benchmarks = MOCK_BENCHMARKS;
+  // Get data from Redux store
+  const reduxReports = useAppSelector(selectAllReports);
+  const chatbots = useAppSelector(selectAllChatbots);
+
+  // Transform Redux reports to SelectableReport format
+  const reports: SelectableReport[] = useMemo(() => 
+    reduxReports.map(transformReportForTable),
+    [reduxReports]
+  );
+
+  // Transform chatbots to Benchmark format
+  const benchmarks: Benchmark[] = useMemo(() => 
+    chatbots.map((chatbot) => ({
+      id: chatbot.id.split("-")[0], // Shorter ID for display
+      bot: `${chatbot.model_name} ${chatbot.model_version}`,
+      description: chatbot.description,
+    })),
+    [chatbots]
+  );
 
   const handleReportSelection = (id: string, selected: boolean) => {
     const newSet = new Set(selectedReports);

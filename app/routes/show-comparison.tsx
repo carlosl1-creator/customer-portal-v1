@@ -1,5 +1,5 @@
 import type { Route } from "./+types/show-comparison";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router";
 import { HeaderSection } from "~/components/header-section/header-section";
 import type { SelectableReport } from "~/components/tables/selectable-reports-table/selectable-reports-table";
@@ -21,6 +21,12 @@ import { MaximizeIcon } from "~/components/icons/icons";
 import { BubbleChart } from "~/components/charts/bubble-chart/bubble-chart";
 import { Modal } from "~/components/modal/modal";
 import { CasesCard } from "~/components/cards/cases-card/cases-card";
+import {
+  useAppSelector,
+  selectAllReports,
+  selectAllSimulations,
+  type Report as ReduxReport,
+} from "~/store";
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -41,10 +47,23 @@ export default function ShowComparison() {
   // Modal state management
   const [openModal, setOpenModal] = useState<string | null>(null);
 
+  // Get data from Redux store
+  const allReports = useAppSelector(selectAllReports);
+  const simulations = useAppSelector(selectAllSimulations);
+
   // Get selected items from location state
   const state = location.state as ComparisonState | null;
   const selectedReports = state?.selectedReports || [];
   const selectedBenchmarks = state?.selectedBenchmarks || [];
+
+  // Find full Redux report data based on selected report IDs
+  const findReduxReport = (shortId: string): ReduxReport | undefined => {
+    return allReports.find(r => r.id.startsWith(shortId) || r.id.split("-")[0] === shortId);
+  };
+
+  // Get full report data from Redux
+  const report1 = selectedReports[0] ? findReduxReport(selectedReports[0].id) : undefined;
+  const report2 = selectedReports[1] ? findReduxReport(selectedReports[1].id) : undefined;
 
   // Determine model names based on selected items
   let model1Name = "";
@@ -65,8 +84,27 @@ export default function ShowComparison() {
   }
 
   const comparisonTitle = `${model1Name} vs. ${model2Name}`;
-  const generatedDate = "8/24/2025";
-  const originalDates = "8/3/2025 and 7/14/2025";
+  
+  // Format dates from Redux data
+  const formatDate = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  };
+
+  const generatedDate = formatDate(new Date().toISOString());
+  const originalDates = report1 && report2
+    ? `${formatDate(report1.created_at)} and ${formatDate(report2.created_at)}`
+    : "N/A";
+
+  // Convert 0-100 score to 0-5 scale
+  const convertToFiveScale = (score: number): number => {
+    return Number(((score / 100) * 5).toFixed(1));
+  };
+
+  // Determine status based on score (0-100)
+  const getStatus = (score: number): "success" | "warning" => {
+    return score >= 80 ? "success" : "warning";
+  };
 
   const handleSendToSlack = () => {
     console.log("Send to Slack clicked");
@@ -91,110 +129,173 @@ export default function ShowComparison() {
     navigate("/compare-reports");
   };
 
-  // Extract card data to avoid duplication
-  const totalCasesData = {
-    totalCases: 1576,
-    scenarios: [
-      { label: "Violence", percentage: 48, color: "#B2DDFF" },
-      { label: "Hate Speech", percentage: 29, color: "#A6F4C5" },
-      { label: "Others", percentage: 16, color: "#FECDD6" },
-    ],
+  // Derive category distribution from simulations
+  const categoryColors: Record<string, string> = {
+    "Harmful Content": "#B2DDFF",
+    "Data Extraction": "#A6F4C5",
+    "Jailbreaking": "#FECDD6",
+    "Misinformation": "#FEDF89",
+    "PII Disclosure": "#D9D6FE",
+    "Prompt Injection": "#FED7AA",
+    "Bias Exploitation": "#A5F3FC",
+    "Social Engineering": "#FCA5A5",
   };
 
-  const pillarIData = {
-    model1Score: 4.1,
-    model1Status: "success" as "success" | "warning",
-    model2Score: 3.8,
-    model2Status: "warning" as "success" | "warning",
-    barData: [
-      { label: "Your Model", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
-      { label: "SomeAI Model-5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
-      { label: "Other Model 4.5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
-    ],
-  };
+  // Calculate total cases from simulations
+  const totalCasesData = useMemo(() => {
+    const totalCases = report1?.total_simulations.total_simulation_count || simulations.length * 100;
+    
+    // Group simulations by category
+    const categoryCount = simulations.reduce((acc, sim) => {
+      acc[sim.category] = (acc[sim.category] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
 
-  const pillarIIData = {
-    model1Score: 3.2,
-    model1Status: "warning" as "success" | "warning",
-    model2Score: 4.2,
-    model2Status: "success" as "success" | "warning",
-    barData: [
-      { label: "Your Model", value: 72, color: "#FEDF89", borderColor: "#DC6803" },
-      { label: "SomeAI Model-5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
-      { label: "Other Model 4.5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
-    ],
-  };
+    const total = Object.values(categoryCount).reduce((a, b) => a + b, 0);
+    const scenarios = Object.entries(categoryCount)
+      .slice(0, 3)
+      .map(([label, count]) => ({
+        label,
+        percentage: Math.round((count / total) * 100),
+        color: categoryColors[label] || "#B2DDFF",
+      }));
 
-  const vulnerabilitiesData = {
-    identifiedCount: 91,
-    unweightedASR: 8.2,
-    weightedASR: 9.1,
-    status: "warning" as "success" | "warning",
-    radarData: [
-      {
-        label: model1Name,
-        color: "#B2DDFF",
-        data: [
-          { label: "Violence", value: 75 },
-          { label: "Self-Harm", value: 60 },
-          { label: "Hate Speech", value: 85 },
-          { label: "Illegal Activities", value: 70 },
-          { label: "Others", value: 65 },
-        ],
-      },
-      {
-        label: model2Name,
-        color: "#A6F4C5",
-        data: [
-          { label: "Violence", value: 90 },
-          { label: "Self-Harm", value: 85 },
-          { label: "Hate Speech", value: 95 },
-          { label: "Illegal Activities", value: 88 },
-          { label: "Others", value: 80 },
-        ],
-      },
-    ],
-  };
+    return { totalCases, scenarios };
+  }, [report1, simulations]);
 
-  const conversationalStatsData = {
-    avgChatLength: 4.73,
-    avgMessageLength: 203.1,
-    chatLengthStatus: "success" as "success" | "warning",
-    messageLengthStatus: "success" as "success" | "warning",
-    chatLengthChartData: [
-      { x: 0, y: 0.2 },
-      { x: 1, y: 0.4 },
-      { x: 2, y: 0.6 },
-      { x: 3, y: 0.5 },
-      { x: 4, y: 0.3 },
-      { x: 5, y: 0.1 },
-    ],
-    messageLengthChartData: [
-      { x: 0, y: 0.1 },
-      { x: 60, y: 0.3 },
-      { x: 120, y: 0.5 },
-      { x: 180, y: 0.4 },
-      { x: 240, y: 0.2 },
-      { x: 300, y: 0.1 },
-    ],
-  };
+  // Derive Pillar I data from Redux reports
+  const pillarIData = useMemo(() => {
+    const model1Score = report1 ? convertToFiveScale(report1.p1.p1_score) : 4.1;
+    const model2Score = report2 ? convertToFiveScale(report2.p1.p1_score) : 3.8;
+    
+    return {
+      model1Score,
+      model1Status: report1 ? getStatus(report1.p1.p1_score) : "success" as "success" | "warning",
+      model2Score,
+      model2Status: report2 ? getStatus(report2.p1.p1_score) : "warning" as "success" | "warning",
+      barData: [
+        { label: model1Name.split(" ")[0] || "Model 1", value: report1 ? Math.round(report1.p1.p1_score * 1.2) : 96, color: "#B2DDFF", borderColor: "#1570EF" },
+        { label: model2Name.split(" ")[0] || "Model 2", value: report2 ? Math.round(report2.p1.p1_score * 1.2) : 120, color: "#A6F4C5", borderColor: "#039855" },
+        { label: "Industry Avg", value: 85, color: "#FEDF89", borderColor: "#DC6803" },
+      ],
+    };
+  }, [report1, report2, model1Name, model2Name]);
 
-  // Mock comparison data
-  const model1Cases: Array<{ caseId: string; category: string; riskFactor: number; turnLength: { turns: number; chars: number } }> = [
-    { caseId: "#37", category: "Violence", riskFactor: 16, turnLength: { turns: 5, chars: 184 } },
-    { caseId: "#43", category: "Violence", riskFactor: 12, turnLength: { turns: 7, chars: 138 } },
-    { caseId: "#372", category: "Illegal Activities", riskFactor: 24, turnLength: { turns: 13, chars: 204 } },
-    { caseId: "#112", category: "Violence", riskFactor: 17, turnLength: { turns: 7, chars: 138 } },
-    { caseId: "#51", category: "Violence", riskFactor: 27, turnLength: { turns: 13, chars: 204 } },
-  ];
+  // Derive Pillar II data from Redux reports
+  const pillarIIData = useMemo(() => {
+    const model1Score = report1 ? convertToFiveScale(report1.p2.p2_score) : 3.2;
+    const model2Score = report2 ? convertToFiveScale(report2.p2.p2_score) : 4.2;
+    
+    return {
+      model1Score,
+      model1Status: report1 ? getStatus(report1.p2.p2_score) : "warning" as "success" | "warning",
+      model2Score,
+      model2Status: report2 ? getStatus(report2.p2.p2_score) : "success" as "success" | "warning",
+      barData: [
+        { label: model1Name.split(" ")[0] || "Model 1", value: report1 ? Math.round(report1.p2.p2_score * 1.2) : 72, color: report1 && report1.p2.p2_score >= 80 ? "#B2DDFF" : "#FEDF89", borderColor: report1 && report1.p2.p2_score >= 80 ? "#1570EF" : "#DC6803" },
+        { label: model2Name.split(" ")[0] || "Model 2", value: report2 ? Math.round(report2.p2.p2_score * 1.2) : 96, color: "#B2DDFF", borderColor: "#1570EF" },
+        { label: "Industry Avg", value: 78, color: "#A6F4C5", borderColor: "#039855" },
+      ],
+    };
+  }, [report1, report2, model1Name, model2Name]);
 
-  const model2Cases: Array<{ caseId: string; category: string; riskFactor: number; turnLength: { turns: number; chars: number } }> = [
-    { caseId: "#37", category: "Violence", riskFactor: 16, turnLength: { turns: 5, chars: 184 } },
-    { caseId: "#43", category: "Violence", riskFactor: 12, turnLength: { turns: 7, chars: 138 } },
-    { caseId: "#372", category: "Illegal Activities", riskFactor: 24, turnLength: { turns: 13, chars: 204 } },
-    { caseId: "#112", category: "Violence", riskFactor: 17, turnLength: { turns: 7, chars: 138 } },
-    { caseId: "#51", category: "Violence", riskFactor: 27, turnLength: { turns: 13, chars: 204 } },
-  ];
+  // Derive vulnerabilities data from Redux reports
+  const vulnerabilitiesData = useMemo(() => {
+    const asr = report1?.attack_success_rate;
+    
+    // Get unique categories from simulations for radar data
+    const categories = [...new Set(simulations.map(s => s.category))].slice(0, 5);
+    
+    // Generate radar data for both models based on their ASR categories
+    const generateRadarData = (report: ReduxReport | undefined, defaultValues: number[]) => {
+      if (!report) return categories.map((label, i) => ({ label, value: defaultValues[i] || 70 }));
+      
+      return categories.map((label, index) => {
+        const categoryData = report.attack_success_rate.categories[label];
+        // Higher score means better defense (inverse of ASR)
+        const value = categoryData ? Math.round(100 - categoryData.asr) : defaultValues[index] || 70;
+        return { label, value };
+      });
+    };
+
+    return {
+      identifiedCount: asr?.identified || 91,
+      unweightedASR: asr?.unweighted_asr || 8.2,
+      weightedASR: asr?.weighted_asr || 9.1,
+      status: (asr?.weighted_asr || 10) < 15 ? "success" as const : "warning" as const,
+      radarData: [
+        {
+          label: model1Name,
+          color: "#B2DDFF",
+          data: generateRadarData(report1, [75, 60, 85, 70, 65]),
+        },
+        {
+          label: model2Name,
+          color: "#A6F4C5",
+          data: generateRadarData(report2, [90, 85, 95, 88, 80]),
+        },
+      ],
+    };
+  }, [report1, report2, model1Name, model2Name, simulations]);
+
+  // Derive conversational stats from Redux reports
+  const conversationalStatsData = useMemo(() => {
+    const stats = report1?.conversation_statistics;
+    
+    // Generate chart data from distribution or use defaults
+    const generateChartData = (distribution: Record<string, number> | undefined, defaultData: Array<{x: number, y: number}>) => {
+      if (!distribution || Object.keys(distribution).length === 0) return defaultData;
+      
+      const entries = Object.entries(distribution);
+      const total = entries.reduce((sum, [, v]) => sum + v, 0);
+      return entries.map(([key, value], index) => ({
+        x: index * (300 / entries.length),
+        y: total > 0 ? value / total : 0,
+      }));
+    };
+
+    return {
+      avgChatLength: stats?.avg_no_of_turns || 4.73,
+      avgMessageLength: stats?.avg_len_of_each_turn || 203.1,
+      chatLengthStatus: (stats?.avg_no_of_turns || 5) < 6 ? "success" as const : "warning" as const,
+      messageLengthStatus: (stats?.avg_len_of_each_turn || 200) < 250 ? "success" as const : "warning" as const,
+      chatLengthChartData: generateChartData(stats?.chat_len_distribution, [
+        { x: 0, y: 0.2 },
+        { x: 1, y: 0.4 },
+        { x: 2, y: 0.6 },
+        { x: 3, y: 0.5 },
+        { x: 4, y: 0.3 },
+        { x: 5, y: 0.1 },
+      ]),
+      messageLengthChartData: generateChartData(stats?.message_len_distribution, [
+        { x: 0, y: 0.1 },
+        { x: 60, y: 0.3 },
+        { x: 120, y: 0.5 },
+        { x: 180, y: 0.4 },
+        { x: 240, y: 0.2 },
+        { x: 300, y: 0.1 },
+      ]),
+    };
+  }, [report1]);
+
+  // Derive comparison cases from simulations
+  const model1Cases = useMemo(() => {
+    return simulations.slice(0, 5).map((sim, index) => ({
+      caseId: `#${index + 37}`,
+      category: sim.category,
+      riskFactor: sim.likelihood === "high" ? 24 : sim.likelihood === "medium" ? 16 : 12,
+      turnLength: { turns: sim.chat_length, chars: sim.avg_turn_length },
+    }));
+  }, [simulations]);
+
+  const model2Cases = useMemo(() => {
+    return simulations.slice(5, 10).map((sim, index) => ({
+      caseId: `#${index + 42}`,
+      category: sim.category,
+      riskFactor: sim.likelihood === "high" ? 27 : sim.likelihood === "medium" ? 17 : 12,
+      turnLength: { turns: sim.chat_length, chars: sim.avg_turn_length },
+    }));
+  }, [simulations]);
 
   return (
     <div className="w-full">
@@ -256,19 +357,21 @@ export default function ShowComparison() {
               </div>
               <div className="flex gap-12 items-center justify-center">
                 <div className="flex flex-col gap-2.5 items-center">
-                  <RadialChart rating={4.1} size={90} />
+                  <RadialChart rating={report1 ? convertToFiveScale(report1.readiness_score) : 4.1} size={90} />
                   <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
-                    Acme Inc.
+                    {model1Name.split(" ")[0] || "Model 1"}
                   </p>
                 </div>
                 <div className="flex flex-col gap-2.5 items-center">
-                  <RadialChart rating={3.2} size={90} />
+                  <RadialChart rating={report2 ? convertToFiveScale(report2.readiness_score) : 3.2} size={90} />
                   <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
-                    SomeAI
+                    {model2Name.split(" ")[0] || "Model 2"}
                   </p>
                 </div>
                 <p className="flex-1 font-normal text-[14px] leading-[20px] text-theme-secondary whitespace-pre-wrap">
-                  Acme Inc.'s Content Model demonstrates higher overall readiness especially against violent content and illegal activities. In contrast, SomeAI consistently struggles to identify obscure, coded language and fail to block unsafe content on the platform. Guidelines for SomeAI Model-5 should be revised to guard against this.
+                  {report1 && report2 
+                    ? `${model1Name.split(" ")[0]}'s model demonstrates ${report1.readiness_score > report2.readiness_score ? "higher" : "lower"} overall readiness. ${report1.readiness_text} ${report2.readiness_text}`
+                    : "Compare the overall readiness of both models to understand their relative performance across safety, security, and fraud mitigation metrics."}
                 </p>
               </div>
             </div>
