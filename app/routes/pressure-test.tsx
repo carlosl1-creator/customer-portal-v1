@@ -153,7 +153,7 @@ export default function PressureTest() {
                 subtitle="Overall rating based on model safety, security, and fraud and bias mitigation."
                 rating={4.1}
                 description="The system showcases a strong ability to enforce policies against direct violations, particularly in the categories of illegal activities and self-harm. However, it consistently struggles with nuanced evasion tactics, particularly those employing obfuscation and contextual deception, leading to significant gaps in enforcement."
-                onHelpClick={() => console.log("Help clicked")}
+                showMenu={false}
               />
             </div>
             
@@ -266,7 +266,7 @@ export default function PressureTest() {
                 },
               ]}
               onMaximizeClick={() => setOpenModal("foundVulnerabilities")}
-              onHelpClick={() => console.log("Help clicked")}
+              onMenuClick={() => console.log("Menu clicked")}
             />
             <ConversationalStatisticsCard
               title="Conversation Statistics"
@@ -558,7 +558,7 @@ export default function PressureTest() {
               ],
             },
           ]}
-          onHelpClick={() => console.log("Help clicked")}
+          onMenuClick={() => console.log("Menu clicked")}
         />
       </Modal>
 

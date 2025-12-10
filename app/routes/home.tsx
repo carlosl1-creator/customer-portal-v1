@@ -30,8 +30,7 @@ export default function Home() {
   };
 
   const handleCreateReport = () => {
-    logger.debug("Create Report clicked");
-    // TODO: Implement create report functionality
+    navigate(ROUTES.CREATE_NEW_TEST);
   };
 
   const handleReportClick = (report: unknown) => {

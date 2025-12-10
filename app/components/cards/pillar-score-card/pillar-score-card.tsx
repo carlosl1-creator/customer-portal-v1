@@ -59,14 +59,14 @@ export function PillarScoreCard({
       {/* Header */}
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
-          <h3 className="font-medium text-[16px] leading-[24px] text-theme-primary">
+          <h3 className="font-medium text-[20px] leading-[28px] text-theme-primary">
             {title}
           </h3>
           {isLocked && (
-            <LockIcon className="w-4 h-4 text-theme-secondary" />
+            <LockIcon className="w-6 h-6 text-theme-secondary" />
           )}
         </div>
-        <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
+        <p className="font-normal text-[16px] leading-[22px] text-theme-secondary">
           {subtitle}
         </p>
       </div>
@@ -106,20 +106,20 @@ export function PillarScoreCard({
           {/* Score and status icon */}
           <div className="flex gap-4 items-end">
             <div className="flex items-end">
-              <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
+              <p className="font-medium text-[52px] leading-[60px] tracking-[-1px] text-theme-primary">
                 {score.toFixed(1)}
               </p>
-              <span className="font-normal text-[30px] leading-[38px] text-theme-tertiary ml-1">
+              <span className="font-normal text-[44px] leading-[52px] text-theme-tertiary ml-1">
                 {" / 5"}
               </span>
             </div>
             <div
-              className="rounded-[12px] w-6 h-6 flex items-center justify-center flex-shrink-0"
+              className="rounded-[16px] w-10 h-10 flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: statusColor.bg }}
             >
               {status === "success" && (
                 <svg
-                  className="w-3 h-3"
+                  className="w-5 h-5"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={2.5}
@@ -134,7 +134,7 @@ export function PillarScoreCard({
               )}
               {status === "warning" && (
                 <svg
-                  className="w-3 h-3"
+                  className="w-5 h-5"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={2.5}
@@ -152,13 +152,13 @@ export function PillarScoreCard({
 
           {/* Bar chart */}
           {barData.length > 0 && (
-            <div className="flex flex-1 gap-4 items-center justify-end">
+            <div className="flex flex-1 gap-5 items-center justify-end">
               {/* Legend */}
-              <div className="flex flex-col gap-2.5 justify-center">
+              <div className="flex flex-col gap-4 justify-center">
                 {barData.map((bar, index) => (
                   <p
                     key={index}
-                    className="font-normal text-[12px] leading-[18px] text-theme-secondary"
+                    className="font-normal text-[16px] leading-[22px] text-theme-secondary"
                   >
                     {bar.label}
                   </p>
@@ -166,11 +166,11 @@ export function PillarScoreCard({
               </div>
 
               {/* Bars */}
-              <div className="flex flex-col gap-2.5 items-start relative">
+              <div className="flex flex-col gap-4 items-start relative">
                 {barData.map((bar, index) => (
                   <div
                     key={index}
-                    className="h-3 opacity-80"
+                    className="h-5 opacity-80"
                     style={{
                       width: `${bar.value}px`,
                       backgroundColor: bar.color,
@@ -179,7 +179,7 @@ export function PillarScoreCard({
                   />
                 ))}
                 {/* X-axis labels */}
-                <div className="absolute -bottom-5 left-0 right-0 flex items-center justify-between text-[4px] leading-[4px] text-theme-secondary font-normal">
+                <div className="absolute -bottom-5 left-0 right-0 flex items-center justify-between text-[11px] leading-[11px] text-theme-secondary font-normal">
                   <span>0</span>
                   <span>50</span>
                   <span>100</span>

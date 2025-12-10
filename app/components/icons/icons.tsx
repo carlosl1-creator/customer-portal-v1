@@ -542,6 +542,38 @@ export function MoreVerticalIcon({ className = "w-5 h-5", stroke = "currentColor
   );
 }
 
+export function KebabMenuIcon({ className = "w-1 h-4", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 4 15"
+      fill="none"
+    >
+      <path
+        d="M1.66666 8.33301C2.1269 8.33301 2.49999 7.95991 2.49999 7.49967C2.49999 7.03944 2.1269 6.66634 1.66666 6.66634C1.20642 6.66634 0.833328 7.03944 0.833328 7.49967C0.833328 7.95991 1.20642 8.33301 1.66666 8.33301Z"
+        stroke={stroke}
+        strokeWidth="1.66667"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M1.66666 2.49967C2.1269 2.49967 2.49999 2.12658 2.49999 1.66634C2.49999 1.2061 2.1269 0.833008 1.66666 0.833008C1.20642 0.833008 0.833328 1.2061 0.833328 1.66634C0.833328 2.12658 1.20642 2.49967 1.66666 2.49967Z"
+        stroke={stroke}
+        strokeWidth="1.66667"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M1.66666 14.1663C2.1269 14.1663 2.49999 13.7932 2.49999 13.333C2.49999 12.8728 2.1269 12.4997 1.66666 12.4997C1.20642 12.4997 0.833328 12.8728 0.833328 13.333C0.833328 13.7932 1.20642 14.1663 1.66666 14.1663Z"
+        stroke={stroke}
+        strokeWidth="1.66667"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function FilterIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
   return (
     <svg

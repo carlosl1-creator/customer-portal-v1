@@ -126,7 +126,7 @@ export default function CompareReports() {
           <ReportsFilterBar
             dateRange="Jan 6, 2022 – Jan 13, 2022"
             policies={["Completed", "Processing"]}
-            onDateRangeChange={() => logger.debug("Date range changed")}
+            onDateRangeChange={(startDate, endDate) => logger.debug("Date range changed:", startDate, endDate)}
             onPolicyRemove={(policy) => logger.debug("Policy removed:", policy)}
             onMoreFiltersClick={() => logger.debug("More filters clicked")}
             onSearchChange={(value) => logger.debug("Search changed:", value)}

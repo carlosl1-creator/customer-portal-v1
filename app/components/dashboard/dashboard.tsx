@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "~/components/button/button";
 import { PlusIcon, CompareIcon } from "~/components/icons/icons";
 import { RatingCard } from "~/components/cards/rating-card/rating-card";
@@ -37,6 +37,17 @@ export function Dashboard({
 }: DashboardProps) {
   // In production, this would come from props or a data fetching hook
   const reports = MOCK_REPORTS;
+  const [selectedReportIds, setSelectedReportIds] = useState<Set<string>>(new Set());
+
+  const handleReportSelection = (id: string, selected: boolean) => {
+    const newSet = new Set(selectedReportIds);
+    if (selected) {
+      newSet.add(id);
+    } else {
+      newSet.delete(id);
+    }
+    setSelectedReportIds(newSet);
+  };
 
   return (
     <div className="flex flex-col gap-8 items-start w-full pb-12 pt-8 px-0">
@@ -140,14 +151,19 @@ export function Dashboard({
         <ReportsFilterBar
           dateRange="Jan 6, 2022 – Jan 13, 2022"
           policies={["Policy 3.0", "Policy 3.1"]}
-          onDateRangeChange={() => logger.debug("Date range changed")}
+          onDateRangeChange={(startDate, endDate) => logger.debug("Date range changed:", startDate, endDate)}
           onPolicyRemove={(policy) => logger.debug("Policy removed:", policy)}
           onMoreFiltersClick={() => logger.debug("More filters clicked")}
           onSearchChange={(value) => logger.debug("Search changed:", value)}
         />
 
         {/* Reports Table */}
-        <ReportsTable reports={reports} onRowClick={onReportClick} />
+        <ReportsTable 
+          reports={reports} 
+          onRowClick={onReportClick}
+          selectedIds={selectedReportIds}
+          onSelectionChange={handleReportSelection}
+        />
       </div>
     </div>
   );

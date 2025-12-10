@@ -18,8 +18,50 @@ export interface Report {
 export interface ReportsTableProps {
   reports: Report[];
   onRowClick?: (report: Report) => void;
+  selectedIds?: Set<string>;
+  onSelectionChange?: (id: string, selected: boolean) => void;
   className?: string;
 }
+
+const Checkbox = ({ 
+  checked, 
+  onChange 
+}: { 
+  checked: boolean; 
+  onChange: () => void;
+}) => {
+  if (checked) {
+    return (
+      <div 
+        className="bg-[var(--color-primary-light)] border border-[var(--color-primary)] rounded-[6px] shrink-0 size-5 cursor-pointer flex items-center justify-center"
+        onClick={(e) => {
+          e.stopPropagation();
+          onChange();
+        }}
+      >
+        <svg className="w-3 h-3" fill="none" viewBox="0 0 12 12">
+          <path
+            d="M10 3L4.5 8.5L2 6"
+            stroke="var(--color-primary)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      className="bg-theme-card border border-theme-secondary rounded-[6px] shrink-0 size-5 cursor-pointer"
+      onClick={(e) => {
+        e.stopPropagation();
+        onChange();
+      }}
+    />
+  );
+};
 
 const getStatusVariant = (status: string): "success" | "warning" | "neutral" => {
   switch (status) {
@@ -39,7 +81,7 @@ const getPillarVariant = (score?: number): "success" | "warning" | "neutral" => 
   return "neutral";
 };
 
-export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTableProps) {
+export function ReportsTable({ reports, onRowClick, selectedIds, onSelectionChange, className = "" }: ReportsTableProps) {
   const [sortColumn, setSortColumn] = React.useState<string | null>(null);
   const [sortDirection, setSortDirection] = React.useState<"up" | "down">("up");
 
@@ -52,11 +94,24 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
     }
   };
 
+  const handleCheckboxChange = (id: string) => {
+    if (!onSelectionChange) return;
+    const isSelected = selectedIds?.has(id) ?? false;
+    onSelectionChange(id, !isSelected);
+  };
+
   return (
     <div className={`bg-theme-card border border-theme-primary rounded-[12px] overflow-hidden w-full ${className}`}>
       <div className="flex flex-col w-full">
         {/* Header */}
         <div className="bg-theme-card flex items-start border-b border-theme-primary w-full">
+          {/* Checkbox column */}
+          <div className="flex flex-col w-[52px]">
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
+              {/* Empty header for checkbox column */}
+            </div>
+          </div>
+
           {/* Report ID */}
           <div className="flex flex-col w-[196px]">
             <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
@@ -139,6 +194,7 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
         {reports.map((report, index) => {
           const isEven = index % 2 === 0;
           const bgClass = isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card";
+          const isSelected = selectedIds?.has(report.id) ?? false;
 
           return (
             <div
@@ -146,6 +202,14 @@ export function ReportsTable({ reports, onRowClick, className = "" }: ReportsTab
               className={`${bgClass} flex items-start border-b border-theme-primary cursor-pointer hover:bg-theme-hover transition-colors w-full`}
               onClick={() => onRowClick?.(report)}
             >
+              {/* Checkbox */}
+              <div className="w-[52px] flex gap-3 h-18 items-center justify-center px-6 py-4">
+                <Checkbox
+                  checked={isSelected}
+                  onChange={() => handleCheckboxChange(report.id)}
+                />
+              </div>
+
               {/* Report ID */}
               <div className="w-[196px] flex gap-3 h-18 items-center px-6 py-4">
                 <p className="font-medium text-[14px] leading-[20px] text-theme-primary">{report.id}</p>
