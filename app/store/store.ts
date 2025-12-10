@@ -8,6 +8,62 @@ import {
 } from "./slices";
 
 /**
+ * Storage key for persisted Redux state
+ */
+const REDUX_STORAGE_KEY = "rl_portal_redux_state";
+
+/**
+ * Load persisted state from localStorage
+ * Only loads data slices, not app state
+ */
+function loadPersistedState(): Partial<RootState> | undefined {
+  if (typeof window === "undefined") {
+    return undefined;
+  }
+  
+  try {
+    const serializedState = localStorage.getItem(REDUX_STORAGE_KEY);
+    if (serializedState === null) {
+      return undefined;
+    }
+    const parsed = JSON.parse(serializedState);
+    // Return only the persisted data slices
+    return {
+      policies: parsed.policies,
+      chatbots: parsed.chatbots,
+      reports: parsed.reports,
+      simulations: parsed.simulations,
+    };
+  } catch (err) {
+    console.warn("Failed to load persisted Redux state:", err);
+    return undefined;
+  }
+}
+
+/**
+ * Save state to localStorage
+ * Only persists data slices, not app state
+ */
+function saveState(state: RootState): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+  
+  try {
+    const stateToPersist = {
+      policies: state.policies,
+      chatbots: state.chatbots,
+      reports: state.reports,
+      simulations: state.simulations,
+    };
+    const serializedState = JSON.stringify(stateToPersist);
+    localStorage.setItem(REDUX_STORAGE_KEY, serializedState);
+  } catch (err) {
+    console.warn("Failed to save Redux state:", err);
+  }
+}
+
+/**
  * Root reducer combining all slice reducers
  * Add new reducers here as they are created
  */
@@ -27,10 +83,14 @@ const rootReducer = combineReducers({
  * - Middleware includes redux-thunk by default
  * - DevTools enabled in development
  * - Proper TypeScript typing
+ * - Persistence to localStorage for data slices
  */
 export const makeStore = () => {
-  return configureStore({
+  const persistedState = loadPersistedState();
+  
+  const store = configureStore({
     reducer: rootReducer,
+    preloadedState: persistedState,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         // Customize serialization check if needed
@@ -42,6 +102,13 @@ export const makeStore = () => {
       }),
     devTools: process.env.NODE_ENV !== "production",
   });
+  
+  // Subscribe to store changes and persist to localStorage
+  store.subscribe(() => {
+    saveState(store.getState());
+  });
+  
+  return store;
 };
 
 // Create store instance
