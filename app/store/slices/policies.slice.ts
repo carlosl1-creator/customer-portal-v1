@@ -24,8 +24,44 @@ interface PoliciesState {
   error: string | null;
 }
 
+/**
+ * Initial mock policies for development/demo purposes
+ */
+const mockPolicies: Policy[] = [
+  {
+    id: "a1b2c3d4-5678-90ab-cdef-111111111111",
+    name: "Content Moderation Policy",
+    version: "1.2.0",
+    policy_text_md: "# Content Moderation Policy\n\nThis policy governs the moderation of user-generated content to ensure safety and compliance.\n\n## Guidelines\n\n- No harmful or abusive content\n- Respect intellectual property rights\n- Maintain community standards",
+    reports: 42,
+    created_at: "2025-01-15T09:30:00.000Z",
+    updated_at: "2025-11-20T14:45:00.000Z",
+    policy_categories: "safety,compliance,content",
+  },
+  {
+    id: "b2c3d4e5-6789-01bc-def0-222222222222",
+    name: "Data Privacy Policy",
+    version: "2.0.1",
+    policy_text_md: "# Data Privacy Policy\n\nThis policy outlines how user data is collected, stored, and processed.\n\n## Principles\n\n- Data minimization\n- Purpose limitation\n- User consent required\n- Right to deletion",
+    reports: 18,
+    created_at: "2025-03-01T11:00:00.000Z",
+    updated_at: "2025-10-05T16:20:00.000Z",
+    policy_categories: "privacy,data,compliance",
+  },
+  {
+    id: "c3d4e5f6-7890-12cd-ef01-333333333333",
+    name: "AI Safety Guidelines",
+    version: "0.9.5",
+    policy_text_md: "# AI Safety Guidelines\n\nGuidelines for ensuring safe and responsible AI behavior.\n\n## Core Principles\n\n- Prevent harmful outputs\n- Maintain transparency\n- Avoid bias and discrimination\n- Human oversight required",
+    reports: 87,
+    created_at: "2025-06-10T08:15:00.000Z",
+    updated_at: "2025-12-01T10:30:00.000Z",
+    policy_categories: "ai,safety,ethics",
+  },
+];
+
 const initialState: PoliciesState = {
-  policies: [],
+  policies: mockPolicies,
   selectedPolicyId: null,
   isLoading: false,
   error: null,

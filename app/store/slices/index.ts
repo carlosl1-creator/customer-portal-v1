@@ -9,3 +9,6 @@ export * from "./app.slice";
 export { default as policiesReducer } from "./policies.slice";
 export * from "./policies.slice";
 
+export { default as chatbotsReducer } from "./chatbots.slice";
+export * from "./chatbots.slice";
+
