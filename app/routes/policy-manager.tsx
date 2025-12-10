@@ -1,12 +1,64 @@
 import type { Route } from "./+types/policy-manager";
+import { useMemo } from "react";
 import { useNavigate } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
-import { PoliciesTable, type Policy } from "~/components/tables/policies-table/policies-table";
+import { PoliciesTable, type Policy, type PolicyStatus } from "~/components/tables/policies-table/policies-table";
 import { PlusIcon, GoogleDriveIcon, ConfluenceIcon, NotionIcon } from "~/components/icons/icons";
-import { MOCK_POLICIES } from "~/mocks";
+import {
+  useAppSelector,
+  useAppDispatch,
+  selectAllPolicies,
+  removePolicy,
+  type Policy as ReduxPolicy,
+} from "~/store";
 import { ROUTES } from "~/constants/routes";
 import { logger } from "~/utils/logger";
 
+/**
+ * Transform Redux Policy to PoliciesTable Policy format
+ */
+function transformPolicyForTable(
+  policy: ReduxPolicy,
+  index: number,
+  allPolicies: ReduxPolicy[]
+): Policy {
+  // Format date from ISO to readable format
+  const formatDate = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  };
+
+  // Determine status based on policy position and reports
+  const determineStatus = (): PolicyStatus => {
+    // Sort by updated_at to find the most recent
+    const sortedByDate = [...allPolicies].sort(
+      (a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+    );
+    
+    // Most recently updated policy is "active"
+    if (sortedByDate[0]?.id === policy.id) {
+      return "active";
+    }
+    
+    // Policies with 0 reports are "draft"
+    if (policy.reports === 0) {
+      return "draft";
+    }
+    
+    // All others are "archive"
+    return "archive";
+  };
+
+  return {
+    id: policy.id,
+    name: policy.name,
+    version: policy.version,
+    created: formatDate(policy.created_at),
+    status: determineStatus(),
+    reports: policy.reports,
+    content: policy.policy_text_md,
+  };
+}
 
 export function meta({ }: Route.MetaArgs) {
   return [
@@ -17,9 +69,16 @@ export function meta({ }: Route.MetaArgs) {
 
 export default function PolicyManager() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  // In production, this would come from API calls or state management
-  const policies = MOCK_POLICIES;
+  // Get policies from Redux store
+  const reduxPolicies = useAppSelector(selectAllPolicies);
+
+  // Transform Redux policies to table format
+  const policies: Policy[] = useMemo(() => 
+    reduxPolicies.map((policy, index) => transformPolicyForTable(policy, index, reduxPolicies)),
+    [reduxPolicies]
+  );
 
   const handleAddNewPolicy = () => {
     navigate(ROUTES.ADD_NEW_POLICY);
@@ -48,7 +107,8 @@ export default function PolicyManager() {
 
   const handleDelete = (policy: Policy) => {
     logger.debug("Delete policy:", policy);
-    // TODO: Implement delete policy functionality
+    // Dispatch removePolicy action to Redux store
+    dispatch(removePolicy(policy.id));
   };
 
   const headerButtons: HeaderButton[] = [
