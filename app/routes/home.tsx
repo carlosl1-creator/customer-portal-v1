@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import { Welcome } from "../welcome/welcome";
 import { Dashboard } from "~/components/dashboard/dashboard";
 import { hasVisited, markAsVisited } from "~/utils/storage";
+import { useLocalStorage } from "~/hooks/use-local-storage";
+import { STORAGE_KEYS } from "~/constants/storage-keys";
 import { ROUTES } from "~/constants/routes";
 import { logger } from "~/utils/logger";
 
@@ -17,6 +19,7 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const navigate = useNavigate();
   const [isFirstLogin, setIsFirstLogin] = useState<boolean | null>(null);
+  const [userName] = useLocalStorage<string>(STORAGE_KEYS.USER_NAME, "");
 
   useEffect(() => {
     // Check if user has visited before
@@ -51,6 +54,7 @@ export default function Home() {
   // Show Dashboard for returning users
   return (
     <Dashboard
+      userName={userName || "User"}
       onCreateReport={handleCreateReport}
       onCompareReports={() => navigate(ROUTES.COMPARE_REPORTS)}
       onReportClick={handleReportClick}

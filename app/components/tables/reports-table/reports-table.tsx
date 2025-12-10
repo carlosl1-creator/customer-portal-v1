@@ -21,6 +21,7 @@ export interface ReportsTableProps {
   selectedIds?: Set<string>;
   onSelectionChange?: (id: string, selected: boolean) => void;
   className?: string;
+  itemsPerPage?: number;
 }
 
 const Checkbox = ({ 
@@ -81,9 +82,21 @@ const getPillarVariant = (score?: number): "success" | "warning" | "neutral" => 
   return "neutral";
 };
 
-export function ReportsTable({ reports, onRowClick, selectedIds, onSelectionChange, className = "" }: ReportsTableProps) {
+export function ReportsTable({ reports, onRowClick, selectedIds, onSelectionChange, className = "", itemsPerPage = 5 }: ReportsTableProps) {
   const [sortColumn, setSortColumn] = React.useState<string | null>(null);
   const [sortDirection, setSortDirection] = React.useState<"up" | "down">("up");
+  const [currentPage, setCurrentPage] = React.useState(1);
+
+  // Calculate pagination
+  const totalPages = Math.ceil(reports.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedReports = reports.slice(startIndex, endIndex);
+
+  // Reset to page 1 when reports change
+  React.useEffect(() => {
+    setCurrentPage(1);
+  }, [reports.length]);
 
   const handleSort = (column: string) => {
     if (sortColumn === column) {
@@ -99,6 +112,17 @@ export function ReportsTable({ reports, onRowClick, selectedIds, onSelectionChan
     const isSelected = selectedIds?.has(id) ?? false;
     onSelectionChange(id, !isSelected);
   };
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const canGoPrevious = currentPage > 1;
+  const canGoNext = currentPage < totalPages;
 
   return (
     <div className={`bg-theme-card border border-theme-primary rounded-[12px] overflow-hidden w-full ${className}`}>
@@ -191,7 +215,7 @@ export function ReportsTable({ reports, onRowClick, selectedIds, onSelectionChan
         </div>
 
         {/* Rows */}
-        {reports.map((report, index) => {
+        {paginatedReports.map((report, index) => {
           const isEven = index % 2 === 0;
           const bgClass = isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card";
           const isSelected = selectedIds?.has(report.id) ?? false;
@@ -317,14 +341,28 @@ export function ReportsTable({ reports, onRowClick, selectedIds, onSelectionChan
       {/* Pagination */}
       <div className="border-t border-theme-primary flex items-center justify-between px-6 py-3 w-full">
         <div className="flex gap-3 items-start">
-          <button className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
-            <p className="font-semibold text-[14px] leading-[20px] text-theme-muted">Previous</p>
+          <button 
+            className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity disabled:cursor-not-allowed"
+            onClick={handlePreviousPage}
+            disabled={!canGoPrevious}
+          >
+            <p className={`font-semibold text-[14px] leading-[20px] ${canGoPrevious ? "text-theme-secondary" : "text-theme-muted"}`}>
+              Previous
+            </p>
           </button>
-          <button className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
-            <p className="font-semibold text-[14px] leading-[20px] text-theme-secondary">Next</p>
+          <button 
+            className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity disabled:cursor-not-allowed"
+            onClick={handleNextPage}
+            disabled={!canGoNext}
+          >
+            <p className={`font-semibold text-[14px] leading-[20px] ${canGoNext ? "text-theme-secondary" : "text-theme-muted"}`}>
+              Next
+            </p>
           </button>
         </div>
-        <p className="font-medium text-[14px] leading-[20px] text-theme-secondary">Page 1 of 10</p>
+        <p className="font-medium text-[14px] leading-[20px] text-theme-secondary">
+          Page {currentPage} of {totalPages || 1}
+        </p>
       </div>
     </div>
   );

@@ -1,43 +1,171 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Button } from "~/components/button/button";
 import { PlusIcon, CompareIcon } from "~/components/icons/icons";
 import { RatingCard } from "~/components/cards/rating-card/rating-card";
 import { PillarScoreCard } from "~/components/cards/pillar-score-card/pillar-score-card";
 import { ReportsFilterBar } from "~/components/filters/reports-filter-bar/reports-filter-bar";
 import { ReportsTable } from "~/components/tables/reports-table/reports-table";
-import type { Report } from "~/components/tables/reports-table/reports-table";
+import type { Report as TableReport } from "~/components/tables/reports-table/reports-table";
 import {
-  MOCK_REPORTS,
-  MOCK_OVERALL_READINESS,
-  MOCK_PILLAR_I_CARD,
-  MOCK_PILLAR_II_CARD,
-  MOCK_PILLAR_I_BAR_DATA,
-  MOCK_PILLAR_II_BAR_DATA,
-} from "~/mocks";
+  useAppSelector,
+  selectAllReports,
+  selectCompletedReports,
+  type Report as ReduxReport,
+} from "~/store";
 import { logger } from "~/utils/logger";
+
+/**
+ * Transform Redux Report to ReportsTable Report format
+ */
+function transformReportForTable(report: ReduxReport, index: number, allReports: ReduxReport[]): TableReport {
+  // Format date from ISO to readable format
+  const formatDate = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  };
+
+  // Map Redux status to table status
+  const mapStatus = (status: string): "completed" | "processing" | "churned" => {
+    switch (status) {
+      case "completed":
+        return "completed";
+      case "running":
+      case "pending":
+        return "processing";
+      case "failed":
+        return "churned";
+      default:
+        return "churned";
+    }
+  };
+
+  // Convert 0-100 score to 0-5 scale
+  const convertScore = (score: number): number => {
+    return Number(((score / 100) * 5).toFixed(1));
+  };
+
+  // Calculate ASR trend by comparing with previous report (if exists)
+  const calculateAsrTrend = (): "up" | "down" | "neutral" | undefined => {
+    if (report.status !== "completed") return undefined;
+    
+    // Find previous completed report for same chatbot/policy combo
+    const previousReport = allReports
+      .filter(r => 
+        r.id !== report.id && 
+        r.status === "completed" &&
+        r.chatbot_name === report.chatbot_name &&
+        new Date(r.created_at) < new Date(report.created_at)
+      )
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
+
+    if (!previousReport) return "neutral";
+    
+    const currentAsr = report.attack_success_rate.weighted_asr;
+    const previousAsr = previousReport.attack_success_rate.weighted_asr;
+    
+    if (currentAsr < previousAsr) return "up"; // Lower ASR is better
+    if (currentAsr > previousAsr) return "down";
+    return "neutral";
+  };
+
+  const isCompleted = report.status === "completed";
+
+  return {
+    id: report.id.split("-")[0], // Shorter ID for display
+    botVersion: `${report.chatbot_name} ${report.chatbot_version}`,
+    policyVersion: `${report.policy_name} ${report.policy_version}`,
+    created: formatDate(report.created_at),
+    status: mapStatus(report.status),
+    overallReadiness: isCompleted ? convertScore(report.readiness_score) : undefined,
+    pillarI: isCompleted ? convertScore(report.p1.p1_score) : undefined,
+    pillarII: isCompleted ? convertScore(report.p2.p2_score) : undefined,
+    asr: isCompleted ? report.attack_success_rate.weighted_asr : undefined,
+    asrTrend: calculateAsrTrend(),
+  };
+}
 
 export interface DashboardProps {
   userName?: string;
-  lastReportDate?: string;
-  lastReportBot?: string;
-  lastReportPolicy?: string;
   onCreateReport?: () => void;
   onCompareReports?: () => void;
-  onReportClick?: (report: Report) => void;
+  onReportClick?: (report: TableReport) => void;
 }
 
 export function Dashboard({
-  userName = "John Doe",
-  lastReportDate = "8/3/2025",
-  lastReportBot = "Chatbot Model 2.1",
-  lastReportPolicy = "Acme Inc. Content Policy 4.2",
+  userName = "User",
   onCreateReport,
   onCompareReports,
   onReportClick,
 }: DashboardProps) {
-  // In production, this would come from props or a data fetching hook
-  const reports = MOCK_REPORTS;
+  // Get reports from Redux store
+  const reduxReports = useAppSelector(selectAllReports);
+  const completedReports = useAppSelector(selectCompletedReports);
+  
   const [selectedReportIds, setSelectedReportIds] = useState<Set<string>>(new Set());
+
+  // Transform Redux reports to table format
+  const tableReports = useMemo(() => 
+    reduxReports.map((report, index) => transformReportForTable(report, index, reduxReports)),
+    [reduxReports]
+  );
+
+  // Get the most recent completed report for the "Last Report" section
+  const lastReport = useMemo(() => {
+    if (completedReports.length === 0) return null;
+    return [...completedReports].sort(
+      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    )[0];
+  }, [completedReports]);
+
+  // Format last report date
+  const lastReportDate = lastReport 
+    ? new Date(lastReport.created_at).toLocaleDateString("en-US", { 
+        month: "numeric", 
+        day: "numeric", 
+        year: "numeric" 
+      })
+    : "-";
+
+  // Last report details
+  const lastReportBot = lastReport 
+    ? `${lastReport.chatbot_name} ${lastReport.chatbot_version}` 
+    : "-";
+  const lastReportPolicy = lastReport 
+    ? `${lastReport.policy_name} ${lastReport.policy_version}` 
+    : "-";
+
+  // Pillar bar data derived from last report
+  const pillarIBarData = useMemo(() => [
+    { 
+      label: "Your Model", 
+      value: lastReport ? Math.round(lastReport.p1.p1_score * 1.2) : 0, 
+      color: "#B2DDFF", 
+      borderColor: "#1570EF" 
+    },
+    { label: "Industry Avg", value: 85, color: "#A6F4C5", borderColor: "#039855" },
+    { label: "Top Performer", value: 98, color: "#FEDF89", borderColor: "#DC6803" },
+  ], [lastReport]);
+
+  const pillarIIBarData = useMemo(() => [
+    { 
+      label: "Your Model", 
+      value: lastReport ? Math.round(lastReport.p2.p2_score * 1.2) : 0, 
+      color: lastReport && lastReport.p2.p2_score < 80 ? "#FEDF89" : "#B2DDFF", 
+      borderColor: lastReport && lastReport.p2.p2_score < 80 ? "#DC6803" : "#1570EF" 
+    },
+    { label: "Industry Avg", value: 78, color: "#B2DDFF", borderColor: "#1570EF" },
+    { label: "Top Performer", value: 95, color: "#A6F4C5", borderColor: "#039855" },
+  ], [lastReport]);
+
+  // Convert 0-100 to 0-5 scale for display
+  const convertToFiveScale = (score: number) => Number(((score / 100) * 5).toFixed(1));
+
+  // Determine pillar status
+  const getPillarStatus = (score: number): "success" | "warning" | "locked" => {
+    if (score >= 85) return "success";
+    if (score >= 70) return "warning";
+    return "warning"; // Use warning for low scores as "locked" has different meaning
+  };
 
   const handleReportSelection = (id: string, selected: boolean) => {
     const newSet = new Set(selectedReportIds);
@@ -104,10 +232,10 @@ export function Dashboard({
           {/* Overall Readiness */}
           <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
             <RatingCard
-              title={MOCK_OVERALL_READINESS.title}
-              subtitle={MOCK_OVERALL_READINESS.subtitle}
-              rating={MOCK_OVERALL_READINESS.rating}
-              description={MOCK_OVERALL_READINESS.description}
+              title="Overall Readiness"
+              subtitle=""
+              rating={lastReport ? convertToFiveScale(lastReport.readiness_score) : 0}
+              description={lastReport?.readiness_text || "No completed reports yet."}
               className="flex-1 w-full h-full"
             />
           </div>
@@ -115,11 +243,11 @@ export function Dashboard({
           {/* Pillar I Score */}
           <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
             <PillarScoreCard
-              title={MOCK_PILLAR_I_CARD.title}
-              subtitle={MOCK_PILLAR_I_CARD.subtitle}
-              score={MOCK_PILLAR_I_CARD.score}
-              status={MOCK_PILLAR_I_CARD.status}
-              barData={MOCK_PILLAR_I_BAR_DATA}
+              title="Pillar I Score"
+              subtitle={lastReport?.p1.p1_text || "Aggregated score across safety, security, and fraud."}
+              score={lastReport ? convertToFiveScale(lastReport.p1.p1_score) : 0}
+              status={lastReport ? getPillarStatus(lastReport.p1.p1_score) : "warning"}
+              barData={pillarIBarData}
               className="flex-1 w-full h-full"
             />
           </div>
@@ -127,11 +255,11 @@ export function Dashboard({
           {/* Pillar II Score */}
           <div className="flex flex-[1_0_0] flex-row items-center self-stretch">
             <PillarScoreCard
-              title={MOCK_PILLAR_II_CARD.title}
-              subtitle={MOCK_PILLAR_II_CARD.subtitle}
-              score={MOCK_PILLAR_II_CARD.score}
-              status={MOCK_PILLAR_II_CARD.status}
-              barData={MOCK_PILLAR_II_BAR_DATA}
+              title="Pillar II Score"
+              subtitle={lastReport?.p2.p2_text || "Focused score on brand value and correctness."}
+              score={lastReport ? convertToFiveScale(lastReport.p2.p2_score) : 0}
+              status={lastReport ? getPillarStatus(lastReport.p2.p2_score) : "warning"}
+              barData={pillarIIBarData}
               className="flex-1 w-full h-full"
             />
           </div>
@@ -159,7 +287,7 @@ export function Dashboard({
 
         {/* Reports Table */}
         <ReportsTable 
-          reports={reports} 
+          reports={tableReports} 
           onRowClick={onReportClick}
           selectedIds={selectedReportIds}
           onSelectionChange={handleReportSelection}
