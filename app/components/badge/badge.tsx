@@ -1,6 +1,6 @@
 import React from "react";
 
-export type BadgeVariant = "success" | "warning" | "neutral" | "info" | "active" | "draft" | "archive";
+export type BadgeVariant = "success" | "warning" | "danger" | "neutral" | "info" | "active" | "draft" | "archive";
 
 export interface BadgeProps {
   children: React.ReactNode;
@@ -12,6 +12,7 @@ export interface BadgeProps {
 const variantClasses: Record<BadgeVariant, string> = {
   success: "bg-status-success text-status-success",
   warning: "bg-status-warning text-status-warning",
+  danger: "bg-status-error text-status-error",
   neutral: "bg-[var(--color-badge-default-bg)] text-[var(--color-badge-default-text)]",
   info: "bg-status-info text-status-info",
   active: "bg-status-info text-[var(--color-primary)]",

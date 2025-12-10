@@ -17,8 +17,8 @@ export interface CategoriesTableProps {
   className?: string;
 }
 
-const priorityVariants: Record<Priority, "warning" | "success" | "neutral"> = {
-  high: "warning",
+const priorityVariants: Record<Priority, "danger" | "warning" | "success"> = {
+  high: "danger",
   medium: "warning", 
   low: "success",
 };
