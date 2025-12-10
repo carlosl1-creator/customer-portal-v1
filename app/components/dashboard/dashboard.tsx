@@ -152,7 +152,7 @@ export function Dashboard({
           dateRange="Jan 6, 2022 – Jan 13, 2022"
           policies={["Policy 3.0", "Policy 3.1"]}
           onDateRangeChange={(startDate, endDate) => logger.debug("Date range changed:", startDate, endDate)}
-          onPolicyRemove={(policy) => logger.debug("Policy removed:", policy)}
+          onPoliciesClear={() => logger.debug("Policies cleared")}
           onMoreFiltersClick={() => logger.debug("More filters clicked")}
           onSearchChange={(value) => logger.debug("Search changed:", value)}
         />

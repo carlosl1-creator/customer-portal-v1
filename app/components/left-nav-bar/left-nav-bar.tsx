@@ -68,7 +68,7 @@ export function LeftNavBar({
       <div className="flex flex-col gap-8 items-start w-full">
         {/* Logo */}
         <div
-          className={`flex ${isExpanded ? "flex-col gap-3 w-full" : "w-full"}`}
+          className={`flex ${isExpanded ? "flex-col gap-3 w-full" : "w-full"} ml-1`}
         >
           {logoIcon && (
             <button

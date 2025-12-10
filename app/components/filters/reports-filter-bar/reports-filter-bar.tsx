@@ -5,7 +5,7 @@ export interface ReportsFilterBarProps {
   dateRange?: string;
   policies?: string[];
   onDateRangeChange?: (startDate: string, endDate: string) => void;
-  onPolicyRemove?: (policy: string) => void;
+  onPoliciesClear?: () => void;
   onMoreFiltersClick?: () => void;
   onSearchChange?: (value: string) => void;
   className?: string;
@@ -32,11 +32,13 @@ const presetRanges = [
   { label: "Last year", days: 365 },
 ];
 
+const MAX_VISIBLE_POLICIES = 2;
+
 export function ReportsFilterBar({
   dateRange = "Jan 6, 2022 – Jan 13, 2022",
   policies = [],
   onDateRangeChange,
-  onPolicyRemove,
+  onPoliciesClear,
   onMoreFiltersClick,
   onSearchChange,
   className = "",
@@ -97,6 +99,71 @@ export function ReportsFilterBar({
     setEndDate("");
   };
 
+  const renderDateRangePicker = () => {
+    if (!isDatePickerOpen) return null;
+
+    return (
+      <div className="absolute top-full left-0 mt-2 bg-[var(--color-bg-card)] border border-[var(--color-border-primary)] rounded-lg shadow-lg z-20 p-4 min-w-[320px]">
+        {/* Preset Ranges */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {presetRanges.map((preset) => (
+            <button
+              key={preset.label}
+              onClick={() => handlePresetClick(preset.days)}
+              className="bg-[var(--color-bg-muted)] border border-[var(--color-border-primary)] rounded-md px-3 py-1.5 text-[12px] font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-hover)] transition-colors"
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Date Inputs */}
+        <div className="flex gap-3 items-center mb-4">
+          <div className="flex-1">
+            <label className="block text-[12px] font-medium text-[var(--color-text-secondary)] mb-1">
+              Start Date
+            </label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-full bg-[var(--color-bg-input)] border border-[var(--color-border-primary)] rounded-md px-3 py-2 text-[14px] text-[var(--color-text-primary)] outline-none focus:border-[var(--color-primary)]"
+            />
+          </div>
+          <span className="text-[var(--color-text-muted)] mt-5">–</span>
+          <div className="flex-1">
+            <label className="block text-[12px] font-medium text-[var(--color-text-secondary)] mb-1">
+              End Date
+            </label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-full bg-[var(--color-bg-input)] border border-[var(--color-border-primary)] rounded-md px-3 py-2 text-[14px] text-[var(--color-text-primary)] outline-none focus:border-[var(--color-primary)]"
+            />
+          </div>
+        </div>
+
+        {/* Actions */}
+        <div className="flex gap-2 justify-end">
+          <button
+            onClick={handleClear}
+            className="px-4 py-2 text-[14px] font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
+          >
+            Clear
+          </button>
+          <button
+            onClick={handleApply}
+            disabled={!startDate || !endDate}
+            className="px-4 py-2 bg-[var(--color-text-primary)] text-[var(--color-text-inverted)] rounded-md text-[14px] font-medium hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Apply
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className={`flex gap-4 items-start ${className}`}>
       {/* Filters */}
@@ -111,87 +178,28 @@ export function ReportsFilterBar({
             <p className="font-medium text-[14px] leading-[20px] text-[var(--color-badge-default-text)]">{displayRange}</p>
           </button>
 
-          {/* Date Range Picker Dropdown */}
-          {isDatePickerOpen && (
-            <div className="absolute top-full left-0 mt-2 bg-[var(--color-bg-card)] border border-[var(--color-border-primary)] rounded-lg shadow-lg z-20 p-4 min-w-[320px]">
-              {/* Preset Ranges */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                {presetRanges.map((preset) => (
-                  <button
-                    key={preset.label}
-                    onClick={() => handlePresetClick(preset.days)}
-                    className="bg-[var(--color-bg-muted)] border border-[var(--color-border-primary)] rounded-md px-3 py-1.5 text-[12px] font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-hover)] transition-colors"
-                  >
-                    {preset.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Date Inputs */}
-              <div className="flex gap-3 items-center mb-4">
-                <div className="flex-1">
-                  <label className="block text-[12px] font-medium text-[var(--color-text-secondary)] mb-1">
-                    Start Date
-                  </label>
-                  <input
-                    type="date"
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className="w-full bg-[var(--color-bg-input)] border border-[var(--color-border-primary)] rounded-md px-3 py-2 text-[14px] text-[var(--color-text-primary)] outline-none focus:border-[var(--color-primary)]"
-                  />
-                </div>
-                <span className="text-[var(--color-text-muted)] mt-5">–</span>
-                <div className="flex-1">
-                  <label className="block text-[12px] font-medium text-[var(--color-text-secondary)] mb-1">
-                    End Date
-                  </label>
-                  <input
-                    type="date"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className="w-full bg-[var(--color-bg-input)] border border-[var(--color-border-primary)] rounded-md px-3 py-2 text-[14px] text-[var(--color-text-primary)] outline-none focus:border-[var(--color-primary)]"
-                  />
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="flex gap-2 justify-end">
-                <button
-                  onClick={handleClear}
-                  className="px-4 py-2 text-[14px] font-medium text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors"
-                >
-                  Clear
-                </button>
-                <button
-                  onClick={handleApply}
-                  disabled={!startDate || !endDate}
-                  className="px-4 py-2 bg-[var(--color-text-primary)] text-[var(--color-text-inverted)] rounded-md text-[14px] font-medium hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Apply
-                </button>
-              </div>
-            </div>
-          )}
+          {renderDateRangePicker()}
         </div>
 
-        {/* Policy Tags */}
-        {policies.map((policy, index) => (
-          <div
-            key={index}
-            className="bg-[var(--color-bg-card)] border border-[var(--color-border-primary)] rounded-lg flex gap-2 items-center justify-center px-4 py-2.5 h-10"
-          >
-            <p className="font-medium text-[14px] leading-[20px] text-[var(--color-badge-default-text)]">{policy}</p>
+        {/* Policy Tags - Combined into single button */}
+        {policies.length > 0 && (
+          <div className="bg-[var(--color-bg-card)] border border-[var(--color-border-primary)] rounded-lg flex gap-2 items-center justify-center px-4 py-2.5 h-10 shadow-[0px_1px_2px_0px_rgba(10,13,18,0.05)]">
+            <p className="font-medium text-[14px] leading-[20px] text-[var(--color-badge-default-text)]">
+              {policies.length <= MAX_VISIBLE_POLICIES
+                ? policies.join(", ")
+                : `${policies.slice(0, MAX_VISIBLE_POLICIES).join(", ")}, +${policies.length - MAX_VISIBLE_POLICIES}`}
+            </p>
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                onPolicyRemove?.(policy);
+                onPoliciesClear?.();
               }}
               className="p-0 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
             >
               <XIcon className="w-5 h-5" stroke="var(--color-badge-default-text)" />
             </button>
           </div>
-        ))}
+        )}
 
         {/* More Filters */}
         <button
