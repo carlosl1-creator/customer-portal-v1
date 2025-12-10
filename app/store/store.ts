@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { appReducer } from "./slices";
+import { appReducer, policiesReducer } from "./slices";
 
 /**
  * Root reducer combining all slice reducers
@@ -7,6 +7,7 @@ import { appReducer } from "./slices";
  */
 const rootReducer = combineReducers({
   app: appReducer,
+  policies: policiesReducer,
 });
 
 /**

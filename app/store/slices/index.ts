@@ -6,3 +6,6 @@
 export { default as appReducer } from "./app.slice";
 export * from "./app.slice";
 
+export { default as policiesReducer } from "./policies.slice";
+export * from "./policies.slice";
+
