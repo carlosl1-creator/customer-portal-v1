@@ -206,9 +206,9 @@ function RadarChartPanel({
   });
 
   return (
-    <div className="border border-theme-primary rounded-xl p-6 flex flex-col justify-between h-[480px] min-w-[450px]">
+    <div className="border border-theme-primary rounded-xl p-6 flex flex-col justify-between flex-1 min-w-[380px]">
       {/* Header */}
-      <div className="flex items-start justify-between w-full">
+      <div className="flex items-start justify-between w-full shrink-0">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <span className="font-medium text-[16px] leading-[24px] text-theme-primary">
@@ -228,9 +228,13 @@ function RadarChartPanel({
         />
       </div>
 
-      {/* Radar Chart */}
-      <div className="flex items-center justify-center flex-1 w-full">
-        <svg width="400" height="380" viewBox="0 0 400 380">
+      {/* Radar Chart - responsive to container */}
+      <div className="flex items-center justify-center flex-1 w-full min-h-0">
+        <svg 
+          viewBox="0 0 400 380" 
+          className="w-full h-full max-w-[400px] max-h-[380px]"
+          preserveAspectRatio="xMidYMid meet"
+        >
           {gridCircles}
           {radarLines}
           <polygon
@@ -279,112 +283,122 @@ function CategoriesTablePanel({
   const currentCategories = categories.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
-    <div className="bg-theme-card border border-theme-primary rounded-xl overflow-hidden flex flex-col flex-1 h-[480px]">
+    <div className="bg-theme-card border border-theme-primary rounded-xl overflow-hidden flex flex-col flex-[1.2]">
       {/* Table */}
-      <div className="flex flex-1">
+      <div className="flex flex-1 min-h-0">
         {/* Category Column */}
-        <div className="flex flex-col min-w-[140px]">
-          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center">
+        <div className="flex flex-col flex-1 min-w-[120px]">
+          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center shrink-0">
             <TableHeader>Category</TableHeader>
           </div>
-          {currentCategories.map((cat, index) => (
-            <div
-              key={cat.id}
-              className={`h-[92px] px-6 py-4 flex items-center border-b border-theme-primary ${
-                index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
-              }`}
-            >
-              <span className="text-[14px] leading-[20px] text-theme-primary whitespace-nowrap">{cat.name}</span>
-            </div>
-          ))}
+          <div className="flex flex-col flex-1">
+            {currentCategories.map((cat, index) => (
+              <div
+                key={cat.id}
+                className={`flex-1 px-6 py-4 flex items-center border-b border-theme-primary min-h-[72px] ${
+                  index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
+                }`}
+              >
+                <span className="text-[14px] leading-[20px] text-theme-primary whitespace-nowrap">{cat.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Priority Column */}
-        <div className="flex flex-col min-w-[110px]">
-          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center">
+        <div className="flex flex-col min-w-[100px]">
+          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center shrink-0">
             <TableHeader showHelp>Priority</TableHeader>
           </div>
-          {currentCategories.map((cat, index) => (
-            <div
-              key={cat.id}
-              className={`h-[92px] px-6 py-4 flex items-center border-b border-theme-primary ${
-                index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
-              }`}
-            >
-              <DotBadge variant={PRIORITY_VARIANTS[cat.priority]}>
-                {capitalizeFirst(cat.priority)}
-              </DotBadge>
-            </div>
-          ))}
+          <div className="flex flex-col flex-1">
+            {currentCategories.map((cat, index) => (
+              <div
+                key={cat.id}
+                className={`flex-1 px-6 py-4 flex items-center border-b border-theme-primary min-h-[72px] ${
+                  index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
+                }`}
+              >
+                <DotBadge variant={PRIORITY_VARIANTS[cat.priority]}>
+                  {capitalizeFirst(cat.priority)}
+                </DotBadge>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* ASR Column */}
-        <div className="flex flex-col min-w-[100px]">
-          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center">
+        <div className="flex flex-col min-w-[90px]">
+          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center shrink-0">
             <TableHeader showHelp showSort>ASR</TableHeader>
           </div>
-          {currentCategories.map((cat, index) => (
-            <div
-              key={cat.id}
-              className={`h-[92px] px-6 py-4 flex flex-col gap-1 justify-center border-b border-theme-primary ${
-                index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
-              }`}
-            >
-              <DotBadge variant={getAsrVariant(cat.asrPercentage)}>
-                {cat.asrPercentage}%
-              </DotBadge>
-              <span className="text-[12px] leading-[18px] text-theme-muted whitespace-nowrap">
-                {cat.asrCount}
-              </span>
-            </div>
-          ))}
+          <div className="flex flex-col flex-1">
+            {currentCategories.map((cat, index) => (
+              <div
+                key={cat.id}
+                className={`flex-1 px-6 py-4 flex flex-col gap-1 justify-center border-b border-theme-primary min-h-[72px] ${
+                  index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
+                }`}
+              >
+                <DotBadge variant={getAsrVariant(cat.asrPercentage)}>
+                  {cat.asrPercentage}%
+                </DotBadge>
+                <span className="text-[12px] leading-[18px] text-theme-muted whitespace-nowrap">
+                  {cat.asrCount}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Chat and Turn Length Column */}
-        <div className="flex flex-col min-w-[170px]">
-          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center">
+        <div className="flex flex-col min-w-[150px]">
+          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center shrink-0">
             <TableHeader showHelp>Chat and Turn Length</TableHeader>
           </div>
-          {currentCategories.map((cat, index) => (
-            <div
-              key={cat.id}
-              className={`h-[92px] px-6 py-4 flex flex-col justify-center border-b border-theme-primary ${
-                index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
-              }`}
-            >
-              <span className="font-medium text-[14px] leading-[20px] text-theme-primary">
-                {cat.avgTurns.toFixed(2)}
-              </span>
-              <span className="text-[14px] leading-[20px] text-theme-secondary">
-                {cat.avgTurnLength.toFixed(2)}
-              </span>
-            </div>
-          ))}
+          <div className="flex flex-col flex-1">
+            {currentCategories.map((cat, index) => (
+              <div
+                key={cat.id}
+                className={`flex-1 px-6 py-4 flex flex-col justify-center border-b border-theme-primary min-h-[72px] ${
+                  index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
+                }`}
+              >
+                <span className="font-medium text-[14px] leading-[20px] text-theme-primary">
+                  {cat.avgTurns.toFixed(2)}
+                </span>
+                <span className="text-[14px] leading-[20px] text-theme-secondary">
+                  {cat.avgTurnLength.toFixed(2)}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Action Column */}
-        <div className="flex flex-col min-w-[60px]">
-          <div className="bg-theme-card border-b border-theme-primary h-[52px] w-[60px]" />
-          {currentCategories.map((cat, index) => (
-            <div
-              key={cat.id}
-              className={`h-[92px] p-4 flex items-center justify-center border-b border-theme-primary ${
-                index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
-              }`}
-            >
-              <button
-                onClick={() => onRowClick?.(cat)}
-                className="p-2.5 rounded-lg hover:bg-theme-tertiary transition-colors cursor-pointer bg-transparent border-0"
+        <div className="flex flex-col min-w-[56px]">
+          <div className="bg-theme-card border-b border-theme-primary h-[52px] shrink-0" />
+          <div className="flex flex-col flex-1">
+            {currentCategories.map((cat, index) => (
+              <div
+                key={cat.id}
+                className={`flex-1 p-4 flex items-center justify-center border-b border-theme-primary min-h-[72px] ${
+                  index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
+                }`}
               >
-                <ArrowUpRightIcon className="w-5 h-5 text-theme-secondary" />
-              </button>
-            </div>
-          ))}
+                <button
+                  onClick={() => onRowClick?.(cat)}
+                  className="p-2.5 rounded-lg hover:bg-theme-tertiary transition-colors cursor-pointer bg-transparent border-0"
+                >
+                  <ArrowUpRightIcon className="w-5 h-5 text-theme-secondary" />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Pagination */}
-      <div className="border-t border-theme-primary px-6 py-3 flex items-center justify-between">
+      <div className="border-t border-theme-primary px-6 py-3 flex items-center justify-between shrink-0 mt-auto">
         <div className="flex gap-3">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
@@ -428,9 +442,9 @@ export function CategoryDistributionContent({
   className = "",
 }: CategoryDistributionContentProps) {
   return (
-    <div className={`flex flex-col gap-6 ${className}`}>
+    <div className={`flex flex-col gap-6 h-full ${className}`}>
       {/* Header */}
-      <div className="flex flex-col gap-[18px]">
+      <div className="flex flex-col gap-[18px] shrink-0">
         <h2 className="font-semibold text-[30px] leading-[38px] text-theme-primary">
           {title}
         </h2>
@@ -439,8 +453,8 @@ export function CategoryDistributionContent({
         </p>
       </div>
 
-      {/* Content - Larger chart and table with proper gap */}
-      <div className="flex gap-4 items-stretch">
+      {/* Content - Responsive chart and table */}
+      <div className="flex gap-4 flex-1 min-h-[400px]">
         <RadarChartPanel
           title={chartTitle}
           subtitle={chartSubtitle}

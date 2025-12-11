@@ -96,7 +96,7 @@ export function Modal({
         )}
 
           {/* Scrollable Content */}
-          <div className={`flex-1 overflow-y-auto scrollbar-theme ${hideHeader ? "p-12 pt-8" : "px-12 py-6"}`}>
+          <div className={`flex-1 min-h-0 overflow-y-auto scrollbar-theme flex flex-col ${hideHeader ? "p-12 pt-8" : "px-12 py-6"}`}>
             {children}
           </div>
         </div>
