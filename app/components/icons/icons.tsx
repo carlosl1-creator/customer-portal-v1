@@ -386,14 +386,13 @@ export function LockIcon({ className = "w-4 h-4", stroke = "currentColor" }: { c
     <svg
       className={className}
       fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
+      viewBox="0 0 16 16"
       stroke={stroke}
     >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25z"
+        d="M4.66667 7.33301V4.66634C4.66667 3.78229 5.01786 2.93444 5.64298 2.30932C6.2681 1.6842 7.11595 1.33301 8 1.33301C8.88406 1.33301 9.7319 1.6842 10.357 2.30932C10.9821 2.93444 11.3333 3.78229 11.3333 4.66634V7.33301M3.33333 7.33301H12.6667C13.403 7.33301 14 7.92996 14 8.66634V13.333C14 14.0694 13.403 14.6663 12.6667 14.6663H3.33333C2.59695 14.6663 2 14.0694 2 13.333V8.66634C2 7.92996 2.59695 7.33301 3.33333 7.33301Z"
       />
     </svg>
   );
@@ -795,6 +794,42 @@ export function MoonIcon({ className = "w-5 h-5", stroke = "currentColor" }: { c
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M17.5 10.6583C17.3689 12.0768 16.8365 13.4287 15.9652 14.5557C15.0938 15.6826 13.9196 16.5382 12.5797 17.0221C11.2399 17.5061 9.78997 17.5984 8.39956 17.2884C7.00916 16.9784 5.73581 16.2788 4.7285 15.2715C3.72119 14.2642 3.0216 12.9908 2.71157 11.6004C2.40154 10.21 2.49391 8.76007 2.97786 7.42025C3.46182 6.08042 4.31734 4.90614 5.44432 4.03479C6.57131 3.16345 7.92314 2.63109 9.34165 2.5C8.51116 3.62356 8.11152 5.00787 8.21542 6.40118C8.31932 7.79448 8.91986 9.10422 9.90781 10.0922C10.8958 11.0801 12.2055 11.6807 13.5988 11.7846C14.9921 11.8885 16.3764 11.4888 17.5 10.6583Z"
+      />
+    </svg>
+  );
+}
+
+export function CheckIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4.5 12.75l6 6 9-13.5"
+      />
+    </svg>
+  );
+}
+
+export function WarningIcon({ className = "w-5 h-5", stroke = "currentColor" }: { className?: string; stroke?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={2.5}
+      stroke={stroke}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
       />
     </svg>
   );

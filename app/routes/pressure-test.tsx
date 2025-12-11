@@ -190,7 +190,6 @@ export default function PressureTest() {
                 { label: "SomeAI Model-5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
                 { label: "Other Model 4.5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
               ]}
-              onMaximizeClick={() => setOpenModal("pillarI")}
             />
             <PillarScoreCard
               title="Pillar II Score"
@@ -202,7 +201,6 @@ export default function PressureTest() {
                 { label: "SomeAI Model-5", value: 96, color: "#B2DDFF", borderColor: "#1570EF" },
                 { label: "Other Model 4.5", value: 120, color: "#A6F4C5", borderColor: "#039855" },
               ]}
-              onMaximizeClick={() => setOpenModal("pillarII")}
             />
             <PillarScoreCard
               title="Pillar III Score"
@@ -211,8 +209,6 @@ export default function PressureTest() {
               status="locked"
               isLocked={true}
               lockedMessage="Pillar III scores are coming Quarter 2026 and provide additional insights about model biases. Stay tuned!"
-              onLearnMore={() => console.log("Learn more clicked")}
-              onMaximizeClick={() => setOpenModal("pillarIII")}
             />
           </div>
         </div>
@@ -266,7 +262,6 @@ export default function PressureTest() {
                 },
               ]}
               onMaximizeClick={() => setOpenModal("foundVulnerabilities")}
-              onMenuClick={() => console.log("Menu clicked")}
             />
             <ConversationalStatisticsCard
               title="Conversation Statistics"
@@ -505,7 +500,6 @@ export default function PressureTest() {
           status="locked"
           isLocked={true}
           lockedMessage="Pillar III scores are coming Quarter 2026 and provide additional insights about model biases. Stay tuned!"
-          onLearnMore={() => console.log("Learn more clicked")}
         />
       </Modal>
 
@@ -558,7 +552,6 @@ export default function PressureTest() {
               ],
             },
           ]}
-          onMenuClick={() => console.log("Menu clicked")}
         />
       </Modal>
 
