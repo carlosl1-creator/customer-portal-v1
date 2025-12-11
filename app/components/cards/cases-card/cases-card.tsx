@@ -1,0 +1,89 @@
+import React from "react";
+import { MaximizeIcon } from "~/components/icons/icons";
+import { BubbleChart } from "~/components/charts/bubble-chart/bubble-chart";
+
+export interface Scenario {
+  label: string;
+  percentage: number;
+  color: string;
+}
+
+export interface CasesCardProps {
+  title: string;
+  subtitle: string;
+  totalCases: number;
+  scenarios: Scenario[];
+  onMaximizeClick?: () => void;
+  className?: string;
+}
+
+export function CasesCard({
+  title,
+  subtitle,
+  totalCases,
+  scenarios,
+  onMaximizeClick,
+  className = "",
+}: CasesCardProps) {
+  // Format number with commas
+  const formattedTotal = totalCases.toLocaleString('en-US');
+
+  // Prepare bubble data from scenarios
+  const bubbleData = scenarios.map((scenario) => ({
+    percentage: scenario.percentage,
+    color: scenario.color,
+  }));
+
+  return (
+    <div
+      className={`bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 h-full relative ${className}`}
+    >
+      {/* Title and subtitle */}
+      <div className="flex flex-col gap-1">
+        <h3 className="font-medium text-[16px] leading-[24px] text-theme-primary">
+          {title}
+        </h3>
+        <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
+          {subtitle}
+        </p>
+      </div>
+
+      {/* Body: Number, bubbles, and legend */}
+      <div className="flex gap-4 items-center w-full flex-1">
+        {/* Number and label */}
+        <div className="flex flex-col gap-2 flex-shrink-0">
+          <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
+            {formattedTotal}
+          </p>
+          <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">
+            Generated
+          </p>
+        </div>
+
+        {/* Bubbles and legend */}
+        <div className="flex flex-1 items-center justify-center gap-4">
+          {/* Bubble chart */}
+          <BubbleChart bubbles={bubbleData} />
+
+          {/* Legend */}
+          <div className="flex flex-col gap-0.5 justify-center">
+            {scenarios.map((scenario, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-1 py-0.5"
+              >
+                <div
+                  className="w-4 h-4 rounded-full flex-shrink-0"
+                  style={{ backgroundColor: scenario.color }}
+                />
+                <p className="font-normal text-[12px] leading-[18px] text-theme-secondary">
+                  {scenario.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

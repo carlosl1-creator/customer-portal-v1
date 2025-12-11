@@ -5,11 +5,251 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
+/* ============================================
+   DESIGN TOKENS - CSS Custom Properties
+   These variables define your color system.
+   Components should use these instead of hardcoded colors.
+   ============================================ */
+
+:root {
+  /* === Background Colors === */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-bg-tertiary: #f9fafb;
+  --color-bg-muted: #f3f4f6;
+  --color-bg-elevated: #ffffff;
+  --color-bg-sidebar: #f5f5f5;
+  --color-bg-sidebar-active: #dfdfdf;
+  --color-bg-card: #ffffff;
+  --color-bg-card-gradient-end: #f5f5f5;
+  --color-bg-input: #ffffff;
+  --color-bg-hover: rgba(0, 0, 0, 0.04);
+  --color-bg-overlay: rgba(0, 0, 0, 0.24);
+
+  /* === Text Colors === */
+  --color-text-primary: #181d27;
+  --color-text-secondary: #535862;
+  --color-text-tertiary: #717680;
+  --color-text-muted: #a4a7ae;
+  --color-text-inverted: #fdfdfd;
+  --color-text-link: #1570ef;
+
+  /* === Border Colors === */
+  --color-border-primary: #e9eaeb;
+  --color-border-secondary: #d5d7da;
+  --color-border-muted: #f0f0f0;
+  --color-border-focus: #1570ef;
+
+  /* === Interactive/Brand Colors === */
+  --color-primary: #1570ef;
+  --color-primary-hover: #1260cc;
+  --color-primary-light: #eff4ff;
+  
+  --color-success: #32d583;
+  --color-success-bg: #ecfdf3;
+  --color-success-text: #067647;
+  
+  --color-warning: #f79009;
+  --color-warning-bg: #fffaeb;
+  --color-warning-text: #b54708;
+  
+  --color-error: #f97066;
+  --color-error-bg: #fef3f2;
+  --color-error-text: #b42318;
+  
+  --color-info: #36bffa;
+  --color-info-bg: #f0f9ff;
+  --color-info-text: #026aa2;
+
+  /* === Component-specific tokens === */
+  --color-badge-default-bg: #f0f1f1;
+  --color-badge-default-text: #414651;
+  --color-table-header-bg: #fafafa;
+  --color-table-row-hover: #f9fafb;
+  --color-scrollbar-track: #f1f1f1;
+  --color-scrollbar-thumb: #c1c1c1;
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* === Chart Colors (semantic) === */
+  --color-chart-1: #1570ef;
+  --color-chart-2: #6941c6;
+  --color-chart-3: #32d583;
+  --color-chart-4: #f79009;
+  --color-chart-5: #f97066;
+
+  color-scheme: light;
+}
+
+/* ============================================
+   DARK MODE OVERRIDES
+   When .dark class is on html element,
+   these values replace the light mode values.
+   ============================================ */
+
+:root.dark {
+  /* === Background Colors === */
+  --color-bg-primary: #0d0d0d;
+  --color-bg-secondary: #131313;
+  --color-bg-tertiary: #1a1a1a;
+  --color-bg-muted: #1f1f1f;
+  --color-bg-elevated: #1a1a1a;
+  --color-bg-sidebar: #131313;
+  --color-bg-sidebar-active: #303030;
+  --color-bg-card: #1a1a1a;
+  --color-bg-card-gradient-end: #141414;
+  --color-bg-input: #1a1a1a;
+  --color-bg-hover: rgba(255, 255, 255, 0.06);
+  --color-bg-overlay: rgba(0, 0, 0, 0.6);
+
+  /* === Text Colors === */
+  --color-text-primary: #fdfdfd;
+  --color-text-secondary: #a4a7ae;
+  --color-text-tertiary: #717680;
+  --color-text-muted: #535862;
+  --color-text-inverted: #181d27;
+  --color-text-link: #60a5fa;
+
+  /* === Border Colors === */
+  --color-border-primary: #2a2a2a;
+  --color-border-secondary: #3a3a3a;
+  --color-border-muted: #252525;
+  --color-border-focus: #60a5fa;
+
+  /* === Interactive/Brand Colors === */
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-light: #1e3a5f;
+  
+  --color-success: #34d399;
+  --color-success-bg: #064e3b;
+  --color-success-text: #6ee7b7;
+  
+  --color-warning: #fbbf24;
+  --color-warning-bg: #713f12;
+  --color-warning-text: #fde68a;
+  
+  --color-error: #f87171;
+  --color-error-bg: #7f1d1d;
+  --color-error-text: #fca5a5;
+  
+  --color-info: #38bdf8;
+  --color-info-bg: #0c4a6e;
+  --color-info-text: #7dd3fc;
+
+  /* === Component-specific tokens === */
+  --color-badge-default-bg: #2a2a2a;
+  --color-badge-default-text: #d1d5db;
+  --color-table-header-bg: #1a1a1a;
+  --color-table-row-hover: #1f1f1f;
+  --color-scrollbar-track: #1a1a1a;
+  --color-scrollbar-thumb: #404040;
+
+  /* === Shadows (darker for dark mode) === */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+
+  /* === Chart Colors (brighter for dark mode) === */
+  --color-chart-1: #60a5fa;
+  --color-chart-2: #a78bfa;
+  --color-chart-3: #34d399;
+  --color-chart-4: #fbbf24;
+  --color-chart-5: #f87171;
+
+  color-scheme: dark;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+/* Smooth transition for theme changes */
+* {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.15s ease;
+}
+
+/* Disable transitions on page load to prevent flash */
+.no-transitions * {
+  transition: none !important;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   Use these in your components for theme-aware styling.
+   ============================================ */
+
+/* Backgrounds */
+.bg-theme-primary { background-color: var(--color-bg-primary); }
+.bg-theme-secondary { background-color: var(--color-bg-secondary); }
+.bg-theme-tertiary { background-color: var(--color-bg-tertiary); }
+.bg-theme-muted { background-color: var(--color-bg-muted); }
+.bg-theme-elevated { background-color: var(--color-bg-elevated); }
+.bg-theme-sidebar { background-color: var(--color-bg-sidebar); }
+.bg-theme-sidebar-active { background-color: var(--color-bg-sidebar-active); }
+.bg-theme-card { background-color: var(--color-bg-card); }
+.bg-theme-input { background-color: var(--color-bg-input); }
+.bg-theme-hover { background-color: var(--color-bg-hover); }
+
+/* Text */
+.text-theme-primary { color: var(--color-text-primary); }
+.text-theme-secondary { color: var(--color-text-secondary); }
+.text-theme-tertiary { color: var(--color-text-tertiary); }
+.text-theme-muted { color: var(--color-text-muted); }
+.text-theme-inverted { color: var(--color-text-inverted); }
+.text-theme-link { color: var(--color-text-link); }
+
+/* Borders */
+.border-theme-primary { border-color: var(--color-border-primary); }
+.border-theme-secondary { border-color: var(--color-border-secondary); }
+.border-theme-muted { border-color: var(--color-border-muted); }
+.border-theme-focus { border-color: var(--color-border-focus); }
+
+/* Interactive states */
+.hover\:bg-theme-hover:hover { background-color: var(--color-bg-hover); }
+
+/* Status colors */
+.bg-status-success { background-color: var(--color-success-bg); }
+.text-status-success { color: var(--color-success-text); }
+.bg-status-warning { background-color: var(--color-warning-bg); }
+.text-status-warning { color: var(--color-warning-text); }
+.bg-status-error { background-color: var(--color-error-bg); }
+.text-status-error { color: var(--color-error-text); }
+.bg-status-info { background-color: var(--color-info-bg); }
+.text-status-info { color: var(--color-info-text); }
+
+/* Focus ring */
+.focus-theme:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-bg-primary), 0 0 0 4px var(--color-border-focus);
+}
+
+/* Scrollbar styling */
+.scrollbar-theme::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-theme::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+  border-radius: 4px;
+}
+
+.scrollbar-theme::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb);
+  border-radius: 4px;
+}
+
+.scrollbar-theme::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
 }

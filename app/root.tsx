@@ -9,8 +9,14 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { GeometricBackground } from "./components/geometric-background";
+import { LeftNavBarExample } from "~/components/left-nav-bar/left-nav-bar-example";
+import { PageContainer } from "~/components/page-container/page-container";
+import { StoreProvider } from "~/store";
+import { ThemeProvider } from "~/utils/theme-context";
 
+/**
+ * External resource links (fonts, etc.)
+ */
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
@@ -24,6 +30,27 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+/**
+ * Main layout content with navigation and page container
+ */
+function LayoutContent({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <LeftNavBarExample />
+      <div className="flex-1 ml-[76px]">
+        <PageContainer>
+          <div className="flex-1">
+            {children}
+          </div>
+        </PageContainer>
+      </div>
+    </>
+  );
+}
+
+/**
+ * Root layout component
+ */
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
@@ -33,9 +60,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        <GeometricBackground />
-        {children}
+      <body className="flex">
+        <StoreProvider>
+          <ThemeProvider>
+            <LayoutContent>{children}</LayoutContent>
+          </ThemeProvider>
+        </StoreProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -43,10 +73,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * Main app component
+ */
 export default function App() {
   return <Outlet />;
 }
 
+/**
+ * Error boundary component for route errors
+ */
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   let message = "Oops!";
   let details = "An unexpected error occurred.";
@@ -65,10 +101,10 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
+      <h1 className="text-theme-primary">{message}</h1>
+      <p className="text-theme-secondary">{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+        <pre className="w-full p-4 overflow-x-auto bg-theme-muted text-theme-primary rounded-lg">
           <code>{stack}</code>
         </pre>
       )}
