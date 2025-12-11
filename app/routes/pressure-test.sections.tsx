@@ -28,19 +28,8 @@ import { Modal } from "~/components/modal/modal";
 import { CategoryDistributionContent } from "~/components/cards/category-distribution-content/category-distribution-content";
 
 import {
-  HEADER_CONFIG,
   TOP_INSIGHTS,
-  OVERALL_READINESS,
-  TOTAL_CASES,
-  PILLAR_SCORES,
-  FOUND_VULNERABILITIES,
-  CONVERSATIONAL_STATISTICS,
-  FILTER_OPTIONS,
-  TEST_CASES,
-  TOP_RISK_AREA,
   MODAL_CONFIG,
-  CATEGORY_DISTRIBUTION_RADAR,
-  CATEGORY_DISTRIBUTION_DATA,
   type ModalType,
 } from "./pressure-test.data";
 
@@ -61,6 +50,11 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 // ============================================================================
 
 interface PageHeaderProps {
+  headerConfig: {
+    pageName: string;
+    title: string;
+    infoText: string[];
+  };
   onSendToSlack: () => void;
   onLinkToJira: () => void;
   onDownloadReport: () => void;
@@ -69,6 +63,7 @@ interface PageHeaderProps {
 }
 
 export function PageHeader({
+  headerConfig,
   onSendToSlack,
   onLinkToJira,
   onDownloadReport,
@@ -77,9 +72,9 @@ export function PageHeader({
 }: PageHeaderProps) {
   return (
     <HeaderSection
-      pageName={HEADER_CONFIG.pageName}
-      title={HEADER_CONFIG.title}
-      infoText={[...HEADER_CONFIG.infoText]}
+      pageName={headerConfig.pageName}
+      title={headerConfig.title}
+      infoText={[...headerConfig.infoText]}
       buttons={[
         {
           icon: <SlackIcon className="w-5 h-5" />,
@@ -147,29 +142,45 @@ export function TopInsightsSection({ onThumbsUp, onThumbsDown }: TopInsightsSect
 // ============================================================================
 
 interface OverallReadinessSectionProps {
+  overallReadiness: {
+    title: string;
+    subtitle: string;
+    rating: number;
+    description: string;
+  };
+  totalCases: {
+    title: string;
+    subtitle: string;
+    totalCases: number;
+    scenarios: Array<{ label: string; percentage: number; color: string }>;
+  };
   onMaximizeCases: () => void;
 }
 
-export function OverallReadinessSection({ onMaximizeCases }: OverallReadinessSectionProps) {
+export function OverallReadinessSection({
+  overallReadiness,
+  totalCases,
+  onMaximizeCases
+}: OverallReadinessSectionProps) {
   return (
     <div className="px-8 mt-8">
       <div className="flex gap-[18px] items-stretch">
         <div className="flex-[0.7] min-w-0 flex">
           <RatingCard
-            title={OVERALL_READINESS.title}
-            subtitle={OVERALL_READINESS.subtitle}
-            rating={OVERALL_READINESS.rating}
-            description={OVERALL_READINESS.description}
+            title={overallReadiness.title}
+            subtitle={overallReadiness.subtitle}
+            rating={overallReadiness.rating}
+            description={overallReadiness.description}
             showMenu={false}
             className="flex-1"
           />
         </div>
         <div className="flex-[0.3] flex">
           <CasesCard
-            title={TOTAL_CASES.title}
-            subtitle={TOTAL_CASES.subtitle}
-            totalCases={TOTAL_CASES.totalCases}
-            scenarios={[...TOTAL_CASES.scenarios]}
+            title={totalCases.title}
+            subtitle={totalCases.subtitle}
+            totalCases={totalCases.totalCases}
+            scenarios={[...totalCases.scenarios]}
             onMaximizeClick={onMaximizeCases}
             className="flex-1"
           />
@@ -183,12 +194,25 @@ export function OverallReadinessSection({ onMaximizeCases }: OverallReadinessSec
 // Pillar Scores Section
 // ============================================================================
 
-export function PillarScoresSection() {
+interface PillarScoresSectionProps {
+  pillarScores: Array<{
+    id: string;
+    title: string;
+    subtitle: string;
+    score: number;
+    status: "success" | "warning" | "locked";
+    isLocked: boolean;
+    lockedMessage?: string;
+    barData: Array<{ label: string; value: number; color: string; borderColor: string }>;
+  }>;
+}
+
+export function PillarScoresSection({ pillarScores }: PillarScoresSectionProps) {
   return (
     <div className="px-8 mt-8">
       <SectionTitle>Pillar Scores</SectionTitle>
       <div className="grid grid-cols-3 gap-6 items-stretch">
-        {PILLAR_SCORES.map((pillar) => (
+        {pillarScores.map((pillar) => (
           <PillarScoreCard
             key={pillar.id}
             title={pillar.title}
@@ -196,7 +220,7 @@ export function PillarScoresSection() {
             score={pillar.score}
             status={pillar.status}
             isLocked={pillar.isLocked}
-            lockedMessage={"lockedMessage" in pillar ? pillar.lockedMessage : undefined}
+            lockedMessage={pillar.lockedMessage}
             barData={[...pillar.barData]}
           />
         ))}
@@ -210,11 +234,32 @@ export function PillarScoresSection() {
 // ============================================================================
 
 interface VulnerabilityAnalysisSectionProps {
+  foundVulnerabilities: {
+    title: string;
+    subtitle: string;
+    identifiedCount: number;
+    unweightedASR: number;
+    weightedASR: number;
+    status: "success" | "warning";
+    radarData: Array<{ label: string; color: string; data: Array<{ label: string; value: number }> }>;
+  };
+  conversationalStatistics: {
+    title: string;
+    subtitle: string;
+    avgChatLength: number;
+    avgMessageLength: number;
+    chatLengthStatus: "success" | "warning";
+    messageLengthStatus: "success" | "warning";
+    chatLengthChartData: Array<{ x: number; y: number }>;
+    messageLengthChartData: Array<{ x: number; y: number }>;
+  };
   onMaximizeVulnerabilities: () => void;
   onMaximizeStatistics: () => void;
 }
 
 export function VulnerabilityAnalysisSection({
+  foundVulnerabilities,
+  conversationalStatistics,
   onMaximizeVulnerabilities,
   onMaximizeStatistics,
 }: VulnerabilityAnalysisSectionProps) {
@@ -223,24 +268,24 @@ export function VulnerabilityAnalysisSection({
       <SectionTitle>Vulnerability Analysis</SectionTitle>
       <div className="grid grid-cols-2 gap-6 items-stretch">
         <FoundVulnerabilitiesCard
-          title={FOUND_VULNERABILITIES.title}
-          subtitle={FOUND_VULNERABILITIES.subtitle}
-          identifiedCount={FOUND_VULNERABILITIES.identifiedCount}
-          unweightedASR={FOUND_VULNERABILITIES.unweightedASR}
-          weightedASR={FOUND_VULNERABILITIES.weightedASR}
-          status={FOUND_VULNERABILITIES.status}
-          radarData={FOUND_VULNERABILITIES.radarData}
+          title={foundVulnerabilities.title}
+          subtitle={foundVulnerabilities.subtitle}
+          identifiedCount={foundVulnerabilities.identifiedCount}
+          unweightedASR={foundVulnerabilities.unweightedASR}
+          weightedASR={foundVulnerabilities.weightedASR}
+          status={foundVulnerabilities.status}
+          radarData={foundVulnerabilities.radarData}
           onMaximizeClick={onMaximizeVulnerabilities}
         />
         <ConversationalStatisticsCard
-          title={CONVERSATIONAL_STATISTICS.title}
-          subtitle={CONVERSATIONAL_STATISTICS.subtitle}
-          avgChatLength={CONVERSATIONAL_STATISTICS.avgChatLength}
-          avgMessageLength={CONVERSATIONAL_STATISTICS.avgMessageLength}
-          chatLengthStatus={CONVERSATIONAL_STATISTICS.chatLengthStatus}
-          messageLengthStatus={CONVERSATIONAL_STATISTICS.messageLengthStatus}
-          chatLengthChartData={[...CONVERSATIONAL_STATISTICS.chatLengthChartData]}
-          messageLengthChartData={[...CONVERSATIONAL_STATISTICS.messageLengthChartData]}
+          title={conversationalStatistics.title}
+          subtitle={conversationalStatistics.subtitle}
+          avgChatLength={conversationalStatistics.avgChatLength}
+          avgMessageLength={conversationalStatistics.avgMessageLength}
+          chatLengthStatus={conversationalStatistics.chatLengthStatus}
+          messageLengthStatus={conversationalStatistics.messageLengthStatus}
+          chatLengthChartData={[...conversationalStatistics.chatLengthChartData]}
+          messageLengthChartData={[...conversationalStatistics.messageLengthChartData]}
           onMaximizeClick={onMaximizeStatistics}
         />
       </div>
@@ -253,6 +298,18 @@ export function VulnerabilityAnalysisSection({
 // ============================================================================
 
 interface TestCasesSectionProps {
+  filterOptions: {
+    turnLength: Array<{ label: string; value: string }>;
+    category: Array<{ label: string; value: string }>;
+  };
+  testCases: Array<{
+    caseId: string;
+    category: string;
+    likelihood: number;
+    modelReasoning: string;
+    content: string;
+    chatAndTurnLength: string;
+  }>;
   onTurnLengthChange: (value: string) => void;
   onCategoryChange: (value: string) => void;
   onSearchChange: (value: string) => void;
@@ -265,6 +322,8 @@ interface TestCasesSectionProps {
 }
 
 export function TestCasesSection({
+  filterOptions,
+  testCases,
   onTurnLengthChange,
   onCategoryChange,
   onSearchChange,
@@ -280,8 +339,8 @@ export function TestCasesSection({
       <SectionTitle>All Test Cases</SectionTitle>
 
       <FilterBar
-        turnLengthOptions={[...FILTER_OPTIONS.turnLength]}
-        categoryOptions={[...FILTER_OPTIONS.category]}
+        turnLengthOptions={[...filterOptions.turnLength]}
+        categoryOptions={[...filterOptions.category]}
         onTurnLengthChange={onTurnLengthChange}
         onCategoryChange={onCategoryChange}
         onSearchChange={onSearchChange}
@@ -289,7 +348,7 @@ export function TestCasesSection({
         className="mb-6"
       />
 
-      <TestCasesTable testCases={TEST_CASES} onRowClick={onRowClick} />
+      <TestCasesTable testCases={testCases} onRowClick={onRowClick} />
 
       <Pagination
         currentPage={currentPage}
@@ -306,6 +365,24 @@ export function TestCasesSection({
 // ============================================================================
 
 interface TopRiskAreasSectionProps {
+  topRiskArea: {
+    number: number;
+    title: string;
+    threatLevel: "High" | "Medium" | "Low";
+    asrPercentage: number;
+    highRiskCases: number;
+    priority: "High" | "Medium" | "Low";
+    avgTurns: number;
+    avgTurnLength: number;
+    keyInsights: string[];
+    cases: Array<{
+      likelihood: number;
+      expected: string;
+      riskDescription: string;
+      content: string;
+      chatAndTurnLength: string;
+    }>;
+  };
   onRowClick: (caseItem: unknown) => void;
   currentPage: number;
   totalPages: number;
@@ -314,6 +391,7 @@ interface TopRiskAreasSectionProps {
 }
 
 export function TopRiskAreasSection({
+  topRiskArea,
   onRowClick,
   currentPage,
   totalPages,
@@ -324,16 +402,16 @@ export function TopRiskAreasSection({
     <div className="px-8 mt-8">
       <SectionTitle>Top Risk Areas</SectionTitle>
       <TopRiskAreaCard
-        number={TOP_RISK_AREA.number}
-        title={TOP_RISK_AREA.title}
-        threatLevel={TOP_RISK_AREA.threatLevel}
-        asrPercentage={TOP_RISK_AREA.asrPercentage}
-        highRiskCases={TOP_RISK_AREA.highRiskCases}
-        priority={TOP_RISK_AREA.priority}
-        avgTurns={TOP_RISK_AREA.avgTurns}
-        avgTurnLength={TOP_RISK_AREA.avgTurnLength}
-        keyInsights={[...TOP_RISK_AREA.keyInsights]}
-        cases={[...TOP_RISK_AREA.cases]}
+        number={topRiskArea.number}
+        title={topRiskArea.title}
+        threatLevel={topRiskArea.threatLevel}
+        asrPercentage={topRiskArea.asrPercentage}
+        highRiskCases={topRiskArea.highRiskCases}
+        priority={topRiskArea.priority}
+        avgTurns={topRiskArea.avgTurns}
+        avgTurnLength={topRiskArea.avgTurnLength}
+        keyInsights={[...topRiskArea.keyInsights]}
+        cases={[...topRiskArea.cases]}
         currentPage={currentPage}
         totalPages={totalPages}
         onPrevious={onPrevious}
@@ -351,14 +429,62 @@ export function TopRiskAreasSection({
 interface ModalsSectionProps {
   openModal: ModalType;
   onClose: () => void;
+  pillarScores: Array<{
+    id: string;
+    title: string;
+    subtitle: string;
+    score: number;
+    status: "success" | "warning" | "locked";
+    isLocked: boolean;
+    lockedMessage?: string;
+    barData: Array<{ label: string; value: number; color: string; borderColor: string }>;
+  }>;
+  foundVulnerabilities: {
+    title: string;
+    subtitle: string;
+    identifiedCount: number;
+    unweightedASR: number;
+    weightedASR: number;
+    status: "success" | "warning";
+    radarData: Array<{ label: string; color: string; data: Array<{ label: string; value: number }> }>;
+  };
+  conversationalStatistics: {
+    title: string;
+    subtitle: string;
+    avgChatLength: number;
+    avgMessageLength: number;
+    chatLengthStatus: "success" | "warning";
+    messageLengthStatus: "success" | "warning";
+    chatLengthChartData: Array<{ x: number; y: number }>;
+    messageLengthChartData: Array<{ x: number; y: number }>;
+  };
+  categoryDistribution: {
+    radarData: Array<{ label: string; value: number }>;
+    categories: Array<{
+      id: string;
+      name: string;
+      priority: "high" | "medium" | "low";
+      asrPercentage: number;
+      asrCount: string;
+      avgTurns: number;
+      avgTurnLength: number;
+    }>;
+  };
 }
 
-export function ModalsSection({ openModal, onClose }: ModalsSectionProps) {
+export function ModalsSection({
+  openModal,
+  onClose,
+  pillarScores,
+  foundVulnerabilities,
+  conversationalStatistics,
+  categoryDistribution,
+}: ModalsSectionProps) {
   return (
     <>
-      {/* Total Cases / Category Distribution Modal */}
+      {/* Found Vulnerabilities Modal */}
       <Modal
-        isOpen={openModal === "totalCases"}
+        isOpen={openModal === "foundVulnerabilities"}
         onClose={onClose}
         hideHeader
       >
@@ -367,76 +493,9 @@ export function ModalsSection({ openModal, onClose }: ModalsSectionProps) {
           subtitle={MODAL_CONFIG.totalCases.description}
           chartTitle="Vulnerabilities Found"
           chartSubtitle="Across top categories"
-          radarData={[...CATEGORY_DISTRIBUTION_RADAR]}
-          categories={[...CATEGORY_DISTRIBUTION_DATA]}
+          radarData={[...categoryDistribution.radarData]}
+          categories={[...categoryDistribution.categories]}
           onRowClick={(category) => console.log("Category clicked:", category)}
-        />
-      </Modal>
-
-      {/* Pillar I Modal */}
-      <Modal
-        isOpen={openModal === "pillarI"}
-        onClose={onClose}
-        title={MODAL_CONFIG.pillarI.title}
-        description={MODAL_CONFIG.pillarI.description}
-      >
-        <PillarScoreCard
-          title={PILLAR_SCORES[0].title}
-          subtitle={PILLAR_SCORES[0].subtitle}
-          score={PILLAR_SCORES[0].score}
-          status={PILLAR_SCORES[0].status}
-          barData={[...PILLAR_SCORES[0].barData]}
-        />
-      </Modal>
-
-      {/* Pillar II Modal */}
-      <Modal
-        isOpen={openModal === "pillarII"}
-        onClose={onClose}
-        title={MODAL_CONFIG.pillarII.title}
-        description={MODAL_CONFIG.pillarII.description}
-      >
-        <PillarScoreCard
-          title={PILLAR_SCORES[1].title}
-          subtitle={PILLAR_SCORES[1].subtitle}
-          score={PILLAR_SCORES[1].score}
-          status={PILLAR_SCORES[1].status}
-          barData={[...PILLAR_SCORES[1].barData]}
-        />
-      </Modal>
-
-      {/* Pillar III Modal */}
-      <Modal
-        isOpen={openModal === "pillarIII"}
-        onClose={onClose}
-        title={MODAL_CONFIG.pillarIII.title}
-        description={MODAL_CONFIG.pillarIII.description}
-      >
-        <PillarScoreCard
-          title={PILLAR_SCORES[2].title}
-          subtitle={PILLAR_SCORES[2].subtitle}
-          score={PILLAR_SCORES[2].score}
-          status={PILLAR_SCORES[2].status}
-          isLocked={PILLAR_SCORES[2].isLocked}
-          lockedMessage={"lockedMessage" in PILLAR_SCORES[2] ? PILLAR_SCORES[2].lockedMessage : undefined}
-        />
-      </Modal>
-
-      {/* Found Vulnerabilities Modal */}
-      <Modal
-        isOpen={openModal === "foundVulnerabilities"}
-        onClose={onClose}
-        title={MODAL_CONFIG.foundVulnerabilities.title}
-        description={MODAL_CONFIG.foundVulnerabilities.description}
-      >
-        <FoundVulnerabilitiesCard
-          title={FOUND_VULNERABILITIES.title}
-          subtitle={FOUND_VULNERABILITIES.subtitle}
-          identifiedCount={FOUND_VULNERABILITIES.identifiedCount}
-          unweightedASR={FOUND_VULNERABILITIES.unweightedASR}
-          weightedASR={FOUND_VULNERABILITIES.weightedASR}
-          status={FOUND_VULNERABILITIES.status}
-          radarData={FOUND_VULNERABILITIES.radarData}
         />
       </Modal>
 
@@ -448,14 +507,14 @@ export function ModalsSection({ openModal, onClose }: ModalsSectionProps) {
         description={MODAL_CONFIG.conversationalStatistics.description}
       >
         <ConversationalStatisticsCard
-          title={CONVERSATIONAL_STATISTICS.title}
-          subtitle={CONVERSATIONAL_STATISTICS.subtitle}
-          avgChatLength={CONVERSATIONAL_STATISTICS.avgChatLength}
-          avgMessageLength={CONVERSATIONAL_STATISTICS.avgMessageLength}
-          chatLengthStatus={CONVERSATIONAL_STATISTICS.chatLengthStatus}
-          messageLengthStatus={CONVERSATIONAL_STATISTICS.messageLengthStatus}
-          chatLengthChartData={[...CONVERSATIONAL_STATISTICS.chatLengthChartData]}
-          messageLengthChartData={[...CONVERSATIONAL_STATISTICS.messageLengthChartData]}
+          title={conversationalStatistics.title}
+          subtitle={conversationalStatistics.subtitle}
+          avgChatLength={conversationalStatistics.avgChatLength}
+          avgMessageLength={conversationalStatistics.avgMessageLength}
+          chatLengthStatus={conversationalStatistics.chatLengthStatus}
+          messageLengthStatus={conversationalStatistics.messageLengthStatus}
+          chatLengthChartData={[...conversationalStatistics.chatLengthChartData]}
+          messageLengthChartData={[...conversationalStatistics.messageLengthChartData]}
         />
       </Modal>
     </>

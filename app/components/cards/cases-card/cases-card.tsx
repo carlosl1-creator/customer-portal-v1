@@ -38,17 +38,6 @@ export function CasesCard({
     <div
       className={`bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 h-full relative ${className}`}
     >
-      {/* Maximize button */}
-      {onMaximizeClick && (
-        <button
-          onClick={onMaximizeClick}
-          className="absolute top-4 right-4 p-2 border-0 bg-transparent cursor-pointer hover:opacity-80 transition-opacity text-theme-secondary"
-          aria-label="Maximize"
-        >
-          <MaximizeIcon className="w-5 h-5" />
-        </button>
-      )}
-
       {/* Title and subtitle */}
       <div className="flex flex-col gap-1">
         <h3 className="font-medium text-[16px] leading-[24px] text-theme-primary">

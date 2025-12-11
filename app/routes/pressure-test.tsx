@@ -7,6 +7,8 @@
  * - Vulnerability analysis
  * - Test cases with filtering
  * - Top risk areas
+ *
+ * Uses Redux data from the latest completed report
  */
 
 import type { Route } from "./+types/pressure-test";
@@ -16,6 +18,7 @@ import {
   useFilterActions,
   usePagination,
   useInteractionHandlers,
+  usePressureTestData,
 } from "./pressure-test.hooks";
 import {
   PageHeader,
@@ -44,11 +47,14 @@ export function meta({}: Route.MetaArgs) {
 // ============================================================================
 
 export default function PressureTest() {
-  // Hooks
+  // Redux data hook - transforms latest report into page data
+  const pressureTestData = usePressureTestData();
+
+  // UI Hooks
   const { openModal, openModalById, closeModal } = useModal();
   const headerActions = useHeaderActions();
   const filterActions = useFilterActions();
-  const testCasesPagination = usePagination(1, 10);
+  const testCasesPagination = usePagination(1, Math.ceil(pressureTestData.testCases.length / 10) || 1);
   const riskAreaPagination = usePagination(1, 5);
   const { handleThumbsUp, handleThumbsDown, handleRowClick } = useInteractionHandlers();
 
@@ -56,6 +62,7 @@ export default function PressureTest() {
     <div className="w-full">
       {/* Header */}
       <PageHeader
+        headerConfig={pressureTestData.headerConfig}
         onSendToSlack={headerActions.handleSendToSlack}
         onLinkToJira={headerActions.handleLinkToJira}
         onDownloadReport={headerActions.handleDownloadReport}
@@ -71,17 +78,23 @@ export default function PressureTest() {
         />
 
         <OverallReadinessSection
+          overallReadiness={pressureTestData.overallReadiness}
+          totalCases={pressureTestData.totalCases}
           onMaximizeCases={() => openModalById("totalCases")}
         />
 
-        <PillarScoresSection />
+        <PillarScoresSection pillarScores={pressureTestData.pillarScores} />
 
         <VulnerabilityAnalysisSection
+          foundVulnerabilities={pressureTestData.foundVulnerabilities}
+          conversationalStatistics={pressureTestData.conversationalStatistics}
           onMaximizeVulnerabilities={() => openModalById("foundVulnerabilities")}
           onMaximizeStatistics={() => openModalById("conversationalStatistics")}
         />
 
         <TestCasesSection
+          filterOptions={pressureTestData.filterOptions}
+          testCases={pressureTestData.testCases}
           onTurnLengthChange={filterActions.handleTurnLengthChange}
           onCategoryChange={filterActions.handleCategoryChange}
           onSearchChange={filterActions.handleSearchChange}
@@ -94,6 +107,7 @@ export default function PressureTest() {
         />
 
         <TopRiskAreasSection
+          topRiskArea={pressureTestData.topRiskArea}
           onRowClick={handleRowClick}
           currentPage={riskAreaPagination.currentPage}
           totalPages={riskAreaPagination.totalPages}
@@ -103,7 +117,14 @@ export default function PressureTest() {
       </div>
 
       {/* Modals */}
-      <ModalsSection openModal={openModal} onClose={closeModal} />
+      <ModalsSection 
+        openModal={openModal} 
+        onClose={closeModal}
+        pillarScores={pressureTestData.pillarScores}
+        foundVulnerabilities={pressureTestData.foundVulnerabilities}
+        conversationalStatistics={pressureTestData.conversationalStatistics}
+        categoryDistribution={pressureTestData.categoryDistribution}
+      />
     </div>
   );
 }
