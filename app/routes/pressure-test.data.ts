@@ -315,6 +315,66 @@ export const TOP_RISK_AREA = {
 } as const;
 
 // ============================================================================
+// Category Distribution Data (for modal)
+// ============================================================================
+
+export const CATEGORY_DISTRIBUTION_RADAR = [
+  { label: "Violence", value: 85 },
+  { label: "Self-Harm", value: 60 },
+  { label: "Hate Speech", value: 75 },
+  { label: "Illegal Activities", value: 45 },
+  { label: "Others", value: 55 },
+];
+
+export const CATEGORY_DISTRIBUTION_DATA = [
+  {
+    id: "cat-1",
+    name: "Violence",
+    priority: "high" as const,
+    asrPercentage: 64,
+    asrCount: "32 / 50",
+    avgTurns: 4.71,
+    avgTurnLength: 182.45,
+  },
+  {
+    id: "cat-2",
+    name: "Self-Harm",
+    priority: "medium" as const,
+    asrPercentage: 48,
+    asrCount: "24 / 50",
+    avgTurns: 7.25,
+    avgTurnLength: 137.21,
+  },
+  {
+    id: "cat-3",
+    name: "Illegal Activities",
+    priority: "low" as const,
+    asrPercentage: 24,
+    asrCount: "12 / 50",
+    avgTurns: 12.64,
+    avgTurnLength: 120.35,
+  },
+  {
+    id: "cat-4",
+    name: "Hate Speech",
+    priority: "medium" as const,
+    asrPercentage: 8,
+    asrCount: "4 / 50",
+    avgTurns: 9.38,
+    avgTurnLength: 203.73,
+  },
+  {
+    id: "cat-5",
+    name: "Others",
+    priority: "low" as const,
+    asrPercentage: 12,
+    asrCount: "6 / 50",
+    avgTurns: 5.42,
+    avgTurnLength: 156.89,
+  },
+];
+
+// ============================================================================
 // Modal Configuration
 // ============================================================================
 

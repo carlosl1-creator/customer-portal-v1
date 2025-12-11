@@ -4,10 +4,11 @@ import { XIcon } from "~/components/icons/icons";
 export interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title: string;
+  title?: string;
   description?: string;
   children: React.ReactNode;
   className?: string;
+  hideHeader?: boolean;
 }
 
 export function Modal({
@@ -17,6 +18,7 @@ export function Modal({
   description,
   children,
   className = "",
+  hideHeader = false,
 }: ModalProps) {
   // Handle ESC key to close modal
   useEffect(() => {
@@ -74,25 +76,27 @@ export function Modal({
         </button>
 
         {/* Header */}
-        <div className="flex flex-col gap-[18px] items-start p-12 pb-0">
-          <h2
-            id="modal-title"
-            className="font-semibold text-[30px] leading-[38px] text-theme-primary w-full"
-          >
-            {title}
-          </h2>
-          {description && (
-            <p
-              id="modal-description"
-              className="font-normal text-[18px] leading-[28px] text-theme-secondary tracking-[-0.36px] w-full"
+        {!hideHeader && title && (
+          <div className="flex flex-col gap-[18px] items-start p-12 pb-0">
+            <h2
+              id="modal-title"
+              className="font-semibold text-[30px] leading-[38px] text-theme-primary w-full"
             >
-              {description}
-            </p>
-          )}
-        </div>
+              {title}
+            </h2>
+            {description && (
+              <p
+                id="modal-description"
+                className="font-normal text-[18px] leading-[28px] text-theme-secondary tracking-[-0.36px] w-full"
+              >
+                {description}
+              </p>
+            )}
+          </div>
+        )}
 
           {/* Scrollable Content */}
-          <div className="flex-1 overflow-y-auto px-12 py-6 scrollbar-theme">
+          <div className={`flex-1 overflow-y-auto scrollbar-theme ${hideHeader ? "p-12" : "px-12 py-6"}`}>
             {children}
           </div>
         </div>

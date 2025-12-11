@@ -25,6 +25,7 @@ import { TestCasesTable } from "~/components/tables/test-cases-table/test-cases-
 import { Pagination } from "~/components/pagination/pagination";
 import { TopRiskAreaCard } from "~/components/cards/top-risk-area-card/top-risk-area-card";
 import { Modal } from "~/components/modal/modal";
+import { CategoryDistributionContent } from "~/components/cards/category-distribution-content/category-distribution-content";
 
 import {
   HEADER_CONFIG,
@@ -38,6 +39,8 @@ import {
   TEST_CASES,
   TOP_RISK_AREA,
   MODAL_CONFIG,
+  CATEGORY_DISTRIBUTION_RADAR,
+  CATEGORY_DISTRIBUTION_DATA,
   type ModalType,
 } from "./pressure-test.data";
 
@@ -151,22 +154,24 @@ export function OverallReadinessSection({ onMaximizeCases }: OverallReadinessSec
   return (
     <div className="px-8 mt-8">
       <div className="flex gap-[18px] items-stretch">
-        <div className="flex-[0.7] min-w-0 h-full">
+        <div className="flex-[0.7] min-w-0 flex">
           <RatingCard
             title={OVERALL_READINESS.title}
             subtitle={OVERALL_READINESS.subtitle}
             rating={OVERALL_READINESS.rating}
             description={OVERALL_READINESS.description}
             showMenu={false}
+            className="flex-1"
           />
         </div>
-        <div className="flex-[0.3] h-full">
+        <div className="flex-[0.3] flex">
           <CasesCard
             title={TOTAL_CASES.title}
             subtitle={TOTAL_CASES.subtitle}
             totalCases={TOTAL_CASES.totalCases}
             scenarios={[...TOTAL_CASES.scenarios]}
             onMaximizeClick={onMaximizeCases}
+            className="flex-1"
           />
         </div>
       </div>
@@ -351,18 +356,20 @@ interface ModalsSectionProps {
 export function ModalsSection({ openModal, onClose }: ModalsSectionProps) {
   return (
     <>
-      {/* Total Cases Modal */}
+      {/* Total Cases / Category Distribution Modal */}
       <Modal
         isOpen={openModal === "totalCases"}
         onClose={onClose}
-        title={MODAL_CONFIG.totalCases.title}
-        description={MODAL_CONFIG.totalCases.description}
+        hideHeader
       >
-        <CasesCard
-          title={TOTAL_CASES.title}
-          subtitle={TOTAL_CASES.subtitle}
-          totalCases={TOTAL_CASES.totalCases}
-          scenarios={[...TOTAL_CASES.scenarios]}
+        <CategoryDistributionContent
+          title={MODAL_CONFIG.totalCases.title}
+          subtitle={MODAL_CONFIG.totalCases.description}
+          chartTitle="Vulnerabilities Found"
+          chartSubtitle="Across top categories"
+          radarData={[...CATEGORY_DISTRIBUTION_RADAR]}
+          categories={[...CATEGORY_DISTRIBUTION_DATA]}
+          onRowClick={(category) => console.log("Category clicked:", category)}
         />
       </Modal>
 

@@ -36,7 +36,7 @@ export function CasesCard({
 
   return (
     <div
-      className={`bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 h-full relative min-h-[220px] max-h-[224px] ${className}`}
+      className={`bg-theme-card border border-theme-primary rounded-[8px] flex flex-col gap-6 p-6 h-full relative ${className}`}
     >
       {/* Maximize button */}
       {onMaximizeClick && (
