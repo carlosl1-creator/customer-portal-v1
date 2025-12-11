@@ -7,6 +7,7 @@ import { ArrowUpRightIcon, ListIcon } from "~/components/icons/icons";
 import { useTheme } from "~/utils/theme-context";
 import { useLocalStorage } from "~/hooks/use-local-storage";
 import { STORAGE_KEYS } from "~/constants/storage-keys";
+import { useAppDispatch, useAppSelector, setUserName, selectUserFullName } from "~/store";
 
 export interface WelcomeProps {
   onAction?: () => void;
@@ -14,13 +15,15 @@ export interface WelcomeProps {
 
 export function Welcome({ onAction }: WelcomeProps) {
   const { theme } = useTheme();
+  const dispatch = useAppDispatch();
+  const reduxUserName = useAppSelector(selectUserFullName);
   const [name, setName] = useLocalStorage<string>(STORAGE_KEYS.USER_NAME, "");
-  const [nameValue, setNameValue] = useState(name);
+  const [nameValue, setNameValue] = useState(name || reduxUserName);
 
-  // Update local state when name changes from storage
+  // Update local state when name changes from storage or Redux
   useEffect(() => {
-    setNameValue(name);
-  }, [name]);
+    setNameValue(name || reduxUserName);
+  }, [name, reduxUserName]);
 
   const isNameEntered = nameValue.trim().length > 0;
 
@@ -28,6 +31,14 @@ export function Welcome({ onAction }: WelcomeProps) {
     setNameValue(value);
     if (value.trim().length > 0) {
       setName(value);
+      
+      // Parse name into first and last name
+      const nameParts = value.trim().split(/\s+/);
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.slice(1).join(" ") || "";
+      
+      // Update Redux store
+      dispatch(setUserName({ first_name: firstName, last_name: lastName }));
     }
   };
 

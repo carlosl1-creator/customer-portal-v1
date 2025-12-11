@@ -5,6 +5,7 @@ import {
   chatbotsReducer,
   reportsReducer,
   simulationsReducer,
+  userReducer,
 } from "./slices";
 
 /**
@@ -33,6 +34,7 @@ function loadPersistedState(): Partial<RootState> | undefined {
       chatbots: parsed.chatbots,
       reports: parsed.reports,
       simulations: parsed.simulations,
+      user: parsed.user,
     };
   } catch (err) {
     console.warn("Failed to load persisted Redux state:", err);
@@ -55,6 +57,7 @@ function saveState(state: RootState): void {
       chatbots: state.chatbots,
       reports: state.reports,
       simulations: state.simulations,
+      user: state.user,
     };
     const serializedState = JSON.stringify(stateToPersist);
     localStorage.setItem(REDUX_STORAGE_KEY, serializedState);
@@ -73,6 +76,7 @@ const rootReducer = combineReducers({
   chatbots: chatbotsReducer,
   reports: reportsReducer,
   simulations: simulationsReducer,
+  user: userReducer,
 });
 
 /**

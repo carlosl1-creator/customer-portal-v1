@@ -18,3 +18,6 @@ export * from "./reports.slice";
 export { default as simulationsReducer } from "./simulations.slice";
 export * from "./simulations.slice";
 
+export { default as userReducer } from "./user.slice";
+export * from "./user.slice";
+
