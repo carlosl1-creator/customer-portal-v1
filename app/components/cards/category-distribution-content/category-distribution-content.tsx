@@ -122,10 +122,10 @@ function RadarChartPanel({
 }) {
   const [chartIndex, setChartIndex] = useState(0);
 
-  // Calculate radar points for SVG
-  const centerX = 150;
-  const centerY = 130;
-  const maxRadius = 100;
+  // Calculate radar points for SVG - larger chart
+  const centerX = 163;
+  const centerY = 128;
+  const maxRadius = 110;
   const levels = 4;
 
   const angleStep = (2 * Math.PI) / data.length;
@@ -206,9 +206,9 @@ function RadarChartPanel({
   });
 
   return (
-    <div className="border border-theme-primary rounded-xl p-6 flex flex-col justify-between h-[378px]">
+    <div className="border border-theme-primary rounded-xl p-6 flex flex-col justify-between h-[378px] min-w-[375px]">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between w-full">
         <div className="flex flex-col gap-1">
           <div className="flex items-center gap-2">
             <span className="font-medium text-[16px] leading-[24px] text-theme-primary">
@@ -229,8 +229,8 @@ function RadarChartPanel({
       </div>
 
       {/* Radar Chart */}
-      <div className="flex items-center justify-center flex-1">
-        <svg width="300" height="256" viewBox="0 0 300 256">
+      <div className="flex items-end justify-end flex-1 w-full">
+        <svg width="327" height="256" viewBox="0 0 327 256">
           {gridCircles}
           {radarLines}
           <polygon
@@ -279,11 +279,11 @@ function CategoriesTablePanel({
   const currentCategories = categories.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
-    <div className="bg-theme-card border border-theme-primary rounded-xl overflow-hidden flex flex-col">
+    <div className="bg-theme-card border border-theme-primary rounded-xl overflow-hidden flex flex-col flex-1">
       {/* Table */}
       <div className="flex">
         {/* Category Column */}
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-[140px]">
           <div className="bg-theme-card border-b border-theme-primary h-[44px] px-6 py-3 flex items-center">
             <TableHeader>Category</TableHeader>
           </div>
@@ -294,13 +294,13 @@ function CategoriesTablePanel({
                 index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
               }`}
             >
-              <span className="text-[14px] leading-[20px] text-theme-primary">{cat.name}</span>
+              <span className="text-[14px] leading-[20px] text-theme-primary whitespace-nowrap">{cat.name}</span>
             </div>
           ))}
         </div>
 
         {/* Priority Column */}
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-[110px]">
           <div className="bg-theme-card border-b border-theme-primary h-[44px] px-6 py-3 flex items-center">
             <TableHeader showHelp>Priority</TableHeader>
           </div>
@@ -319,7 +319,7 @@ function CategoriesTablePanel({
         </div>
 
         {/* ASR Column */}
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-[100px]">
           <div className="bg-theme-card border-b border-theme-primary h-[44px] px-6 py-3 flex items-center">
             <TableHeader showHelp showSort>ASR</TableHeader>
           </div>
@@ -333,7 +333,7 @@ function CategoriesTablePanel({
               <DotBadge variant={getAsrVariant(cat.asrPercentage)}>
                 {cat.asrPercentage}%
               </DotBadge>
-              <span className="text-[12px] leading-[18px] text-theme-muted">
+              <span className="text-[12px] leading-[18px] text-theme-muted whitespace-nowrap">
                 {cat.asrCount}
               </span>
             </div>
@@ -341,7 +341,7 @@ function CategoriesTablePanel({
         </div>
 
         {/* Chat and Turn Length Column */}
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-[160px]">
           <div className="bg-theme-card border-b border-theme-primary h-[44px] px-6 py-3 flex items-center">
             <TableHeader showHelp>Chat and Turn Length</TableHeader>
           </div>
@@ -363,7 +363,7 @@ function CategoriesTablePanel({
         </div>
 
         {/* Action Column */}
-        <div className="flex flex-col">
+        <div className="flex flex-col min-w-[56px]">
           <div className="bg-theme-card border-b border-theme-primary h-[44px] w-[56px]" />
           {currentCategories.map((cat, index) => (
             <div
@@ -430,17 +430,17 @@ export function CategoryDistributionContent({
   return (
     <div className={`flex flex-col gap-6 ${className}`}>
       {/* Header */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-[18px]">
         <h2 className="font-semibold text-[30px] leading-[38px] text-theme-primary">
           {title}
         </h2>
-        <p className="text-[18px] leading-[28px] tracking-[-0.36px] text-theme-secondary max-w-[600px]">
+        <p className="text-[18px] leading-[28px] tracking-[-0.36px] text-theme-secondary max-w-[597px]">
           {subtitle}
         </p>
       </div>
 
-      {/* Content */}
-      <div className="flex gap-4">
+      {/* Content - Larger chart and table with proper gap */}
+      <div className="flex gap-4 items-stretch">
         <RadarChartPanel
           title={chartTitle}
           subtitle={chartSubtitle}

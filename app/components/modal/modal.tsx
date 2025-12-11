@@ -60,7 +60,7 @@ export function Modal({
 
         {/* Modal Content */}
         <div
-          className={`relative bg-theme-card rounded-[14px] flex flex-col max-h-[90vh] w-full max-w-[90vw] overflow-hidden pointer-events-auto border border-theme-primary ${className}`}
+          className={`relative bg-theme-card rounded-[14px] flex flex-col max-h-[900vh] min-w-[1000px] max-w-[950vw] overflow-hidden pointer-events-auto border border-theme-primary ${className}`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
@@ -96,7 +96,7 @@ export function Modal({
         )}
 
           {/* Scrollable Content */}
-          <div className={`flex-1 overflow-y-auto scrollbar-theme ${hideHeader ? "p-12" : "px-12 py-6"}`}>
+          <div className={`flex-1 overflow-y-auto scrollbar-theme ${hideHeader ? "p-12 pt-8" : "px-12 py-6"}`}>
             {children}
           </div>
         </div>
