@@ -60,7 +60,7 @@ export function Modal({
 
         {/* Modal Content */}
         <div
-          className={`relative bg-theme-card rounded-[14px] flex flex-col max-h-[900vh] min-w-[1000px] max-w-[950vw] overflow-hidden pointer-events-auto border border-theme-primary ${className}`}
+          className={`relative bg-theme-card rounded-[14px] flex flex-col max-h-[85vh] w-[75vw] min-w-[1100px] overflow-hidden pointer-events-auto border border-theme-primary ${className}`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"

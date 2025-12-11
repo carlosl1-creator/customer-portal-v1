@@ -122,10 +122,10 @@ function RadarChartPanel({
 }) {
   const [chartIndex, setChartIndex] = useState(0);
 
-  // Calculate radar points for SVG - larger chart
-  const centerX = 163;
-  const centerY = 128;
-  const maxRadius = 110;
+  // Calculate radar points for SVG - much larger chart
+  const centerX = 200;
+  const centerY = 180;
+  const maxRadius = 140;
   const levels = 4;
 
   const angleStep = (2 * Math.PI) / data.length;
@@ -181,7 +181,7 @@ function RadarChartPanel({
   // Generate labels
   const labels = data.map((point, index) => {
     const angle = startAngle + index * angleStep;
-    const labelRadius = maxRadius + 20;
+    const labelRadius = maxRadius + 25;
     const x = centerX + labelRadius * Math.cos(angle);
     const y = centerY + labelRadius * Math.sin(angle);
     
@@ -198,7 +198,7 @@ function RadarChartPanel({
         y={y}
         textAnchor={textAnchor}
         dominantBaseline="middle"
-        className="fill-theme-secondary text-[11px]"
+        className="fill-theme-secondary text-[13px]"
       >
         {point.label}
       </text>
@@ -206,7 +206,7 @@ function RadarChartPanel({
   });
 
   return (
-    <div className="border border-theme-primary rounded-xl p-6 flex flex-col justify-between h-[378px] min-w-[375px]">
+    <div className="border border-theme-primary rounded-xl p-6 flex flex-col justify-between h-[480px] min-w-[450px]">
       {/* Header */}
       <div className="flex items-start justify-between w-full">
         <div className="flex flex-col gap-1">
@@ -229,8 +229,8 @@ function RadarChartPanel({
       </div>
 
       {/* Radar Chart */}
-      <div className="flex items-end justify-end flex-1 w-full">
-        <svg width="327" height="256" viewBox="0 0 327 256">
+      <div className="flex items-center justify-center flex-1 w-full">
+        <svg width="400" height="380" viewBox="0 0 400 380">
           {gridCircles}
           {radarLines}
           <polygon
@@ -279,18 +279,18 @@ function CategoriesTablePanel({
   const currentCategories = categories.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
-    <div className="bg-theme-card border border-theme-primary rounded-xl overflow-hidden flex flex-col flex-1">
+    <div className="bg-theme-card border border-theme-primary rounded-xl overflow-hidden flex flex-col flex-1 h-[480px]">
       {/* Table */}
-      <div className="flex">
+      <div className="flex flex-1">
         {/* Category Column */}
         <div className="flex flex-col min-w-[140px]">
-          <div className="bg-theme-card border-b border-theme-primary h-[44px] px-6 py-3 flex items-center">
+          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center">
             <TableHeader>Category</TableHeader>
           </div>
           {currentCategories.map((cat, index) => (
             <div
               key={cat.id}
-              className={`h-[72px] px-6 py-4 flex items-center border-b border-theme-primary ${
+              className={`h-[92px] px-6 py-4 flex items-center border-b border-theme-primary ${
                 index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
               }`}
             >
@@ -301,13 +301,13 @@ function CategoriesTablePanel({
 
         {/* Priority Column */}
         <div className="flex flex-col min-w-[110px]">
-          <div className="bg-theme-card border-b border-theme-primary h-[44px] px-6 py-3 flex items-center">
+          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center">
             <TableHeader showHelp>Priority</TableHeader>
           </div>
           {currentCategories.map((cat, index) => (
             <div
               key={cat.id}
-              className={`h-[72px] px-6 py-4 flex items-center border-b border-theme-primary ${
+              className={`h-[92px] px-6 py-4 flex items-center border-b border-theme-primary ${
                 index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
               }`}
             >
@@ -320,13 +320,13 @@ function CategoriesTablePanel({
 
         {/* ASR Column */}
         <div className="flex flex-col min-w-[100px]">
-          <div className="bg-theme-card border-b border-theme-primary h-[44px] px-6 py-3 flex items-center">
+          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center">
             <TableHeader showHelp showSort>ASR</TableHeader>
           </div>
           {currentCategories.map((cat, index) => (
             <div
               key={cat.id}
-              className={`h-[72px] px-6 py-4 flex flex-col gap-1 justify-center border-b border-theme-primary ${
+              className={`h-[92px] px-6 py-4 flex flex-col gap-1 justify-center border-b border-theme-primary ${
                 index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
               }`}
             >
@@ -341,14 +341,14 @@ function CategoriesTablePanel({
         </div>
 
         {/* Chat and Turn Length Column */}
-        <div className="flex flex-col min-w-[160px]">
-          <div className="bg-theme-card border-b border-theme-primary h-[44px] px-6 py-3 flex items-center">
+        <div className="flex flex-col min-w-[170px]">
+          <div className="bg-theme-card border-b border-theme-primary h-[52px] px-6 py-3 flex items-center">
             <TableHeader showHelp>Chat and Turn Length</TableHeader>
           </div>
           {currentCategories.map((cat, index) => (
             <div
               key={cat.id}
-              className={`h-[72px] px-6 py-4 flex flex-col justify-center border-b border-theme-primary ${
+              className={`h-[92px] px-6 py-4 flex flex-col justify-center border-b border-theme-primary ${
                 index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
               }`}
             >
@@ -363,12 +363,12 @@ function CategoriesTablePanel({
         </div>
 
         {/* Action Column */}
-        <div className="flex flex-col min-w-[56px]">
-          <div className="bg-theme-card border-b border-theme-primary h-[44px] w-[56px]" />
+        <div className="flex flex-col min-w-[60px]">
+          <div className="bg-theme-card border-b border-theme-primary h-[52px] w-[60px]" />
           {currentCategories.map((cat, index) => (
             <div
               key={cat.id}
-              className={`h-[72px] p-4 flex items-center justify-center border-b border-theme-primary ${
+              className={`h-[92px] p-4 flex items-center justify-center border-b border-theme-primary ${
                 index % 2 === 0 ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card"
               }`}
             >
