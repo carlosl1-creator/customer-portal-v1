@@ -5,6 +5,7 @@ import { ReportsFilterBar } from "~/components/filters/reports-filter-bar/report
 import { SelectableReportsTable, type SelectableReport } from "~/components/tables/selectable-reports-table/selectable-reports-table";
 import { BenchmarksTable, type Benchmark } from "~/components/tables/benchmarks-table/benchmarks-table";
 import { ArrowUpRightIcon } from "~/components/icons/icons";
+import { Pill } from "~/components/pill/pill";
 import {
   useAppSelector,
   selectAllReports,
@@ -185,6 +186,14 @@ export default function CompareReports() {
             </p>
           </div>
         </div>
+
+        {/* Demo Feature Pill */}
+        <Pill
+          label="Demo Feature"
+          message="Coming Q3 2026."
+          linkText="Read our roadmap"
+          linkHref="#"
+        />
       </div>
 
       {/* Main Content */}
