@@ -16,25 +16,47 @@ export function BubbleChart({ bubbles, className = "" }: BubbleChartProps) {
     .sort((a, b) => b.percentage - a.percentage)
     .slice(0, 4);
 
-  // Calculate sizes based on percentage (min 40px, max 96px)
+  // Size constraints
+  const minSize = 48;
+  const maxSize = 96;
+  const minFontSize = 12;
+  const maxFontSize = 18;
+
+  // Find max value for proportional scaling
+  const maxValue = Math.max(...sortedBubbles.map((b) => b.percentage));
+
+  // Calculate size proportionally: largest gets maxSize, others scale proportionally
   const getSize = (percentage: number) => {
-    const minSize = 40;
-    const maxSize = 96;
-    return minSize + (percentage / 100) * (maxSize - minSize);
+    if (maxValue === 0) return minSize;
+
+    // Size is proportional to value (largest = maxSize)
+    const proportionalSize = (percentage / maxValue) * maxSize;
+
+    // Clamp to min/max bounds
+    return Math.max(minSize, Math.min(maxSize, proportionalSize));
+  };
+
+  // Calculate font size proportionally to bubble size
+  const getFontSize = (bubbleSize: number) => {
+    const ratio = (bubbleSize - minSize) / (maxSize - minSize);
+    return minFontSize + ratio * (maxFontSize - minFontSize);
   };
 
   return (
     <div className={`flex items-center justify-center gap-4 ${className}`}>
       {sortedBubbles.map((bubble, index) => {
         const size = getSize(bubble.percentage);
+        const fontSize = getFontSize(size);
         return (
           <div
             key={index}
-            className="flex items-center justify-center rounded-full font-normal text-[12px] leading-[18px] text-[#181d27]"
+            className="flex items-center justify-center rounded-full font-normal text-[#181d27]"
             style={{
               width: `${size}px`,
               height: `${size}px`,
               backgroundColor: bubble.color,
+              fontSize: `${fontSize}px`,
+              lineHeight: `${fontSize * 1.5}px`,
             }}
           >
             {bubble.percentage}%
