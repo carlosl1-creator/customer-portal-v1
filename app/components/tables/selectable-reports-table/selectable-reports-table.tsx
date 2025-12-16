@@ -140,7 +140,7 @@ export function SelectableReportsTable({
           </div>
 
           {/* Created Column */}
-          <div className="flex flex-col shrink-0 w-[116px]">
+          <div className="flex flex-col shrink-0 w-[160px]">
             <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary h-[44px] flex items-center px-6 py-3">
               <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Created</p>
             </div>
@@ -156,7 +156,7 @@ export function SelectableReportsTable({
           </div>
 
           {/* Bot and Policy Version Column */}
-          <div className="flex flex-col shrink-0 w-[196px]">
+          <div className="flex flex-col shrink-0 w-[280px]">
             <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary h-[44px] flex items-center px-6 py-3">
               <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Bot and Policy Version</p>
             </div>

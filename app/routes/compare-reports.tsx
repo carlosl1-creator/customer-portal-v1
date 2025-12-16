@@ -211,7 +211,7 @@ export default function CompareReports() {
         </div>
 
         {/* Tables Section */}
-        <div className="flex gap-12 items-start w-full mb-6">
+        <div className="flex gap-8 items-start w-full mb-6">
           {/* Your Reports Table - shrinks to content */}
           <SelectableReportsTable
             reports={reports}
