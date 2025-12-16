@@ -8,6 +8,7 @@ import { SuggestionsCard, type Suggestion } from "~/components/cards/suggestions
 import { LoadingHeader } from "~/components/loading/loading-header/loading-header";
 import { LoadingStepCard, type LoadingStep, type StepStatus } from "~/components/cards/loading-step-card/loading-step-card";
 import { ArrowUpRightIcon, ChevronLeftIcon } from "~/components/icons/icons";
+import { Pill } from "~/components/pill/pill";
 import {
   useAppSelector,
   selectAllChatbots,
@@ -311,14 +312,23 @@ export default function CreateNewTest() {
         pageName="CREATE NEW TEST"
         title="Create a New Test"
         infoText={[
-          "Compare the performance of two models across test cases, content categories, and business impact.",
-          "Select two to get started.",
+          "Create a Test Report to evaluate your chatbot thoroughly against your policies.",
         ]}
         buttons={[]}
       />
 
+      {/* Demo Feature Pill */}
+      <div className="px-10 relative z-10">
+        <Pill
+          label="Demo Feature"
+          message="Coming Q3 2026."
+          linkText="Read our roadmap"
+          linkHref="#"
+        />
+      </div>
+
       {/* Main Content */}
-      <div className="px-10 pb-12 pt-10 relative z-10">
+      <div className="px-10 pb-12 pt-8 relative z-10">
         <div className="flex gap-12 items-start">
           {/* Left Column - Form */}
           <div className="flex flex-col gap-8 items-start relative shrink-0 flex-1 max-w-[800px]">
