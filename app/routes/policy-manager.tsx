@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { HeaderSection, type HeaderButton } from "~/components/header-section/header-section";
 import { PoliciesTable, type Policy, type PolicyStatus } from "~/components/tables/policies-table/policies-table";
 import { PlusIcon, GoogleDriveIcon, ConfluenceIcon, NotionIcon } from "~/components/icons/icons";
+import { Pill } from "~/components/pill/pill";
 import {
   useAppSelector,
   useAppDispatch,
@@ -146,7 +147,14 @@ export default function PolicyManager() {
         title="Policy Manager"
         infoText={["Manage all chatbot policies and versions"]}
         buttons={headerButtons}
-      />
+      >
+        <Pill
+          label="Demo Feature"
+          message="Coming Q3 2026."
+          linkText="Read our roadmap"
+          linkHref="/roadmap"
+        />
+      </HeaderSection>
 
       {/* Main Content */}
       <div className="px-10 pb-12 pt-10 relative z-10">
