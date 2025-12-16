@@ -13,7 +13,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 /**
- * Get initial theme from storage or system preference
+ * Get initial theme from storage, defaulting to light
  */
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") {
@@ -23,11 +23,6 @@ function getInitialTheme(): Theme {
   const savedTheme = getTheme();
   if (savedTheme === "light" || savedTheme === "dark") {
     return savedTheme;
-  }
-
-  // Check system preference
-  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    return "dark";
   }
 
   return "light";
