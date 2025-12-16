@@ -212,29 +212,25 @@ export default function CompareReports() {
 
         {/* Tables Section */}
         <div className="flex gap-12 items-start w-full mb-6">
-          {/* Your Reports Table */}
-          <div className="flex-1 min-w-0">
-            <SelectableReportsTable
-              reports={reports}
-              selectedIds={selectedReports}
-              onSelectionChange={handleReportSelection}
-              maxSelections={2}
-              title="Your Reports"
-            />
-          </div>
+          {/* Your Reports Table - shrinks to content */}
+          <SelectableReportsTable
+            reports={reports}
+            selectedIds={selectedReports}
+            onSelectionChange={handleReportSelection}
+            maxSelections={2}
+            title="Your Reports"
+          />
 
-          {/* Benchmarks Table */}
-          <div className="flex-1 min-w-0">
-            <BenchmarksTable
-              benchmarks={benchmarks}
-              selectedIds={selectedBenchmarks}
-              onSelectionChange={handleBenchmarkSelection}
-              maxSelections={1}
-              title="Benchmarks"
-              externalDisabled={benchmarksDisabled}
-              allowSelection={benchmarksAllowSelection}
-            />
-          </div>
+          {/* Benchmarks Table - takes remaining space */}
+          <BenchmarksTable
+            benchmarks={benchmarks}
+            selectedIds={selectedBenchmarks}
+            onSelectionChange={handleBenchmarkSelection}
+            maxSelections={1}
+            title="Benchmarks"
+            externalDisabled={benchmarksDisabled}
+            allowSelection={benchmarksAllowSelection}
+          />
         </div>
 
         {/* Show Comparison Button */}
