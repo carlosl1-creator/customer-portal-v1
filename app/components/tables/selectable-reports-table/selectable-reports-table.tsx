@@ -100,106 +100,95 @@ export function SelectableReportsTable({
   };
 
   return (
-    <div className={`flex flex-col gap-4 items-start ${className}`}>
+    <div className={`flex flex-col gap-4 items-start shrink-0 ${className}`}>
       <div className="px-1">
         <p className="font-normal text-[16px] leading-[24px] text-theme-secondary">{title}</p>
       </div>
-      <div className={`bg-theme-card border border-theme-primary rounded-[12px] overflow-hidden w-full`}>
-        <div className="flex flex-col w-full">
-          {/* Header */}
-          <div className="bg-theme-card flex items-start border-b border-theme-primary w-full">
-            {/* Checkbox column */}
-            <div className="flex flex-col w-[52px]">
-              <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
-                {/* Empty header for checkbox column */}
-              </div>
-            </div>
-
-            {/* Report ID */}
-            <div className="flex flex-col flex-1">
-              <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-1 h-11 items-center px-6 py-3">
-                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Report ID</p>
-                <button
-                  onClick={() => handleSort("id")}
-                  className="p-0 border-0 bg-transparent cursor-pointer text-theme-secondary"
-                >
-                  {sortColumn === "id" && sortDirection === "up" ? (
-                    <ChevronUpIcon className="w-2.5 h-2.5" />
-                  ) : (
-                    <ChevronDownIcon className="w-2.5 h-2.5" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Created */}
-            <div className="flex flex-col w-[240px]">
-              <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
-                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Created</p>
-              </div>
-            </div>
-
-            {/* Bot and Policy Version */}
-            <div className="flex flex-col w-[196px]">
-              <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
-                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Bot and Policy Version</p>
-              </div>
-            </div>
-
-            {/* Status */}
-            <div className="flex flex-col">
-              <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary flex gap-3 h-11 items-center px-6 py-3">
-                <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Status</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Rows */}
-          {reports.map((report, index) => {
-            const isEven = index % 2 === 0;
-            const bgClass = isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card";
-            const isSelected = selectedIds.has(report.id);
-            const isDisabled = externalDisabled || report.disabled || (!isSelected && selectedIds.size >= maxSelections);
-
-            return (
-              <div
-                key={`${report.id}-${index}`}
-                className={`${bgClass} flex items-start border-b border-theme-primary w-full`}
+      <div className="bg-theme-card border border-theme-primary rounded-[12px] overflow-hidden">
+        <div className="flex w-full">
+          {/* Report ID Column */}
+          <div className="flex flex-col shrink-0">
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary h-[44px] flex items-center gap-1 px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Report ID</p>
+              <button
+                onClick={() => handleSort("id")}
+                className="p-0 border-0 bg-transparent cursor-pointer text-theme-secondary"
               >
-                {/* Checkbox */}
-                <div className="w-[52px] flex gap-3 h-18 items-center justify-center px-6 py-4">
+                {sortColumn === "id" && sortDirection === "up" ? (
+                  <ChevronUpIcon className="w-2.5 h-2.5" />
+                ) : (
+                  <ChevronDownIcon className="w-2.5 h-2.5" />
+                )}
+              </button>
+            </div>
+            {reports.map((report, index) => {
+              const isEven = index % 2 === 0;
+              const bgClass = isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card";
+              const isSelected = selectedIds.has(report.id);
+              const isDisabled = externalDisabled || report.disabled || (!isSelected && selectedIds.size >= maxSelections);
+              return (
+                <div key={`id-${report.id}-${index}`} className={`${bgClass} border-b border-theme-primary h-[72px] flex items-center gap-3 px-6 py-4`}>
                   <Checkbox
                     checked={isSelected}
                     disabled={isDisabled}
                     onChange={() => handleCheckboxChange(report.id)}
                   />
-                </div>
-
-                {/* Report ID */}
-                <div className="flex-1 flex gap-3 h-18 items-center px-6 py-4">
                   <p className="font-medium text-[14px] leading-[20px] text-theme-primary">{report.id}</p>
                 </div>
+              );
+            })}
+          </div>
 
-                {/* Created */}
-                <div className="w-[240px] flex h-18 items-center px-6 py-4">
+          {/* Created Column */}
+          <div className="flex flex-col shrink-0 w-[160px]">
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary h-[44px] flex items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Created</p>
+            </div>
+            {reports.map((report, index) => {
+              const isEven = index % 2 === 0;
+              const bgClass = isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card";
+              return (
+                <div key={`created-${report.id}-${index}`} className={`${bgClass} border-b border-theme-primary h-[72px] flex items-center px-6 py-4`}>
                   <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">{report.created}</p>
                 </div>
+              );
+            })}
+          </div>
 
-                {/* Bot and Policy Version */}
-                <div className="w-[196px] flex flex-col h-18 justify-center px-6 py-4">
+          {/* Bot and Policy Version Column */}
+          <div className="flex flex-col shrink-0 w-[280px]">
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary h-[44px] flex items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Bot and Policy Version</p>
+            </div>
+            {reports.map((report, index) => {
+              const isEven = index % 2 === 0;
+              const bgClass = isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card";
+              return (
+                <div key={`version-${report.id}-${index}`} className={`${bgClass} border-b border-theme-primary h-[72px] flex flex-col justify-center px-6 py-4`}>
                   <p className="font-normal text-[14px] leading-[20px] text-theme-primary">{report.botVersion}</p>
                   <p className="font-normal text-[14px] leading-[20px] text-theme-secondary">{report.policyVersion}</p>
                 </div>
+              );
+            })}
+          </div>
 
-                {/* Status */}
-                <div className="flex h-18 items-center px-6 py-4">
+          {/* Status Column */}
+          <div className="flex flex-col shrink-0">
+            <div className="bg-[var(--color-table-header-bg)] border-b border-theme-primary h-[44px] flex items-center px-6 py-3">
+              <p className="font-medium text-[12px] leading-[18px] text-theme-secondary">Status</p>
+            </div>
+            {reports.map((report, index) => {
+              const isEven = index % 2 === 0;
+              const bgClass = isEven ? "bg-[var(--color-table-row-hover)]" : "bg-theme-card";
+              return (
+                <div key={`status-${report.id}-${index}`} className={`${bgClass} border-b border-theme-primary h-[72px] flex items-center px-6 py-4`}>
                   <Badge variant={getStatusVariant(report.status)}>
                     {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
                   </Badge>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {/* Pagination */}

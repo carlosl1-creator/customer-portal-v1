@@ -26,8 +26,14 @@ export default function Home() {
     setIsFirstLogin(!hasVisited());
   }, []);
 
-  const handleWelcomeAction = () => {
-    // Mark as visited when user interacts with welcome screen
+  const handleOpenFirstReport = () => {
+    // Mark as visited and navigate to pressure test with latest report
+    markAsVisited();
+    navigate(ROUTES.PRESSURE_TEST);
+  };
+
+  const handleExploreDashboard = () => {
+    // Mark as visited and show dashboard
     markAsVisited();
     setIsFirstLogin(false);
   };
@@ -48,7 +54,12 @@ export default function Home() {
 
   // Show Welcome component on first login
   if (isFirstLogin) {
-    return <Welcome onAction={handleWelcomeAction} />;
+    return (
+      <Welcome
+        onOpenFirstReport={handleOpenFirstReport}
+        onExploreDashboard={handleExploreDashboard}
+      />
+    );
   }
 
   // Show Dashboard for returning users

@@ -5,6 +5,7 @@ import { ReportsFilterBar } from "~/components/filters/reports-filter-bar/report
 import { SelectableReportsTable, type SelectableReport } from "~/components/tables/selectable-reports-table/selectable-reports-table";
 import { BenchmarksTable, type Benchmark } from "~/components/tables/benchmarks-table/benchmarks-table";
 import { ArrowUpRightIcon } from "~/components/icons/icons";
+import { Pill } from "~/components/pill/pill";
 import {
   useAppSelector,
   selectAllReports,
@@ -185,6 +186,14 @@ export default function CompareReports() {
             </p>
           </div>
         </div>
+
+        {/* Demo Feature Pill */}
+        <Pill
+          label="Demo Feature"
+          message="Coming Q3 2026."
+          linkText="Read our roadmap"
+          linkHref="#"
+        />
       </div>
 
       {/* Main Content */}
@@ -202,30 +211,26 @@ export default function CompareReports() {
         </div>
 
         {/* Tables Section */}
-        <div className="flex gap-12 items-start w-full mb-6">
-          {/* Your Reports Table */}
-          <div className="flex-1 min-w-0">
-            <SelectableReportsTable
-              reports={reports}
-              selectedIds={selectedReports}
-              onSelectionChange={handleReportSelection}
-              maxSelections={2}
-              title="Your Reports"
-            />
-          </div>
+        <div className="flex gap-8 items-start w-full mb-6">
+          {/* Your Reports Table - shrinks to content */}
+          <SelectableReportsTable
+            reports={reports}
+            selectedIds={selectedReports}
+            onSelectionChange={handleReportSelection}
+            maxSelections={2}
+            title="Your Reports"
+          />
 
-          {/* Benchmarks Table */}
-          <div className="flex-1 min-w-0">
-            <BenchmarksTable
-              benchmarks={benchmarks}
-              selectedIds={selectedBenchmarks}
-              onSelectionChange={handleBenchmarkSelection}
-              maxSelections={1}
-              title="Benchmarks"
-              externalDisabled={benchmarksDisabled}
-              allowSelection={benchmarksAllowSelection}
-            />
-          </div>
+          {/* Benchmarks Table - takes remaining space */}
+          <BenchmarksTable
+            benchmarks={benchmarks}
+            selectedIds={selectedBenchmarks}
+            onSelectionChange={handleBenchmarkSelection}
+            maxSelections={1}
+            title="Benchmarks"
+            externalDisabled={benchmarksDisabled}
+            allowSelection={benchmarksAllowSelection}
+          />
         </div>
 
         {/* Show Comparison Button */}

@@ -51,7 +51,7 @@ export function CasesCard({
       {/* Body: Number, bubbles, and legend */}
       <div className="flex gap-4 items-center w-full flex-1">
         {/* Number and label */}
-        <div className="flex flex-col gap-2 flex-shrink-0">
+        <div className="flex flex-col gap-2 flex-shrink-0 items-start">
           <p className="font-medium text-[36px] leading-[44px] tracking-[-0.72px] text-theme-primary">
             {formattedTotal}
           </p>
@@ -61,7 +61,7 @@ export function CasesCard({
         </div>
 
         {/* Bubbles and legend */}
-        <div className="flex flex-1 items-center justify-center gap-4">
+        <div className="flex flex-1 items-center justify-center gap-4 pl-4">
           {/* Bubble chart */}
           <BubbleChart bubbles={bubbleData} />
 

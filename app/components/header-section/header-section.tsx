@@ -16,6 +16,7 @@ interface HeaderSectionProps {
     icon: React.ReactNode;
     onClick?: () => void;
   };
+  children?: React.ReactNode;
 }
 
 export function HeaderSection({
@@ -24,6 +25,7 @@ export function HeaderSection({
   infoText,
   buttons,
   viewAllReportsButton,
+  children,
 }: HeaderSectionProps) {
   return (
     <div className="flex flex-col gap-6 items-start w-full">
@@ -52,6 +54,9 @@ export function HeaderSection({
             </div>
           </div>
         </div>
+
+        {/* Optional content before buttons (e.g., Pill component) */}
+        {children}
 
         {/* CTA Buttons */}
         <div className="flex gap-4 items-start w-full">

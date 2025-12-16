@@ -35,7 +35,7 @@ export const NAV_ITEMS_CONFIG: NavItemConfig[] = [
     id: "pressure-test",
     label: "Pressure Test",
     icon: TestTubeIcon,
-    path: ROUTES.PRESSURE_TEST,
+    path: ROUTES.CREATE_NEW_TEST,
   },
   {
     id: "report-comparison",

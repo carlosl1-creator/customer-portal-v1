@@ -10,10 +10,11 @@ import { STORAGE_KEYS } from "~/constants/storage-keys";
 import { useAppDispatch, useAppSelector, setUserName, selectUserFullName } from "~/store";
 
 export interface WelcomeProps {
-  onAction?: () => void;
+  onOpenFirstReport?: () => void;
+  onExploreDashboard?: () => void;
 }
 
-export function Welcome({ onAction }: WelcomeProps) {
+export function Welcome({ onOpenFirstReport, onExploreDashboard }: WelcomeProps) {
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const reduxUserName = useAppSelector(selectUserFullName);
@@ -44,16 +45,12 @@ export function Welcome({ onAction }: WelcomeProps) {
 
   const handleOpenFirstReport = () => {
     if (!isNameEntered) return;
-    // Handle open first report action
-    console.log("Open First Report clicked");
-    onAction?.();
+    onOpenFirstReport?.();
   };
 
   const handleExploreDashboard = () => {
     if (!isNameEntered) return;
-    // Handle explore dashboard action
-    console.log("Explore Dashboard clicked");
-    onAction?.();
+    onExploreDashboard?.();
   };
 
   return (
